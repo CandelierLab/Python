@@ -1,3 +1,4 @@
+import numpy as np
 from collections import defaultdict
 
 from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, QPointF
@@ -13,6 +14,7 @@ class element():
     # Common properties
     self.type = type
     self.Qelm = None
+    self.rotation = kwargs['rotation'] if 'rotation' in kwargs else 0
     self.parent = kwargs['parent'] if 'parent' in kwargs else None
     self.behindParent = kwargs['behindParent'] if 'behindParent' in kwargs else False
     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
@@ -24,7 +26,7 @@ class element():
         self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.width = kwargs['width'] if 'width' in kwargs else 0
         self.height = kwargs['height'] if 'height' in kwargs else 0
-
+        
       case 'circle':
         self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.radius = kwargs['radius'] if 'radius' in kwargs else 0
@@ -99,6 +101,9 @@ class element():
           self.position[0]*view.factor, 
           -self.position[1]*view.factor)
 
+    # Rotation
+    self.rotate(self.rotation)
+
     # --- Parent
 
     if self.parent is not None:
@@ -119,6 +124,9 @@ class element():
 
     if self.color['stroke'] is not None:
       self.Qelm.setPen(QPen(QColor(self.color['stroke']), self.thickness))
+
+  def rotate(self, angle):
+    self.Qelm.setRotation(-angle*180/np.pi)
 
 # === GRAPHICS VIEW ========================================================
 
