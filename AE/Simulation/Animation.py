@@ -179,7 +179,6 @@ class AnimatedView(QGraphicsView):
     # --- Animation
   
     self.qtimer = QTimer()
-    self.qtimer.setInterval(40)
     if self.window is None:
       self.qtimer.timeout.connect(self.update)
     else:
@@ -220,9 +219,9 @@ class AnimatedView(QGraphicsView):
         self.scene.addItem(elm.Qelm)
 
   def startAnimation(self):
+    self.qtimer.setInterval(int(1000/self.window.fps))
     self.qtimer.start()
     self.timer.start()
-
 
   def update(self):
 
@@ -242,6 +241,9 @@ class Window():
 
     # QgraphicsView
     self.view = AnimatedView(window=self)
+
+    # Misc settings
+    self.fps = 25
     
   def show(self, size=None):
 
