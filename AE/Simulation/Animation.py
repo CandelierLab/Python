@@ -261,3 +261,6 @@ class Window():
 
     # Update timer display
     self.view.update()
+
+  def close(self):
+    self.app.quit()
