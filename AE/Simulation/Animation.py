@@ -219,6 +219,7 @@ class AnimatedView(QGraphicsView):
         self.scene.addItem(elm.Qelm)
 
   def startAnimation(self):
+
     self.qtimer.setInterval(int(1000/self.window.fps))
     self.qtimer.start()
     self.timer.start()
@@ -226,8 +227,12 @@ class AnimatedView(QGraphicsView):
   def update(self):
 
     # Update timer display
-    t = self.timer.elapsed()
-    self.timeDisp.setPlainText('{:06.02f} sec'.format(t/1000))
+    if self.window.dt is None:
+      t = self.timer.elapsed()/1000
+    else:
+      t = self.window.engine.t
+
+    self.timeDisp.setPlainText('{:06.02f} sec'.format(t))
     
 
 # === WINDOW ===============================================================
@@ -242,8 +247,11 @@ class Window():
     # QgraphicsView
     self.view = AnimatedView(window=self)
 
-    # Misc settings
+    # Framerate
     self.fps = 25
+
+    # Delay between two simulation point (if set to None, the display is real-time, i.e. 0.04s at 25Hz)
+    self.dt = None
     
   def show(self, size=None):
 
