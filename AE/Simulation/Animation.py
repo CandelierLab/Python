@@ -13,6 +13,7 @@ class element():
     
     # Common properties
     self.type = type
+    self.view = None
     self.Qelm = None
     self.rotation = kwargs['rotation'] if 'rotation' in kwargs else 0
     self.parent = kwargs['parent'] if 'parent' in kwargs else None
@@ -51,6 +52,8 @@ class element():
     self.color['stroke'] = kwargs['color'][1] if 'color' in kwargs else 'white'
 
   def convert(self, view):
+
+    self.view = view
 
     # --- Definition
 
@@ -126,7 +129,19 @@ class element():
       self.Qelm.setPen(QPen(QColor(self.color['stroke']), self.thickness))
 
   def rotate(self, angle):
+
     self.Qelm.setRotation(-angle*180/np.pi)
+
+  def setPosition(self, x=None, y=None, z=None):
+
+    # Convert from complex coordinates
+    if z is not None:
+      x = np.real(z)
+      y = np.imag(z)
+
+    self.Qelm.setPos((x-self.view.sceneLimits['x'][0])*self.view.factor,
+      -(y-self.view.sceneLimits['y'][0])*self.view.factor)
+  
 
 # === GRAPHICS VIEW ========================================================
 
@@ -208,7 +223,7 @@ class AnimatedView(QGraphicsView):
     self.scene.addItem((self.boundaries))
 
     # Time display
-    self.timeDisp = self.scene.addText("Hello World")
+    self.timeDisp = self.scene.addText("---")
     self.timeDisp.setDefaultTextColor(QColor('white'))
     self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.sceneLimits['height'])
 
