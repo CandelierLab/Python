@@ -2,7 +2,7 @@
 =============
 
 .. automodule:: AE.NN.Network
-
+  
    
    
    
@@ -16,6 +16,8 @@
    .. rubric:: Classes
 
    .. autosummary::
+      :toctree:
+      :template: class-template.rst
    
       Network
    

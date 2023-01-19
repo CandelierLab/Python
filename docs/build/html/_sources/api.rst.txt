@@ -2,6 +2,8 @@ API
 ===
 
 .. autosummary::
-   :toctree: generated
+  :toctree: generated
+  :template: module-template.rst
+  :recursive:
 
-   AE.NN.Network
+  AE.NN.Network
