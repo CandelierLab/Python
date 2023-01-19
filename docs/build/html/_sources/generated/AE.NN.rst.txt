@@ -1,6 +1,0 @@
-﻿AE.NN
-=====
-
-.. currentmodule:: AE.NN
-
-.. automodule:: AE.NN

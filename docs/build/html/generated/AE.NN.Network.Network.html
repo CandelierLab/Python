@@ -203,7 +203,65 @@
 <dt class="sig sig-object py" id="AE.NN.Network.Network">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.NN.Network.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#AE.NN.Network.Network" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Abstract class for Neuronal Networks</p>
+<p>Generic Neuronal Network</p>
+<p>Base class for all the NN of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">AE.NN</span></code> package.
+This class does not perform any processing and is intended to be subclassed.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.NN.Network.Network.Node">
+<span class="sig-name descname"><span class="pre">Node</span></span><a class="headerlink" href="#AE.NN.Network.Network.Node" title="Permalink to this definition">#</a></dt>
+<dd><p>All the nodes, including input, hidden and output nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.NN.Network.Network.W">
+<span class="sig-name descname"><span class="pre">W</span></span><a class="headerlink" href="#AE.NN.Network.Network.W" title="Permalink to this definition">#</a></dt>
+<dd><p>Weights matrix. Each element <span class="math notranslate nohighlight">\(w_{ij}\)</span> contains the weight of the
+link <span class="math notranslate nohighlight">\(i \rightarrow j\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.Array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.NN.Network.Network.IN">
+<span class="sig-name descname"><span class="pre">IN</span></span><a class="headerlink" href="#AE.NN.Network.Network.IN" title="Permalink to this definition">#</a></dt>
+<dd><p>Indices of the input nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.NN.Network.Network.OUT">
+<span class="sig-name descname"><span class="pre">OUT</span></span><a class="headerlink" href="#AE.NN.Network.Network.OUT" title="Permalink to this definition">#</a></dt>
+<dd><p>Indices of the output nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.NN.Network.Network.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#AE.NN.Network.Network.verbose" title="Permalink to this definition">#</a></dt>
+<dd><p>If True, displays informative messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>boolean</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.NN.Network.Network.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.Network.__init__" title="Permalink to this definition">#</a></dt>
@@ -232,7 +290,7 @@
 <td><p>Constructor</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.Network.test" title="AE.NN.Network.Network.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span></code></a>()</p></td>
-<td><p>ok</p></td>
+<td><p>Fetches rows from a Smalltable.</p></td>
 </tr>
 </tbody>
 </table>
@@ -240,7 +298,36 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.NN.Network.Network.test">
 <span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.Network.test" title="Permalink to this definition">#</a></dt>
-<dd><p>ok</p>
+<dd><p>Fetches rows from a Smalltable.</p>
+<p>Retrieves rows pertaining to the given keys from the Table instance
+represented by table_handle.  String keys will be UTF-8 encoded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_handle</strong> (<em>int</em>) – An open smalltable.Table instance.</p></li>
+<li><p><strong>keys</strong> – A sequence of strings representing the key of each table row to
+fetch.  String keys will be UTF-8 encoded.</p></li>
+<li><p><strong>require_all_keys</strong> – If True only rows with values set for all keys will be returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A dict mapping keys to the corresponding table row data
+fetched. Each row is represented as a tuple of strings. For
+example:</p>
+<dl class="simple">
+<dt>{b’Serak’: (‘Rigel VII’, ‘Preparer’),</dt><dd><p>b’Zim’: (‘Irk’, ‘Invader’),
+b’Lrrr’: (‘Omicron Persei 8’, ‘Emperor’)}</p>
+</dd>
+</dl>
+<p>Returned keys are always bytes.  If a key from the keys argument is
+missing from the dictionary, then that row was not found in the
+table (and require_all_keys must have been False).</p>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IOError</strong> – An error occurred accessing the smalltable.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -294,5 +381,6 @@
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

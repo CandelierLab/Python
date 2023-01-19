@@ -1,6 +1,0 @@
-﻿AE
-==
-
-.. currentmodule:: AE
-
-.. automodule:: AE

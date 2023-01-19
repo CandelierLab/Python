@@ -249,18 +249,20 @@ class AnimatedView(QGraphicsView):
 
     self.timeDisp.setPlainText('{:06.02f} sec'.format(t))
     
-
 # === WINDOW ===============================================================
 
 class Window():
 
-  def __init__(self):
+  def __init__(self, view=None):
 
     # Qapplication
     self.app = QApplication([])
 
-    # QgraphicsView
-    self.view = AnimatedView(window=self)
+    # AnimatedView or subclass
+    if view is None:
+      self.view = AnimatedView(window=self)
+    else:
+      self.view = view
 
     # Framerate
     self.fps = 25
