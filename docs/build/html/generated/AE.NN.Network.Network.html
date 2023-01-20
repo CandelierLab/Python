@@ -215,9 +215,19 @@
 This class does not perform any processing and is intended to be subclassed.</p>
 <dl class="simple">
 <dt>Subclasses should have the following methods:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">add_node()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">add_link()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">process()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_node()</span></code>: Adding nodes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_link()</span></code>: Adding links</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process()</span></code>: Processing inputs to generate outputs.</p></li>
+</ul>
+</dd>
+</dl>
+<p>It is also recommended to have an <code class="docutils literal notranslate"><span class="pre">initialize()</span></code> method to compile the
+network and improve ease of coding and speed of exection.</p>
+<dl class="simple">
+<dt>Nodes should have the fields:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">IN</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OUT</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
 </dd>
 </dl>

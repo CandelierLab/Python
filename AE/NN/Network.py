@@ -6,6 +6,8 @@ The class :class:`.Network` is a generic class for Neural Networks of the
 has to be subclassed to be useful.
 """
 
+import numpy as np
+
 import AE.Display.Animation as Animation
 
 # ==========================================================================
@@ -18,10 +20,18 @@ class Network():
   This class does not perform any processing and is intended to be subclassed.
   
   Subclasses should have the following methods:
-    * ``add_node()``
-    * ``add_link()``
-    * ``process()``
+    * ``add_node()``: Adding nodes
+    * ``add_link()``: Adding links
+    * ``process()``: Processing inputs to generate outputs.
   
+  It is also recommended to have an ``initialize()`` method to compile the 
+  network and improve ease of coding and speed of exection.
+  
+  Nodes should have the fields:
+    * ``IN``
+    * ``OUT``
+    * ``name``
+
   Attributes:
     Node ([dict]): All the nodes, including input, hidden and output nodes.
     W (np.Array): Weights matrix. Each element :math:`w_{ij}` contains the weight of the 
@@ -74,7 +84,7 @@ class Network():
 
   def show(self):
 
-    anim = Visu2d(window=Animation.Window())
+    anim = Visu2d(self, window=Animation.Window())
     anim.window.title = 'Network'
     anim.window.show()
 
@@ -90,7 +100,7 @@ class Visu2d(Animation.Animation2d):
   values through time.
   """
 
-  def __init__(self, dt=None, disp_time=False, window=None):
+  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, window=None):
     """
     Network 2D visualization constructor
 
@@ -99,20 +109,71 @@ class Visu2d(Animation.Animation2d):
     It also defines all the necessary attributes for animations.
 
     Args:
+      Net (:class:`Network`): Network to visualize.
       dt (float): Animation time increment (s) between two updates.
       disp_time (bool): If true, the animation time is overlaid to the animation.
       window (:class:`.Window`): If not None, a simple window containing the 
         visualization.
     """
+
     # Parent constructor
     super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, window=window)
 
-    # --- Elements
+    # Network
+    self.Net = Net
 
-    # Node
-    self.elm['n0'] = Animation.element('circle',
-      position = (0.5,0.5),
-      radius = 0.025,
-      color = (None, 'white'),
-      thickness = 2
-    )
+    # Output isolation
+    self.isolate_output = isolate_output
+
+    # --- Computation ------------------------------------------------------
+
+    hIN = 1/len(self.Net.IN)
+    yIN = hIN/2
+
+    self.pos = []
+    for node in self.Net.node:
+
+      if node['IN']:
+        self.pos.append([-0.1, yIN])
+        yIN += hIN
+      else:
+        self.pos.append([np.random.rand(), np.random.rand()])
+
+    # --- Elements ---------------------------------------------------------
+
+    # --- INPUT Nodes
+
+    # h = 1/len(self.Net.IN)
+
+    # for k,i in enumerate(self.Net.IN):
+
+    #   # Element's name
+    #   if isinstance(self.Net.node[i]['name'], int):
+    #     ename = 'node_{:d}'.format(i)
+    #   else:
+    #     ename = 'node_' + self.Net.node[i]['name']
+
+    #   self.elm[ename] = Animation.element('circle',
+    #     position = (-0.1, h*(k+0.5)),
+    #     radius = 0.025,
+    #     color = (None, 'white'),
+    #     thickness = 2
+    #   )
+
+    for i, node in enumerate(self.Net.node):
+
+      # Element's name
+      if isinstance(node['name'], int):
+        ename = 'node_{:d}'.format(i)
+      else:
+        ename = 'node_' + node['name']
+
+      self.elm[ename] = Animation.element('circle',
+        position = self.pos[i],
+        radius = 0.025,
+        color = (None, 'white'),
+        thickness = 2
+      )
+
+      if node['IN']:
+        print(self.elm[ename].Qelm)
