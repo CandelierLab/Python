@@ -14,12 +14,13 @@ class Network():
   """
   Generic Neuronal Network
 
-  Base class for all the NN of the :py:mod:`AE.NN` package.
+  Base class for all the Neural Networks of the :py:mod:`AE.NN` package.
   This class does not perform any processing and is intended to be subclassed.
+  
   Subclasses should have the following methods:
-  - add_node()
-  - add_link()
-  - process()
+    * ``add_node()``
+    * ``add_link()``
+    * ``process()``
   
   Attributes:
     Node ([dict]): All the nodes, including input, hidden and output nodes.
@@ -95,7 +96,7 @@ class Visu2d(Animation.Animation2d):
 
     Each node and link is converted to an :class:`AE.Display.Animation.element`.
 
-    It also defines all the necessary attributes for an animation.
+    It also defines all the necessary attributes for animations.
 
     Args:
       dt (float): Animation time increment (s) between two updates.
@@ -104,7 +105,7 @@ class Visu2d(Animation.Animation2d):
         visualization.
     """
     # Parent constructor
-    super().__init__(dt, disp_time, window)
+    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, window=window)
 
     # --- Elements
 

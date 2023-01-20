@@ -208,7 +208,7 @@
 <h1>AE.Display.Animation.Animation2d<a class="headerlink" href="#ae-display-animation-animation2d" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="AE.Display.Animation.Animation2d">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">Animation2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Animation2d" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">Animation2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_boundaries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Animation2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>2D Animation</p>
 <p>Base class for two-dimensional animations.</p>
@@ -315,6 +315,18 @@ scene (pix).</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.Animation2d.disp_boundaries">
+<span class="sig-name descname"><span class="pre">disp_boundaries</span></span><a class="headerlink" href="#AE.Display.Animation.Animation2d.disp_boundaries" title="Permalink to this definition">#</a></dt>
+<dd><p>If true, a thin grey rectanle is overlaid to
+indicate the boundaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="AE.Display.Animation.Animation2d.window">
 <span class="sig-name descname"><span class="pre">window</span></span><a class="headerlink" href="#AE.Display.Animation.Animation2d.window" title="Permalink to this definition">#</a></dt>
 <dd><p>If not None, a simple window containing the
@@ -373,7 +385,7 @@ animation start.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.Animation2d.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Animation2d.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_boundaries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Animation2d.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Animation constructor</p>
 <p>Defines all the attributes of the animation, especially the <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code>
 and <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> necessary for rendering.</p>
@@ -382,6 +394,8 @@ and <code class="docutils literal notranslate"><span class="pre">QGraphicsView</
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dt</strong> (<em>float</em>) – Animation time increment (s) between two updates.</p></li>
 <li><p><strong>disp_time</strong> (<em>bool</em>) – If true, the animation time is overlaid to the animation.</p></li>
+<li><p><strong>disp_boundaries</strong> (<em>bool</em>) – If true, a thin grey rectanle is overlaid to
+indicate the boundaries.</p></li>
 <li><p><strong>window</strong> (<a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a>) – If not None, a simple window containing the
 animation.</p></li>
 </ul>
@@ -393,7 +407,7 @@ animation.</p></li>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.__init__" title="AE.Display.Animation.Animation2d.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([dt, disp_time, window])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.__init__" title="AE.Display.Animation.Animation2d.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([dt, disp_time, disp_boundaries, ...])</p></td>
 <td><p>Animation constructor</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.init" title="AE.Display.Animation.Animation2d.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>([size])</p></td>

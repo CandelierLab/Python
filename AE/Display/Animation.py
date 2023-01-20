@@ -294,6 +294,8 @@ class Animation2d():
     t (float): Current animation time (s).
     dt (float): Animation time increment (s) between two updates.
     disp_time (bool): If true, the animation time is overlaid to the animation.
+    disp_boundaries (bool): If true, a thin grey rectanle is overlaid to 
+      indicate the boundaries.
     window (:class:`.Window`): If not None, a simple window containing the 
       animation.
     Qscene (``QGraphicsScene``): ``QGraphicsScene`` containing the elements.
@@ -303,7 +305,7 @@ class Animation2d():
     Qtimer (``QTimer``): Timer managing the display updates.
   """
 
-  def __init__(self, dt=None, disp_time=False, window=None):
+  def __init__(self, dt=None, disp_time=False, disp_boundaries=True, window=None):
     """
     Animation constructor
 
@@ -313,6 +315,8 @@ class Animation2d():
     Args:
       dt (float): Animation time increment (s) between two updates.
       disp_time (bool): If true, the animation time is overlaid to the animation.
+      disp_boundaries (bool): If true, a thin grey rectanle is overlaid to 
+        indicate the boundaries.
       window (:class:`.Window`): If not None, a simple window containing the 
         animation.
     """
@@ -321,6 +325,7 @@ class Animation2d():
     self.t = 0
     self.dt = dt
     self.disp_time = disp_time
+    self.disp_boundaries = disp_boundaries
 
     # Framerate
     self.fps = 25
@@ -387,11 +392,12 @@ class Animation2d():
       self.factor = size/self.sceneLimits['height']
 
     # Scene boundaries
-    self.boundaries = QGraphicsRectItem(0,0,
-      self.factor*self.sceneLimits['width'],
-      -self.factor*self.sceneLimits['height'])
-    self.boundaries.setPen(QPen(Qt.lightGray, 0)) 
-    self.Qscene.addItem((self.boundaries))
+    if self.disp_boundaries:
+      self.boundaries = QGraphicsRectItem(0,0,
+        self.factor*self.sceneLimits['width'],
+        -self.factor*self.sceneLimits['height'])
+      self.boundaries.setPen(QPen(Qt.lightGray, 0)) 
+      self.Qscene.addItem((self.boundaries))
 
     # Time display
     if self.disp_time:
