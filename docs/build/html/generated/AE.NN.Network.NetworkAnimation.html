@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="AE.NN.Network.Network" href="AE.NN.Network.Network.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>AE.NN.Network.NetworkAnimation - AE Toolbox 0.1 documentation</title>
@@ -155,17 +155,17 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.element.html">AE.Display.Animation.element</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="AE.NN.Network.Network.html">AE.NN.Network.Network</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.NN.Network.NetworkAnimation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.NN.Network.Visu2d.html">AE.NN.Network.Visu2d</a></li>
 </ul>
 </li>
 </ul>
@@ -206,77 +206,6 @@
         <article role="main">
           <section id="ae-nn-network-networkanimation">
 <h1>AE.NN.Network.NetworkAnimation<a class="headerlink" href="#ae-nn-network-networkanimation" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="AE.NN.Network.NetworkAnimation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.NN.Network.</span></span><span class="sig-name descname"><span class="pre">NetworkAnimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.NetworkAnimation" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.NN.Network.NetworkAnimation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.NetworkAnimation.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Animation constructor</p>
-<p>Defines all the attributes of the animation, especially the <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code>
-and <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> necessary for rendering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>float</em>) – Animation time increment (s) between two updates.</p></li>
-<li><p><strong>disp_time</strong> (<em>bool</em>) – If true, the animation time is overlaid to the animation.</p></li>
-<li><p><strong>window</strong> (<a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a>) – If not None, a simple window containing the
-animation.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Methods</p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.NN.Network.NetworkAnimation.__init__" title="AE.NN.Network.NetworkAnimation.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([dt, disp_time, window])</p></td>
-<td><p>Animation constructor</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.NetworkAnimation.init" title="AE.NN.Network.NetworkAnimation.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>([size])</p></td>
-<td><p>Animation initialization</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.NN.Network.NetworkAnimation.startAnimation" title="AE.NN.Network.NetworkAnimation.startAnimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAnimation</span></code></a>()</p></td>
-<td><p>Start the animation</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.NetworkAnimation.update" title="AE.NN.Network.NetworkAnimation.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>()</p></td>
-<td><p>Update animation state</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.NN.Network.NetworkAnimation.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.NetworkAnimation.init" title="Permalink to this definition">#</a></dt>
-<dd><p>Animation initialization</p>
-<p>Computes all necessary values for rendering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Height of the <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> widget.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.NN.Network.NetworkAnimation.startAnimation">
-<span class="sig-name descname"><span class="pre">startAnimation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.NetworkAnimation.startAnimation" title="Permalink to this definition">#</a></dt>
-<dd><p>Start the animation</p>
-<p>Trigs the animation <code class="xref py py-attr docutils literal notranslate"><span class="pre">Animation.Qtimer</span></code> <code class="docutils literal notranslate"><span class="pre">QTimer</span></code>, which starts
-the animation.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.NN.Network.NetworkAnimation.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.NetworkAnimation.update" title="Permalink to this definition">#</a></dt>
-<dd><p>Update animation state</p>
-<p>Update the animation time <code class="xref py py-attr docutils literal notranslate"><span class="pre">Animation.t</span></code>. Subclass this method
-to implement the animation, <em>e.g.</em> moving elements or changing color.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
         </article>
@@ -285,17 +214,7 @@ to implement the animation, <em>e.g.</em> moving elements or changing color.</p>
         
         <div class="related-pages">
           
-          <a class="prev-page" href="AE.NN.Network.Network.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">AE.NN.Network.Network</div>
-                
-              </div>
-            </a>
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">

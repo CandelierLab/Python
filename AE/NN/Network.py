@@ -1,4 +1,5 @@
-"""Generic neural network tools
+"""
+Generic neural network tools
 
 The class :class:`.Network` is a generic class for Neural Networks of the 
 :py:mod:`AE.NN` package. It does not perform any processing though, so it
@@ -31,7 +32,7 @@ class Network():
 
   def __init__(self, verbose=False):
     """
-    Constructor
+    Generic network constructor
 
     Args:
       verbose (boolean): If True, informative messages are displayed.
@@ -72,16 +73,36 @@ class Network():
 
   def show(self):
 
-    anim = NetworkAnimation(window=Animation.Window())
+    anim = Visu2d(window=Animation.Window())
     anim.window.title = 'Network'
     anim.window.show()
 
 # ==========================================================================
 
-class NetworkAnimation(Animation.Animation2d):
+class Visu2d(Animation.Animation2d):
+  """
+  2D network visualisation and animation tool
+
+  Generates a 2D representation of a network. As it derives from
+  :class:`AE.Display.Animation.Animation2d`, it can also be used to 
+  implement animations, like color-changing nodes to represent their
+  values through time.
+  """
 
   def __init__(self, dt=None, disp_time=False, window=None):
+    """
+    Network 2D visualization constructor
 
+    Each node and link is converted to an :class:`AE.Display.Animation.element`.
+
+    It also defines all the necessary attributes for an animation.
+
+    Args:
+      dt (float): Animation time increment (s) between two updates.
+      disp_time (bool): If true, the animation time is overlaid to the animation.
+      window (:class:`.Window`): If not None, a simple window containing the 
+        visualization.
+    """
     # Parent constructor
     super().__init__(dt, disp_time, window)
 
