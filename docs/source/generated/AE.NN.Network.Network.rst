@@ -17,7 +17,7 @@ AE.NN.Network.Network
    .. autosummary::
    
       ~Network.__init__
-      ~Network.test
+      ~Network.show
    
    
 

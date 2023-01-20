@@ -17,4 +17,6 @@ Net.add_link(2,4)
 Net.add_link(3,5)
 Net.add_link(4,5)
 
-print(Net)
+# print(Net)
+
+Net.show()

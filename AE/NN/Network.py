@@ -7,103 +7,6 @@ has to be subclassed to be useful.
 
 import AE.Display.Animation as Animation
 
-class NetWidget(Animation.Window):
-
-  def __init__(self, engine):
-
-    # Parent's constructor
-    super().__init__()
-    
-    # --- Definitions
-
-    self.engine = engine
-    self.engine.trigger = self
-    self.n = self.engine.n
-
-    # Arms lengths
-    self.D = 0.95
-    s = np.sum(self.engine.length)
-    L = [self.D*l/s for l in self.engine.length]
-
-    # --- Display
-
-    # Window title
-    self.view.setWindowTitle('Snake 2')
-
-    # Limits
-    self.view.sceneLimits['x'] = (-1,1)
-    self.view.sceneLimits['y'] = (-1,1)
-
-    # --- Elements
-
-    # Midline
-    self.view.elm['midline'] = Anim.element('line',
-      position = (0,-1),
-      width = 0,
-      height = 2,
-      color = (None, 'grey')
-    )
-
-    # Anchor
-    self.view.elm['anchor'] = Anim.element('circle',
-      position = (0,0),
-      radius = 0.015,
-      color = ('grey', None)
-    )
-
-    parent = 'anchor'
-
-    for i,a in enumerate(self.engine.alpha):
-
-      bar_name = 'bar_{:d}'.format(i)
-      joint_name = 'joint_{:d}'.format(i)
-
-      # bar
-      self.view.elm[bar_name] = Anim.element('line', parent=parent, behindParent=True,
-        position = (0,0),
-        width = 0,
-        height = L[i],
-        thickness = 5,
-        color = (None, 'darkCyan')
-      )
-
-      # Elbow
-      self.view.elm[joint_name] = Anim.element('circle', parent=bar_name,
-        position = (0,L[i]),
-        radius = 0.01,
-        color = ('lightgrey', None)
-      )
-
-      parent = joint_name
-
-    # Center of mass
-    self.view.elm['barycenter'] = Anim.element('circle',
-      position = (0,self.D/2),
-      radius = 0.01,
-      color = ('red', None)
-    )
-
-  def update(self):
-
-    # Update timer display
-    super().update()
-
-    # Time (sec)
-    t = self.view.timer.elapsed()/1000
-
-    # Computations
-    self.engine.update(t)    
-
-    # Update angles
-    for i,a in enumerate(self.engine.alpha):
-      self.view.elm['bar_{:d}'.format(i)].rotate(a)
-
-    # Update barycenter position
-    x = -self.engine.r*np.sin(self.engine.gamma)*self.D/self.n
-    y = self.engine.r*np.cos(self.engine.gamma)*self.D/self.n
-    self.view.elm['barycenter'].setPosition(x, y)
-    
-
 # ==========================================================================
 
 class Network():
@@ -118,7 +21,7 @@ class Network():
   - process()
   
   Attributes:
-    Node ([dict]]): All the nodes, including input, hidden and output nodes.
+    Node ([dict]): All the nodes, including input, hidden and output nodes.
     W (np.Array): Weights matrix. Each element :math:`w_{ij}` contains the weight of the 
       link :math:`i \\rightarrow j`.
     IN ([int]): Indices of the input nodes.
@@ -166,3 +69,28 @@ class Network():
       print('\n* No link defined.')
 
     return ''
+
+  def show(self):
+
+    anim = NetworkAnimation(window=Animation.Window())
+    anim.window.title = 'Network'
+    anim.window.show()
+
+# ==========================================================================
+
+class NetworkAnimation(Animation.Animation2d):
+
+  def __init__(self, dt=None, disp_time=False, window=None):
+
+    # Parent constructor
+    super().__init__(dt, disp_time, window)
+
+    # --- Elements
+
+    # Node
+    self.elm['n0'] = Animation.element('circle',
+      position = (0.5,0.5),
+      radius = 0.025,
+      color = (None, 'white'),
+      thickness = 2
+    )

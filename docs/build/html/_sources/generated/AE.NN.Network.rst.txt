@@ -20,6 +20,7 @@
       :template: class-template.rst
    
       Network
+      NetworkAnimation
    
    
 

@@ -1,7 +1,7 @@
-﻿AE.NN.Network
-=============
+﻿AE.Display.Animation
+====================
 
-.. automodule:: AE.NN.Network
+.. automodule:: AE.Display.Animation
   
    
    
@@ -19,8 +19,9 @@
       :toctree:
       :template: class-template.rst
    
-      Network
-      NetworkAnimation
+      Animation2d
+      Window
+      element
    
    
 
