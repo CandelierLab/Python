@@ -1,6 +1,5 @@
 from AE.NN.ANN import ANN
 
-
 Net = ANN()
 
 Net.add_node(3, IN=True)
