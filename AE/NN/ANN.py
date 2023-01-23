@@ -66,13 +66,13 @@ class ANN(Network):
         'initial_value':initial_value, 'name':len(self.node) if name is None else name})
 
 
-  def add_link(self, i, j, w=0, d=0, name=None):
+  def add_edge(self, i, j, w=0, d=0, name=None):
 
     # --- Checks
 
-    # TODO: Check that link does not already exist
+    # TODO: Check that edge does not already exist
 
-    # --- Add link
+    # --- Add edge
 
-    self.link.append({'i':i, 'j':j, 'w':w, 'd':d, 'name':name})
+    self.edge.append({'i':i, 'j':j, 'w':w, 'd':d, 'name':name})
     

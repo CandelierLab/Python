@@ -7,6 +7,8 @@ has to be subclassed to be useful.
 """
 
 import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
 
 import AE.Display.Animation as Animation
 
@@ -51,7 +53,7 @@ class Network():
     
     # Nodes and links
     self.node = []
-    self.link = []
+    self.edge = []
 
     # Inputs and outputs
     self.IN = []
@@ -73,18 +75,18 @@ class Network():
       print('\n* No node defined.')
 
     # Links
-    if len(self.link):
+    if len(self.edge):
       print('\n* Links:')
-      for i,L in enumerate(self.link):
+      for i,L in enumerate(self.edge):
         print('[{:d}]'.format(i), L)
     else:
       print('\n* No link defined.')
 
     return ''
 
-  def show(self):
+  def show(self, isolate_output=True):
 
-    anim = Visu2d(self, window=Animation.Window())
+    anim = Visu2d(self, isolate_output=isolate_output, window=Animation.Window())
     anim.window.title = 'Network'
     anim.window.show()
 
@@ -127,21 +129,112 @@ class Visu2d(Animation.Animation2d):
 
     # --- Computation ------------------------------------------------------
 
-    hIN = 1/len(self.Net.IN)
-    yIN = hIN/2
+    G = nx.Graph()
 
-    self.pos = []
-    for node in self.Net.node:
+    # --- Nodes
+
+    # Vertical spacing
+    hIN = 2/(len(self.Net.IN)+1)
+    if self.isolate_output:
+      hOUT = 2/(len(self.Net.OUT)+1)
+
+    # Input nodes
+    for i,node in enumerate(self.Net.IN):
+      G.add_node(node, pos=[0, 1-hIN*(i+1)])
+
+    # Other nodes
+    if self.isolate_output:
+      
+      # Hidden nodes
+      I_hidden = set(range(len(self.Net.node))) - set(self.Net.IN) - set(self.Net.OUT)
+      G.add_nodes_from(I_hidden)
+
+      # Output nodes
+      for i,node in enumerate(self.Net.OUT):
+        G.add_node(node, pos=[1, 1-hOUT*(i+1)])
+
+      # Fixed nodes
+      I_fixed = self.Net.IN + self.Net.OUT
+
+      # Optimal distance between nodes
+      k = 1/np.sqrt(len(I_hidden))
+
+    else:
+
+      # Define hidden and output nodes
+      notIN = set(range(len(self.Net.node))) - set(self.Net.IN)
+      G.add_nodes_from(notIN)
+
+      # Fixed nodes
+      I_fixed = self.Net.IN
+
+      # Optimal distance between nodes
+      k = 1/np.sqrt(len(notIN))
+     
+    # --- Edges
+
+    G.add_edges_from([(edge['i'], edge['j']) for edge in self.Net.edge])
+
+    # --- Positions
+    # Position nodes using the Fruchterman-Reingold force-directed algorithm.
+
+    pos = nx.spring_layout(G, k=k, pos=nx.get_node_attributes(G,'pos'), fixed=I_fixed)
+
+    # # Matplotlib draw
+    # nx.draw(G, pos=pos, with_labels=True, font_weight='bold')
+    # plt.show()  
+    
+    # --- Boundaries
+    P = np.array(list(pos.values()))
+    xym = np.amin(P, axis=0)
+    xyM = np.amax(P, axis=0)
+
+    # --- Scene settings ---------------------------------------------------
+
+    self.r = 0.025
+
+    self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
+    self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
+
+    # --- Nodes ------------------------------------------------------------
+
+    for i,node in enumerate(self.Net.node):
+      
+      # --- Group
+
+      # Name
+      if isinstance(node['name'], int):
+        gname = 'node_{:d}'.format(i)
+      else:
+        gname = 'node_' + self.Net.node[i]['name']
+
+      self.elm[gname] = Animation.element('group', position=pos[i])
+
+      # --- Circle
+
+      self.elm[gname+'_circle'] = Animation.element('circle',
+        parent = gname,
+        position = (0, 0),
+        radius = self.r,
+        color = ('#444', '#ccc'),
+        thickness = 2
+      )
+
+      # --- Name
+
+     
+
+      # --- INPUT Nodes
 
       if node['IN']:
-        self.pos.append([-0.1, yIN])
-        yIN += hIN
-      else:
-        self.pos.append([np.random.rand(), np.random.rand()])
+        pass
 
-    # --- Elements ---------------------------------------------------------
+      # --- OUTPUT Nodes
 
-    # --- INPUT Nodes
+      if node['OUT']:
+        pass
+       
+
 
     # h = 1/len(self.Net.IN)
 
@@ -160,20 +253,17 @@ class Visu2d(Animation.Animation2d):
     #     thickness = 2
     #   )
 
-    for i, node in enumerate(self.Net.node):
+    # for i, node in enumerate(self.Net.node):
 
-      # Element's name
-      if isinstance(node['name'], int):
-        ename = 'node_{:d}'.format(i)
-      else:
-        ename = 'node_' + node['name']
+    #   # Element's name
+    #   if isinstance(node['name'], int):
+    #     ename = 'node_{:d}'.format(i)
+    #   else:
+    #     ename = 'node_' + node['name']
 
-      self.elm[ename] = Animation.element('circle',
-        position = self.pos[i],
-        radius = 0.025,
-        color = (None, 'white'),
-        thickness = 2
-      )
-
-      if node['IN']:
-        print(self.elm[ename].Qelm)
+    #   self.elm[ename] = Animation.element('circle',
+    #     position = self.pos[i],
+    #     radius = 0.025,
+    #     color = (None, 'white'),
+    #     thickness = 2
+    #   )

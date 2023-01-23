@@ -113,6 +113,7 @@ class element():
     self.parent = kwargs['parent'] if 'parent' in kwargs else None
     self.belowParent = kwargs['belowParent'] if 'belowParent' in kwargs else False
     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
+    self.position = kwargs['position'] if 'position' in kwargs else (0,0)
 
     # Element-dependent properties
     match type:
@@ -224,11 +225,13 @@ class element():
 
     # --- Colors
 
-    if self.type!='line' and self.color['fill'] is not None:
-      self.Qelm.setBrush(QBrush(QColor(self.color['fill'])))
+    if self.type!='group':
+      
+      if self.type!='line' and self.color['fill'] is not None:
+        self.Qelm.setBrush(QBrush(QColor(self.color['fill'])))
 
-    if self.color['stroke'] is not None:
-      self.Qelm.setPen(QPen(QColor(self.color['stroke']), self.thickness))
+      if self.color['stroke'] is not None:
+        self.Qelm.setPen(QPen(QColor(self.color['stroke']), self.thickness))
 
   def rotate(self, angle):
     """
