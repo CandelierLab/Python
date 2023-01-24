@@ -10,6 +10,7 @@ Net.add_edge(0,3)
 Net.add_edge(1,3)
 Net.add_edge(2,3)
 
+# Net.add_edge(0,4)
 Net.add_edge(1,4)
 Net.add_edge(2,4)
 

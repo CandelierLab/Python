@@ -201,6 +201,17 @@ class Visu2d(Animation.Animation2d):
     # --- Edges ------------------------------------------------------------
 
     for i,edge in enumerate(self.Net.edge):
+
+      # Name
+      name = str(edge['i']) + '→' +  str(edge['j'])
+
+      self.elm[name] = Animation.element('line',
+        position = pos[edge['i']],
+        width = pos[edge['j']][0] - pos[edge['i']][0],
+        height = pos[edge['j']][1] - pos[edge['i']][1],
+        thickness = 2
+      )
+
       print(edge)
 
     # --- Nodes ------------------------------------------------------------
