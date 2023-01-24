@@ -3,20 +3,23 @@ import AE.Display.Animation as Animation
 anim = Animation.Animation2d(window=Animation.Window())
 
 anim.elm['C'] = Animation.element('circle',
-  position = (0.5, 0.5),
+  position = [0.5, 0.5],
   radius = 0.1,
-  color = ('#444', '#ccc'),
-  thickness = 2
+  colors = ('#444', 'white'),
+  thickness = 2,
+  linestyle = '--'
 )
 
 anim.elm['T'] = Animation.element('text',
-  position = (0.5, 0.5),
-  string = 'abc',
-  color = 'white'
+  position = [0.5, 0.5],
+  string = 'a&#946;c',
+  color = 'white',
+  center = (True, True),
+  fontsize = 10
 )
 
 anim.window.show()
 
 # --- TO DO
-# * Add text element
+# * Stroke styles
 # * Update doc

@@ -39,8 +39,8 @@ import numpy as np
 from collections import defaultdict
 
 from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, QPointF
-from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF
-from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QGraphicsItem, QGraphicsItemGroup, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem
+from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont
+from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem
 
 # === ELEMENTS =============================================================
 
@@ -52,7 +52,9 @@ class element():
   A ``group`` element groups other elements for easier manipulation. 
   
   Other supported types are:
+    * ``text``
     * ``line``
+    * *TO DO*: ``path``
     * ``circle``
     * *TO DO*: ``ellipse``
     * ``rectangle``
@@ -84,25 +86,56 @@ class element():
     for the different types of elements.
 
     Args:
-      type (str): Type of element, among ``group``, ``line``, ``circle``, 
-        ``polygon`` or ``rectangle``.
+
+      type (str): Type of element, among ``group``, ``text``, ``line``, 
+        ``circle``, ``polygon`` or ``rectangle``.
+
       parent (*QGraphicsItem*): The parent ``QGraphicsItem``
+
       belowParent (bool): Determine if the element should be placed above
         the parent (``False``, default) or below (``True``).
+
       zvalue (float): Z-value of the element in the stack.
+
       rotation (float): Rotation of the element (rad)
-      position ((float,float)): Position of the element (scene units). 
-        *Only for ``lines``, ``circles``, ``polygons`` and ``rectangles``.*
-      width (float): Width of the element. *Only for ``lines`` and 
-        ``rectangles``.*
-      height (float): Height of the element. *Only for ``lines`` and 
-        ``rectangles``.*
-      radius (float): Radius of the circle. *Only for ``circles``.*
-      points ([(float,float)]): Points of the polygon. *Only for ``polygons``.*
-      thickness (float): Stroke thickness
-      color ([*color*, *color*]): Fill and stroke colors. Colors can be 
-        whatever input of ``QColor`` (*e.g*: 'darkCyan', '#ff112233' or 
+
+      position ([float,float]): Position of the element (scene units).
+
+      width (float): Width of the element (for ``lines`` and
+        ``rectangles``).
+
+      height (float): Height of the element (for ``lines`` and 
+        ``rectangles``.
+
+      radius (float): Radius of the circle (for ``circles`` only).
+
+      points ([(float,float)]): Points of the polygon (for ``polygons`` only).
+
+      thickness (float): Stroke thickness (pix). For ``line``, ``circle``, 
+        ``ellipse``, ``rectangle`` or ``polygon`` elements.
+
+      string (str): String of a ``text`` element. Rich HTML text is supported.
+
+      fontname (str): Font of a ``text`` element. Default: ``Arial``
+
+      fontsize (int): Default font size of a ``text`` element, corresponding to 
+        the pointSize property of ``QFont``. Default value: 10
+
+      center ((bool,bool)): Center a ``text`` element horizontally and/or
+        vertically. Default is (``False``, ``False``).
+
+      color (*color*): Color for ``text`` or ``line`` elements. Colors can be 
+        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
         (255, 0, 0, 127))
+
+      colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
+        ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
+        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
+        (255, 0, 0, 127))
+
+      linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
+        or ``polygon``). Can have any value among ``solid`` (default), ``dash``
+        or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
     """  
 
     # Common properties
@@ -113,38 +146,49 @@ class element():
     self.parent = kwargs['parent'] if 'parent' in kwargs else None
     self.belowParent = kwargs['belowParent'] if 'belowParent' in kwargs else False
     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
-    self.position = kwargs['position'] if 'position' in kwargs else (0,0)
+    self.position = kwargs['position'] if 'position' in kwargs else [0,0]
+    self.color = {}
 
     # Element-dependent properties
     match type:
 
+      case 'text':
+        self.string = kwargs['string'] if 'string' in kwargs else '-'
+        self.color['fill'] = kwargs['color'] if 'color' in kwargs else 'white'
+        self.center = {}
+        self.center['horizontal'] = kwargs['center'][0] if 'center' in kwargs else False   
+        self.center['vertical'] = kwargs['center'][1] if 'center' in kwargs else False
+        self.fontname = kwargs['fontname'] if 'fontname' in kwargs else 'Arial'
+        self.fontsize = kwargs['fontsize'] if 'fontsize' in kwargs else 10
+        
       case 'line':
-        self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.width = kwargs['width'] if 'width' in kwargs else 0
         self.height = kwargs['height'] if 'height' in kwargs else 0
+        self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
         
       case 'circle':
-        self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.radius = kwargs['radius'] if 'radius' in kwargs else 0
+        self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
+        self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
 
       case 'polygon':
-        self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.points = kwargs['points'] if 'points' in kwargs else None
+        self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
+        self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
 
       case 'rectangle':
-        self.position = kwargs['position'] if 'position' in kwargs else (0,0)
         self.width = kwargs['width'] if 'width' in kwargs else 0
         self.height = kwargs['height'] if 'height' in kwargs else 0
+        self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
+        self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
         
     # --- Style
 
     # Stroke thickness
-    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0
+    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
 
-    # Colors
-    self.color = {}
-    self.color['fill'] = kwargs['color'][0] if 'color' in kwargs else 'gray'
-    self.color['stroke'] = kwargs['color'][1] if 'color' in kwargs else 'white'
+    # Stroke style
+    self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
 
   def convert(self, anim):
     """
@@ -165,6 +209,18 @@ class element():
       case 'group':
 
         self.Qelm = QGraphicsItemGroup()
+
+      case 'text':
+
+        self.Qelm = QGraphicsTextItem()
+        self.Qelm.setHtml(self.string)
+        self.Qelm.setFont((QFont(self.fontname, self.fontsize)))
+
+        bb = self.Qelm.boundingRect()
+        if self.center['horizontal']:
+          self.position[0] -= bb.width()/2/anim.factor
+        if self.center['vertical']:
+          self.position[1] += bb.height()/2/anim.factor
 
       case 'line':
 
@@ -197,15 +253,15 @@ class element():
 
     # --- Position
 
-    if type != 'group':
-      if self.parent is None:
-        self.Qelm.setPos(
-          (self.position[0]-anim.sceneLimits['x'][0])*anim.factor, 
-          -(self.position[1]-anim.sceneLimits['y'][0])*anim.factor)
-      else:
-        self.Qelm.setPos(
-          self.position[0]*anim.factor, 
-          -self.position[1]*anim.factor)
+    # if type != 'group':
+    if self.parent is None:
+      self.Qelm.setPos(
+        (self.position[0]-anim.sceneLimits['x'][0])*anim.factor, 
+        -(self.position[1]-anim.sceneLimits['y'][0])*anim.factor)
+    else:
+      self.Qelm.setPos(
+        self.position[0]*anim.factor, 
+        -self.position[1]*anim.factor)
 
     # Rotation
     self.rotate(self.rotation)
@@ -223,15 +279,42 @@ class element():
     if self.zvalue is not None:
       self.Qelm.setZValue(self.zvalue)
 
-    # --- Colors
+    # --- Style
 
-    if self.type!='group':
+    if self.type == 'text':
+
+      self.Qelm.setDefaultTextColor(QColor(self.color['fill']))
+
+    elif self.type != 'group':
       
+      # Fill color
       if self.type!='line' and self.color['fill'] is not None:
         self.Qelm.setBrush(QBrush(QColor(self.color['fill'])))
 
+      # --- Sproke
+
+      Pen = QPen()
+
+      # Stroke color
       if self.color['stroke'] is not None:
-        self.Qelm.setPen(QPen(QColor(self.color['stroke']), self.thickness))
+        Pen.setColor(QColor(self.color['stroke']))
+        Pen.setWidth(self.thickness)
+
+      # Stroke style
+      if self.linestyle is not None:
+        
+        match self.linestyle:
+          case 'dash' | '--':
+            Pen.setDashPattern([3,6])
+          case 'dot' | ':' | '..':
+            Pen.setStyle(Qt.DotLine)
+          case 'dashdot' | '-.':
+            Pen.setDashPattern([3,3,1,3])
+
+      print(Pen)
+
+      self.Qelm.setPen(Pen)
+
 
   def rotate(self, angle):
     """

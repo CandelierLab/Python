@@ -215,7 +215,9 @@
 A <code class="docutils literal notranslate"><span class="pre">group</span></code> element groups other elements for easier manipulation.</p>
 <dl class="simple">
 <dt>Other supported types are:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">text</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">line</span></code></p></li>
+<li><p><em>TO DO</em>: <code class="docutils literal notranslate"><span class="pre">path</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">circle</span></code></p></li>
 <li><p><em>TO DO</em>: <code class="docutils literal notranslate"><span class="pre">ellipse</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rectangle</span></code></p></li>
@@ -270,25 +272,38 @@ for the different types of elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>type</strong> (<em>str</em>) – Type of element, among <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">circle</span></code>,
-<code class="docutils literal notranslate"><span class="pre">polygon</span></code> or <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of element, among <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">line</span></code>,
+<code class="docutils literal notranslate"><span class="pre">circle</span></code>, <code class="docutils literal notranslate"><span class="pre">polygon</span></code> or <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>.</p></li>
 <li><p><strong>parent</strong> (<em>QGraphicsItem</em>) – The parent <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p></li>
 <li><p><strong>belowParent</strong> (<em>bool</em>) – Determine if the element should be placed above
 the parent (<code class="docutils literal notranslate"><span class="pre">False</span></code>, default) or below (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p></li>
 <li><p><strong>zvalue</strong> (<em>float</em>) – Z-value of the element in the stack.</p></li>
 <li><p><strong>rotation</strong> (<em>float</em>) – Rotation of the element (rad)</p></li>
-<li><p><strong>position</strong> (<em>(</em><em>float</em><em>,</em><em>float</em><em>)</em>) – Position of the element (scene units).
-<em>Only for ``lines``, ``circles``, ``polygons`` and ``rectangles``.</em></p></li>
-<li><p><strong>width</strong> (<em>float</em>) – Width of the element. <em>Only for ``lines`` and
-``rectangles``.</em></p></li>
-<li><p><strong>height</strong> (<em>float</em>) – Height of the element. <em>Only for ``lines`` and
-``rectangles``.</em></p></li>
-<li><p><strong>radius</strong> (<em>float</em>) – Radius of the circle. <em>Only for ``circles``.</em></p></li>
-<li><p><strong>points</strong> (<em>[</em><em>(</em><em>float</em><em>,</em><em>float</em><em>)</em><em>]</em>) – Points of the polygon. <em>Only for ``polygons``.</em></p></li>
-<li><p><strong>thickness</strong> (<em>float</em>) – Stroke thickness</p></li>
-<li><p><strong>color</strong> ([<em>color</em>, <em>color</em>]) – Fill and stroke colors. Colors can be
-whatever input of <code class="docutils literal notranslate"><span class="pre">QColor</span></code> (<em>e.g</em>: ‘darkCyan’, ‘#ff112233’ or
+<li><p><strong>position</strong> (<em>[</em><em>float</em><em>,</em><em>float</em><em>]</em>) – Position of the element (scene units).</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – Width of the element (for <code class="docutils literal notranslate"><span class="pre">lines</span></code> and
+<code class="docutils literal notranslate"><span class="pre">rectangles</span></code>).</p></li>
+<li><p><strong>height</strong> (<em>float</em>) – Height of the element (for <code class="docutils literal notranslate"><span class="pre">lines</span></code> and
+<code class="docutils literal notranslate"><span class="pre">rectangles</span></code>.</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – Radius of the circle (for <code class="docutils literal notranslate"><span class="pre">circles</span></code> only).</p></li>
+<li><p><strong>points</strong> (<em>[</em><em>(</em><em>float</em><em>,</em><em>float</em><em>)</em><em>]</em>) – Points of the polygon (for <code class="docutils literal notranslate"><span class="pre">polygons</span></code> only).</p></li>
+<li><p><strong>thickness</strong> (<em>float</em>) – Stroke thickness (pix). For <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">circle</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – String of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element. Rich HTML text is supported.</p></li>
+<li><p><strong>fontname</strong> (<em>str</em>) – Font of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element. Default: <code class="docutils literal notranslate"><span class="pre">Arial</span></code></p></li>
+<li><p><strong>fontsize</strong> (<em>int</em>) – Default font size of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element, corresponding to
+the pointSize property of <code class="docutils literal notranslate"><span class="pre">QFont</span></code>. Default value: 10</p></li>
+<li><p><strong>center</strong> (<em>(</em><em>bool</em><em>,</em><em>bool</em><em>)</em>) – Center a <code class="docutils literal notranslate"><span class="pre">text</span></code> element horizontally and/or
+vertically. Default is (<code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>color</strong> (<em>color</em>) – Color for <code class="docutils literal notranslate"><span class="pre">text</span></code> or <code class="docutils literal notranslate"><span class="pre">line</span></code> elements. Colors can be
+whatever input of <code class="docutils literal notranslate"><span class="pre">QColor</span></code> (<em>e.g</em>: <code class="docutils literal notranslate"><span class="pre">darkCyan</span></code>, <code class="docutils literal notranslate"><span class="pre">#ff112233</span></code> or
 (255, 0, 0, 127))</p></li>
+<li><p><strong>colors</strong> ([<em>color</em>, <em>color</em>]) – Fill and stroke colors for <code class="docutils literal notranslate"><span class="pre">circle</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements.  Colors can be
+whatever input of <code class="docutils literal notranslate"><span class="pre">QColor</span></code> (<em>e.g</em>: <code class="docutils literal notranslate"><span class="pre">darkCyan</span></code>, <code class="docutils literal notranslate"><span class="pre">#ff112233</span></code> or
+(255, 0, 0, 127))</p></li>
+<li><p><strong>linestyle</strong> (<em>str</em>) – Stroke style (for <code class="docutils literal notranslate"><span class="pre">circle</span></code>, <code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>
+or <code class="docutils literal notranslate"><span class="pre">polygon</span></code>). Can have any value among <code class="docutils literal notranslate"><span class="pre">solid</span></code> (default), <code class="docutils literal notranslate"><span class="pre">dash</span></code>
+or <code class="docutils literal notranslate"><span class="pre">--</span></code>, <code class="docutils literal notranslate"><span class="pre">dot</span></code> or <code class="docutils literal notranslate"><span class="pre">..</span></code> or <code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">dashdot</span></code> or <code class="docutils literal notranslate"><span class="pre">-.</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
