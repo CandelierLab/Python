@@ -311,10 +311,7 @@ class element():
           case 'dashdot' | '-.':
             Pen.setDashPattern([3,3,1,3])
 
-      print(Pen)
-
       self.Qelm.setPen(Pen)
-
 
   def rotate(self, angle):
     """

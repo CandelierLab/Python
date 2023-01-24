@@ -191,10 +191,17 @@ class Visu2d(Animation.Animation2d):
 
     # --- Scene settings ---------------------------------------------------
 
-    self.r = 0.025
+    # self.r = 0.025
+    self.r = 0.05
+    self.fontsize = int(np.round(10*(self.r/0.025)))
 
     self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
+
+    # --- Edges ------------------------------------------------------------
+
+    for i,edge in enumerate(self.Net.edge):
+      print(edge)
 
     # --- Nodes ------------------------------------------------------------
 
@@ -212,58 +219,36 @@ class Visu2d(Animation.Animation2d):
 
       # --- Circle
 
+      # Doule circle for OUTPUT Nodes
+      if node['OUT']:
+        self.elm[gname+'_outercircle'] = Animation.element('circle',
+          parent = gname,
+          position = (0, 0),
+          radius = self.r*1.2,
+          colors = (None, '#ccc'),
+          thickness = 2
+        )
+
       self.elm[gname+'_circle'] = Animation.element('circle',
         parent = gname,
         position = (0, 0),
         radius = self.r,
-        color = ('#444', '#ccc'),
-        thickness = 2
+        colors = ('#555', '#ccc'),
+        thickness = 2,
+        linestyle = '--' if node['IN'] else None
       )
 
       # --- Name
 
-     
+      name = str(self.Net.node[i]['name'])
+      if len(name)>3:
+        name = name[0:3]
 
-      # --- INPUT Nodes
-
-      if node['IN']:
-        pass
-
-      # --- OUTPUT Nodes
-
-      if node['OUT']:
-        pass
-       
-
-
-    # h = 1/len(self.Net.IN)
-
-    # for k,i in enumerate(self.Net.IN):
-
-    #   # Element's name
-    #   if isinstance(self.Net.node[i]['name'], int):
-    #     ename = 'node_{:d}'.format(i)
-    #   else:
-    #     ename = 'node_' + self.Net.node[i]['name']
-
-    #   self.elm[ename] = Animation.element('circle',
-    #     position = (-0.1, h*(k+0.5)),
-    #     radius = 0.025,
-    #     color = (None, 'white'),
-    #     thickness = 2
-    #   )
-
-    # for i, node in enumerate(self.Net.node):
-
-    #   # Element's name
-    #   if isinstance(node['name'], int):
-    #     ename = 'node_{:d}'.format(i)
-    #   else:
-    #     ename = 'node_' + node['name']
-
-    #   self.elm[ename] = Animation.element('circle',
-    #     position = self.pos[i],
-    #     radius = 0.025,
-    #     color = (None, 'white'),
-    #     thickness = 2
-    #   )
+      self.elm[gname+'_text'] = Animation.element('text',
+        parent = gname,
+        position = [0,0],
+        string = name,
+        color = 'white',
+        center = (True, True),
+        fontsize = self.fontsize
+      )
