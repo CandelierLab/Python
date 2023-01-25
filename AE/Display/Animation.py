@@ -49,11 +49,14 @@ class element():
   Elements of the animation
 
   Elements are the items displayed in the ``QGraphicsScene`` of the :class:`Animation2d`.
-  A ``group`` element groups other elements for easier manipulation. 
+  A ``group`` element groups other elements for easier manipulation. Some elements like 
+  ``arrow`` are groups of items.
   
-  Other supported types are:
+  Supported types are:
+    * ``group``
     * ``text``
     * ``line``
+    * ``arrow``
     * *TO DO*: ``path``
     * ``circle``
     * *TO DO*: ``ellipse``
@@ -74,7 +77,7 @@ class element():
   
   Attributes:
     elm ({:class:`element`}): All elements in the scene
-    Qelm (*QGraphicsItem*): The underlying ``QGraphicsItem`` belonging to
+    Qitem (*QGraphicsItem*): The underlying ``QGraphicsItem`` belonging to
       the ``QGraphicsScene`` of the view.
   """
 
@@ -99,20 +102,30 @@ class element():
 
       rotation (float): Rotation of the element (rad)
 
-      position ([float,float]): Position of the element (scene units).
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
 
-      width (float): Width of the element (for ``lines`` and
-        ``rectangles``).
+      points ([[float,float]]): Positions of the points of ``line``, 
+        ``arrow`` or ``polygon`` elements (scene units).
+                
+      radius (float): Radius of the circle (for ``circle`` only).
+      
+      width (float): Width of the ``rectangle``.
 
-      height (float): Height of the element (for ``lines`` and 
-        ``rectangles``.
-
-      radius (float): Radius of the circle (for ``circles`` only).
-
-      points ([(float,float)]): Points of the polygon (for ``polygons`` only).
+      height (float): Height of the ``rectangle``.
 
       thickness (float): Stroke thickness (pix). For ``line``, ``circle``, 
-        ``ellipse``, ``rectangle`` or ``polygon`` elements.
+        ``ellipse``, ``rectangle`` or ``polygon`` elements. (Default: 0)
+
+      locus (float): Position of the tip of arrowhead on the normalized 
+        curvilinear coordinates of the ``arrow`` element. This value should 
+        be between 0 and 1 (default: 1).
+
+      shape (str): Shape of the arrowhead of ``arrow`` elements. Can be
+        ``dart`` (default) or ``disk``.
+
+      size (float): Size of the arrowhead of ``arrow`` elements, in scene 
+        units. (default: 0.02)
 
       string (str): String of a ``text`` element. Rich HTML text is supported.
 
@@ -124,9 +137,9 @@ class element():
       center ((bool,bool)): Center a ``text`` element horizontally and/or
         vertically. Default is (``False``, ``False``).
 
-      color (*color*): Color for ``text`` or ``line`` elements. Colors can be 
-        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
-        (255, 0, 0, 127))
+      color (*color*): Color for ``text``, ``line`` or ``arrow`` elements. 
+        Colors can be whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
+        (255, 0, 0, 127)).
 
       colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
         ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
@@ -141,7 +154,7 @@ class element():
     # Common properties
     self.type = type
     self.view = None
-    self.Qelm = None
+    self.QitemRef = None
     self.rotation = kwargs['rotation'] if 'rotation' in kwargs else 0
     self.parent = kwargs['parent'] if 'parent' in kwargs else None
     self.belowParent = kwargs['belowParent'] if 'belowParent' in kwargs else False
@@ -162,9 +175,35 @@ class element():
         self.fontsize = kwargs['fontsize'] if 'fontsize' in kwargs else 10
         
       case 'line':
-        self.width = kwargs['width'] if 'width' in kwargs else 0
-        self.height = kwargs['height'] if 'height' in kwargs else 0
+
+        if 'points' in kwargs:           
+          self.setPoints(kwargs['points'])
+        else:
+          raise AttributeError("The 'points' argument is necessary for a line element.")
+          
         self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
+
+      case 'arrow':
+
+        # Items of the arrow group
+        self.Qitems = []
+
+        if 'points' in kwargs:           
+          self.setPoints(kwargs['points'])
+        else:
+          raise AttributeError("The 'points' argument is necessary for an arrow element.")
+          
+        self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
+
+        # Arrow-specific properties
+        self.arrow = {
+          'locus': kwargs['locus'] if 'locus' in kwargs else 1,
+          'size': kwargs['size'] if 'size' in kwargs else 0.02,
+          'shape': kwargs['shape'] if 'shape' in kwargs else 'dart'
+        }
+
+        if self.arrow['locus']<0 or self.arrow['locus']>1:
+          raise ValueError("Arrowhead position should be in [0;1] (value: {:f})".format(self.arrow['pos']))
         
       case 'circle':
         self.radius = kwargs['radius'] if 'radius' in kwargs else 0
@@ -172,7 +211,12 @@ class element():
         self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
 
       case 'polygon':
-        self.points = kwargs['points'] if 'points' in kwargs else None
+        
+        if 'points' in kwargs:           
+          self.setPoints(kwargs['points'])
+        else:
+          raise AttributeError("The 'points' argument is necessary for a polygon element.")
+
         self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
         self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
 
@@ -208,15 +252,15 @@ class element():
 
       case 'group':
 
-        self.Qelm = QGraphicsItemGroup()
+        self.QitemRef = QGraphicsItemGroup()
 
       case 'text':
 
-        self.Qelm = QGraphicsTextItem()
-        self.Qelm.setHtml(self.string)
-        self.Qelm.setFont((QFont(self.fontname, self.fontsize)))
+        self.QitemRef = QGraphicsTextItem()
+        self.QitemRef.setHtml(self.string)
+        self.QitemRef.setFont((QFont(self.fontname, self.fontsize)))
 
-        bb = self.Qelm.boundingRect()
+        bb = self.QitemRef.boundingRect()
         if self.center['horizontal']:
           self.position[0] -= bb.width()/2/anim.factor
         if self.center['vertical']:
@@ -224,13 +268,44 @@ class element():
 
       case 'line':
 
-        self.Qelm = QGraphicsLineItem(0,0,
-          self.width*anim.factor,
-          -self.height*anim.factor)
+        self.QitemRef = QGraphicsLineItem(0,0,
+          self.points[1][0]*anim.factor,
+          -self.points[1][1]*anim.factor)
 
+      case 'arrow':
+
+        self.QitemRef = QGraphicsItemGroup()
+
+        z = self.points[1][0] + 1j*self.points[1][1]
+        self.rotation += np.angle(z)
+
+        # Arrow line
+        self.Qitems.append(QGraphicsLineItem(0,0,np.abs(z)*anim.factor,0))
+
+        # Arrowhead
+
+        match self.arrow['shape']:
+
+          case 'dart':
+            head = [QPointF(0,0),
+              QPointF(-self.arrow['size']*anim.factor*3/2, self.arrow['size']*anim.factor/2),
+              QPointF(-self.arrow['size']*anim.factor, 0),
+              QPointF(-self.arrow['size']*anim.factor*3/2, -self.arrow['size']*anim.factor/2),
+              QPointF(0,0)]
+            self.Qitems.append(QGraphicsPolygonItem(QPolygonF(head)))
+
+          case 'disk':
+            self.Qitems.append(QGraphicsEllipseItem(
+              -self.arrow['size']*anim.factor,
+              self.arrow['size']/2*anim.factor,
+              self.arrow['size']*anim.factor,
+              -self.arrow['size']*anim.factor))
+
+        self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*anim.factor,0)
+        
       case 'circle':
 
-        self.Qelm = QGraphicsEllipseItem(
+        self.QitemRef = QGraphicsEllipseItem(
           -self.radius*anim.factor,
           self.radius*anim.factor,
           2*self.radius*anim.factor,
@@ -242,11 +317,11 @@ class element():
         for p in self.points:
           poly.append(QPointF(p[0]*anim.factor, -p[1]*anim.factor))
 
-        self.Qelm = QGraphicsPolygonItem(QPolygonF(poly))
+        self.QitemRef = QGraphicsPolygonItem(QPolygonF(poly))
         
       case 'rectangle':
 
-        self.Qelm = QGraphicsRectItem(0,0,
+        self.QitemRef = QGraphicsRectItem(0,0,
           self.width*anim.factor,
           -self.height*anim.factor)
 
@@ -255,11 +330,11 @@ class element():
 
     # if type != 'group':
     if self.parent is None:
-      self.Qelm.setPos(
+      self.QitemRef.setPos(
         (self.position[0]-anim.sceneLimits['x'][0])*anim.factor, 
         -(self.position[1]-anim.sceneLimits['y'][0])*anim.factor)
     else:
-      self.Qelm.setPos(
+      self.QitemRef.setPos(
         self.position[0]*anim.factor, 
         -self.position[1]*anim.factor)
 
@@ -269,49 +344,97 @@ class element():
     # --- Parent
 
     if self.parent is not None:
-      self.Qelm.setParentItem(anim.elm[self.parent].Qelm)
+      self.QitemRef.setParentItem(anim.elm[self.parent].Qitem)
+
+    if hasattr(self, 'Qitems'):
+      for item in self.Qitems:
+        item.setParentItem(self.QitemRef)
 
     # --- Stack order
 
     if self.belowParent:
-      self.Qelm.setFlags(self.Qelm.flags() | QGraphicsItem.ItemStacksbelowParent)
+      self.QitemRef.setFlags(self.QitemRef.flags() | QGraphicsItem.ItemStacksbelowParent)
 
     if self.zvalue is not None:
-      self.Qelm.setZValue(self.zvalue)
+      self.QitemRef.setZValue(self.zvalue)
 
     # --- Style
 
-    if self.type == 'text':
+    match self.type:
 
-      self.Qelm.setDefaultTextColor(QColor(self.color['fill']))
+      case 'text':
 
-    elif self.type != 'group':
+        self.QitemRef.setDefaultTextColor(QColor(self.color['fill']))
+
+      case 'line' | 'path' | 'polygon' | 'circle' | 'ellipse' | 'rectangle':
       
-      # Fill color
-      if self.type!='line' and self.color['fill'] is not None:
-        self.Qelm.setBrush(QBrush(QColor(self.color['fill'])))
+        # Fill
+        if self.color['fill'] is not None:
+          self.QitemRef.setBrush(QBrush(QColor(self.color['fill'])))
 
-      # --- Sproke
+        # Stroke
+        self.QitemRef.setPen(self.strokePen())
 
-      Pen = QPen()
+      case 'arrow':
 
-      # Stroke color
-      if self.color['stroke'] is not None:
-        Pen.setColor(QColor(self.color['stroke']))
-        Pen.setWidth(self.thickness)
+        strokePen = self.strokePen()
 
-      # Stroke style
-      if self.linestyle is not None:
-        
-        match self.linestyle:
-          case 'dash' | '--':
-            Pen.setDashPattern([3,6])
-          case 'dot' | ':' | '..':
-            Pen.setStyle(Qt.DotLine)
-          case 'dashdot' | '-.':
-            Pen.setDashPattern([3,3,1,3])
+        # Line stroke
+        self.Qitems[0].setPen(strokePen)
 
-      self.Qelm.setPen(Pen)
+        # Arrowhead
+        self.Qitems[1].setPen(strokePen)
+        self.Qitems[1].setBrush(QBrush(QColor(self.color['stroke'])))
+
+  def setPoints(self, points):
+    """
+    Element position and relative points positions 
+    
+    For path-style elements (``line``, ``arrow`` and ``polygon``), it sets
+    the element's position to the first point's absolute position in the 
+    scene (self.poistion) and the relative position of all the points 
+    (self.points). The first point in self.points is thus always [0,0].
+
+    For internal use only.
+
+    args:
+      points ([[float,float]]): Positions of the points of ``line``, 
+        ``arrow`` or ``polygon`` elements (absolute, scene units).
+    """
+
+    self.position = [points[0][0],points[0][1]]
+    self.points = [[p[0]-points[0][0], p[1]-points[0][1]] for p in points]
+
+  def strokePen(self):
+    """
+    Define stroke pen for compatible items
+
+    For internal use only.
+
+    Returns:
+      A QPen defining the stroke style and color of the item based on the 
+      self.linestyle and self.color properties.    
+    """
+
+    Pen = QPen()
+
+    # Stroke color
+    if self.color['stroke'] is not None:
+      Pen.setColor(QColor(self.color['stroke']))
+      Pen.setWidth(self.thickness)
+
+    # Stroke style
+    if self.linestyle is not None:
+      
+      match self.linestyle:
+        case 'dash' | '--':
+          Pen.setDashPattern([3,6])
+        case 'dot' | ':' | '..':
+          Pen.setStyle(Qt.DotLine)
+        case 'dashdot' | '-.':
+          Pen.setDashPattern([3,3,1,3])
+
+    return Pen
 
   def rotate(self, angle):
     """
@@ -323,7 +446,7 @@ class element():
       angle (float): Orientational increment (rad)
     """
 
-    self.Qelm.setRotation(-angle*180/np.pi)
+    self.QitemRef.setRotation(-angle*180/np.pi)
 
   def setPosition(self, x=None, y=None, z=None):
     """
@@ -343,7 +466,7 @@ class element():
       x = np.real(z)
       y = np.imag(z)
 
-    self.Qelm.setPos((x-self.anim.sceneLimits['x'][0])*self.anim.factor,
+    self.QitemRef.setPos((x-self.anim.sceneLimits['x'][0])*self.anim.factor,
       -(y-self.anim.sceneLimits['y'][0])*self.anim.factor)
   
 
@@ -492,7 +615,7 @@ class Animation2d():
     for k,elm in self.elm.items():
       elm.convert(self)
       if elm.parent is None:
-        self.Qscene.addItem(elm.Qelm)
+        self.Qscene.addItem(elm.QitemRef)
 
   def startAnimation(self):
     """
