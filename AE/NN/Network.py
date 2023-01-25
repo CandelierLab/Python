@@ -208,13 +208,6 @@ class Visu2d(Animation.Animation2d):
     self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
 
-    self.elm['boundary'] = Animation.element('rectangle',
-        pposition = [0,0],
-        width = 1,
-        height = 1,
-        colors = ('#222', 'gray')
-      )
-
     # --- Edges ------------------------------------------------------------
 
     for i,edge in enumerate(self.Net.edge):
@@ -240,7 +233,9 @@ class Visu2d(Animation.Animation2d):
       else:
         gname = 'node_' + self.Net.node[i]['name']
 
-      self.elm[gname] = Animation.element('group', position=pos[i])
+      self.elm[gname] = Animation.element('group', 
+        position = pos[i], 
+        movable = not (node['IN'] or node['OUT']))
 
       # --- Circle
 
