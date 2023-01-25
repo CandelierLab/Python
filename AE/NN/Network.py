@@ -133,13 +133,13 @@ class Visu2d(Animation.Animation2d):
     # --- Nodes
 
     # Vertical spacing
-    hIN = 2/(len(self.Net.IN)+1)
+    hIN = 1/len(self.Net.IN)
     if self.isolate_output:
-      hOUT = 2/(len(self.Net.OUT)+1)
+      hOUT = 1/len(self.Net.OUT)
 
     # Input nodes
     for i,node in enumerate(self.Net.IN):
-      G.add_node(node, pos=[0, 1-hIN*(i+1)])
+      G.add_node(node, pos=[0, 1-hIN*(i+1/2)])
 
     # Other nodes
     if self.isolate_output:
@@ -150,7 +150,7 @@ class Visu2d(Animation.Animation2d):
 
       # Output nodes
       for i,node in enumerate(self.Net.OUT):
-        G.add_node(node, pos=[1, 1-hOUT*(i+1)])
+        G.add_node(node, pos=[1, 1-hOUT*(i+1/2)])
 
       # Fixed nodes
       I_fixed = self.Net.IN + self.Net.OUT
@@ -169,10 +169,25 @@ class Visu2d(Animation.Animation2d):
 
       # Optimal distance between nodes
       k = 1/np.sqrt(len(notIN))
-     
+
+    # --- Corners (for bounding))
+    
+    I_corners = len(self.Net.node) + np.arange(4)
+    G.add_node(I_corners[0], pos=[0,0])
+    G.add_node(I_corners[1], pos=[0,1])
+    G.add_node(I_corners[2], pos=[1,0])
+    G.add_node(I_corners[3], pos=[1,1])
+    I_fixed += I_corners.tolist()
+
     # --- Edges
 
-    G.add_edges_from([(edge['i'], edge['j']) for edge in self.Net.edge])
+    Edges = [(edge['i'], edge['j']) for edge in self.Net.edge]
+
+    # Corner bindings for confinment
+    for i in range(len(self.Net.node)):
+      Edges += [[i, I_corners[0]], [i, I_corners[1]], [i, I_corners[2]], [i, I_corners[3]]]
+
+    G.add_edges_from(Edges)
 
     # --- Positions
     # Position nodes using the Fruchterman-Reingold force-directed algorithm.
@@ -192,6 +207,13 @@ class Visu2d(Animation.Animation2d):
 
     self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
+
+    self.elm['boundary'] = Animation.element('rectangle',
+        pposition = [0,0],
+        width = 1,
+        height = 1,
+        colors = ('#222', 'gray')
+      )
 
     # --- Edges ------------------------------------------------------------
 

@@ -149,6 +149,8 @@ class element():
       linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
         or ``polygon``). Can have any value among ``solid`` (default), ``dash``
         or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
+
+      movable (bool): If True, the element will be draggable. (default: ``False``)
     """  
 
     # Common properties
@@ -160,6 +162,7 @@ class element():
     self.belowParent = kwargs['belowParent'] if 'belowParent' in kwargs else False
     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
     self.position = kwargs['position'] if 'position' in kwargs else [0,0]
+    self.movable = kwargs['movable'] if 'movable' in kwargs else False
     self.color = {}
 
     # Element-dependent properties
@@ -253,7 +256,7 @@ class element():
       case 'group':
 
         self.QitemRef = QGraphicsItemGroup()
-
+        
       case 'text':
 
         self.QitemRef = QGraphicsTextItem()
@@ -310,7 +313,7 @@ class element():
           self.radius*anim.factor,
           2*self.radius*anim.factor,
           -2*self.radius*anim.factor)
-
+        
       case 'polygon':
 
         poly = []
@@ -327,7 +330,6 @@ class element():
 
     # --- Position
 
-    # if type != 'group':
     if self.parent is None:
       self.QitemRef.setPos(
         (self.position[0]-anim.sceneLimits['x'][0])*anim.factor, 
@@ -336,6 +338,9 @@ class element():
       self.QitemRef.setPos(
         self.position[0]*anim.factor, 
         -self.position[1]*anim.factor)
+
+    if self.movable:
+      self.QitemRef.setFlag(QGraphicsItem.ItemIsMovable, True)
 
     # Rotation
     self.rotate(self.rotation)
@@ -555,6 +560,8 @@ class Animation2d():
     self.Qscene = QGraphicsScene()
     self.Qview = QGraphicsView()
     self.Qview.setScene(self.Qscene)
+    self.Qview.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    self.Qview.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
     self.elm = defaultdict()
 

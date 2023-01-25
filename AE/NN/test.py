@@ -1,29 +1,22 @@
+import numpy as np
 from AE.NN.ANN import ANN
 
 Net = ANN()
 
 Net.add_node(3, IN=True)
-Net.add_node(2)
+Net.add_node(5)
 Net.add_node(1, OUT=True)
 
-Net.add_edge(0,3)
-Net.add_edge(1,3)
-Net.add_edge(2,3)
-
-# Net.add_edge(0,4)
-Net.add_edge(1,4)
-Net.add_edge(2,4)
-
-Net.add_edge(3,5)
-Net.add_edge(4,5)
+N = len(Net.node)
+for i in range(15):
+  Net.add_edge(np.random.randint(N), np.random.randint(N))
 
 Net.show()
 
 # --- TO DO
-# Fix font size adaptation
-# Bound to limits
-# No output isolation ?
+# Draggable nodes
 # Add weights as text
+# Save as image
 
 # Activation
 # Animation: colormap for values
