@@ -325,7 +325,6 @@ class element():
           self.width*anim.factor,
           -self.height*anim.factor)
 
-
     # --- Position
 
     # if type != 'group':
@@ -344,7 +343,7 @@ class element():
     # --- Parent
 
     if self.parent is not None:
-      self.QitemRef.setParentItem(anim.elm[self.parent].Qitem)
+      self.QitemRef.setParentItem(anim.elm[self.parent].QitemRef)
 
     if hasattr(self, 'Qitems'):
       for item in self.Qitems:
@@ -511,7 +510,7 @@ class Animation2d():
     Qtimer (``QTimer``): Timer managing the display updates.
   """
 
-  def __init__(self, dt=None, disp_time=False, disp_boundaries=True, window=None):
+  def __init__(self, dt=None, disp_time=False, disp_boundaries=True, size=None, window=None):
     """
     Animation constructor
 
@@ -546,8 +545,9 @@ class Animation2d():
 
     # Sizes
     self.sceneLimits = {'x':(0,1), 'y':(0,1), 'width':None, 'height':None}
+    self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
     self.margin = 25
-    self.timeHeight = 0.02*QApplication.desktop().screenGeometry().height()
+    self.timeHeight = QApplication.desktop().screenGeometry().height()*0.02
 
     # --- Scene & view
 
@@ -575,7 +575,7 @@ class Animation2d():
     self.qtimer.timeout.connect(self.update)
     self.timer = QElapsedTimer()
   
-  def init(self, size=None):
+  def init(self):
     """
     Animation initialization
 
@@ -589,13 +589,8 @@ class Animation2d():
     self.sceneLimits['width'] = self.sceneLimits['x'][1]-self.sceneLimits['x'][0]
     self.sceneLimits['height'] = self.sceneLimits['y'][1]-self.sceneLimits['y'][0]
 
-    # --- Scale factor and margin
-
-    if size is None:
-      self.factor = QApplication.desktop().screenGeometry().height()/self.sceneLimits['height']*0.6
-
-    else:
-      self.factor = size/self.sceneLimits['height']
+    # Scale factor
+    self.factor = self.size/self.sceneLimits['height']
 
     # Scene boundaries
     if self.disp_boundaries:
@@ -672,14 +667,14 @@ class Window():
 
     # Attributes
     self.title = title
-
+    
     # Qapplication
     self.app = QApplication([])
 
     # Animation
     self.anim = None
     
-  def show(self, size=None):
+  def show(self):
     """
     Creates the animation window
     
@@ -709,7 +704,7 @@ class Window():
     # --- Initialization
 
     # Initialize animation
-    self.anim.init(size=size)
+    self.anim.init()
 
     # Window size
     self.anim.Qview.resize(

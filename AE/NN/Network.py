@@ -8,7 +8,6 @@ has to be subclassed to be useful.
 
 import numpy as np
 import networkx as nx
-import matplotlib.pyplot as plt
 
 import AE.Display.Animation as Animation
 
@@ -84,9 +83,9 @@ class Network():
 
     return ''
 
-  def show(self, isolate_output=True):
+  def show(self, isolate_output=True, size=None):
 
-    anim = Visu2d(self, isolate_output=isolate_output, window=Animation.Window())
+    anim = Visu2d(self, isolate_output=isolate_output, size=size, window=Animation.Window())
     anim.window.title = 'Network'
     anim.window.show()
 
@@ -102,7 +101,7 @@ class Visu2d(Animation.Animation2d):
   values through time.
   """
 
-  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, window=None):
+  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, size=None, window=None):
     """
     Network 2D visualization constructor
 
@@ -119,7 +118,7 @@ class Visu2d(Animation.Animation2d):
     """
 
     # Parent constructor
-    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, window=window)
+    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, size=size, window=window)
 
     # Network
     self.Net = Net
@@ -179,11 +178,7 @@ class Visu2d(Animation.Animation2d):
     # Position nodes using the Fruchterman-Reingold force-directed algorithm.
 
     pos = nx.spring_layout(G, k=k, pos=nx.get_node_attributes(G,'pos'), fixed=I_fixed)
-
-    # # Matplotlib draw
-    # nx.draw(G, pos=pos, with_labels=True, font_weight='bold')
-    # plt.show()  
-    
+   
     # --- Boundaries
     P = np.array(list(pos.values()))
     xym = np.amin(P, axis=0)
@@ -193,7 +188,7 @@ class Visu2d(Animation.Animation2d):
 
     # self.r = 0.025
     self.r = 0.05
-    self.fontsize = int(np.round(10*(self.r/0.025)))
+    self.fontsize = int(np.floor(self.r*self.size/4.5))
 
     self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
@@ -205,14 +200,11 @@ class Visu2d(Animation.Animation2d):
       # Name
       name = str(edge['i']) + '→' +  str(edge['j'])
 
-      self.elm[name] = Animation.element('line',
-        position = pos[edge['i']],
-        width = pos[edge['j']][0] - pos[edge['i']][0],
-        height = pos[edge['j']][1] - pos[edge['i']][1],
-        thickness = 2
+      self.elm[name] = Animation.element('arrow',
+        points = [pos[edge['i']], pos[edge['j']]],
+        thickness = 2,
+        locus = 0.5
       )
-
-      print(edge)
 
     # --- Nodes ------------------------------------------------------------
 
@@ -230,13 +222,13 @@ class Visu2d(Animation.Animation2d):
 
       # --- Circle
 
-      # Doule circle for OUTPUT Nodes
+      # Double circle for OUTPUT Nodes
       if node['OUT']:
         self.elm[gname+'_outercircle'] = Animation.element('circle',
           parent = gname,
           position = (0, 0),
           radius = self.r*1.2,
-          colors = (None, '#ccc'),
+          colors = ('black', '#ccc'),
           thickness = 2
         )
 

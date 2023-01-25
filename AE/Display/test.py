@@ -24,13 +24,4 @@ anim.elm['A'] = Animation.element('arrow',
   thickness = 2
 )
 
-# anim.elm['A'] = Animation.element('polygon',
-#   points = [(0,0), (-0.05,0.1), (0.1,0), (-0.05,-0.1), (0,0)],
-#   color = 'red',
-#   thickness = 2
-# )
-
 anim.window.show()
-
-# --- TO DO
-# * Tête ronde
