@@ -17,4 +17,13 @@ Net.add_edge(2,4)
 Net.add_edge(3,5)
 Net.add_edge(4,5)
 
-Net.show(isolate_output=True)
+Net.show()
+
+# --- TO DO
+# Fix font size adaptation
+# Bound to limits
+# No output isolation ?
+# Add weights as text
+
+# Activation
+# Animation: colormap for values
