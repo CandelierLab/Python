@@ -159,6 +159,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Crew.html">AE.Display.Animation.Crew</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.element</a></li>
 </ul>
@@ -217,6 +218,8 @@ A <code class="docutils literal notranslate"><span class="pre">group</span></cod
 <dl class="simple">
 <dt>Supported types are:</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">group</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">crew</span></code>: similar to <code class="docutils literal notranslate"><span class="pre">group</span></code>, but interactions are reported to the
+<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.change" title="AE.Display.Animation.Animation2d.change"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.change()</span></code></a>: method.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">text</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">line</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">arrow</span></code></p></li>
@@ -230,7 +233,7 @@ A <code class="docutils literal notranslate"><span class="pre">group</span></cod
 <dt>During animation, attributes can be modified with the methods:</dt><dd><ul class="simple">
 <li><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.rotate()</span></code></a>: relative rotation</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.translate()</span></code>: relative translation</p></li>
-<li><p><em>TO DO</em> s:py:meth:<cite>.element.etOrientation</cite>: Set absolute orientation</p></li>
+<li><p><em>TO DO</em> s:py:meth:<cite>element.etOrientation</cite>: Set absolute orientation</p></li>
 <li><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setPosition()</span></code></a>: Set absolute position</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setColors()</span></code>: Set fill and stroke colors</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setFill()</span></code>: Set fill color</p></li>
@@ -314,6 +317,8 @@ whatever input of <code class="docutils literal notranslate"><span class="pre">Q
 <li><p><strong>linestyle</strong> (<em>str</em>) – Stroke style (for <code class="docutils literal notranslate"><span class="pre">circle</span></code>, <code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>
 or <code class="docutils literal notranslate"><span class="pre">polygon</span></code>). Can have any value among <code class="docutils literal notranslate"><span class="pre">solid</span></code> (default), <code class="docutils literal notranslate"><span class="pre">dash</span></code>
 or <code class="docutils literal notranslate"><span class="pre">--</span></code>, <code class="docutils literal notranslate"><span class="pre">dot</span></code> or <code class="docutils literal notranslate"><span class="pre">..</span></code> or <code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">dashdot</span></code> or <code class="docutils literal notranslate"><span class="pre">-.</span></code>.</p></li>
+<li><p><strong>clickable</strong> (<em>bool</em>) – <em>TO DO</em></p></li>
+<li><p><strong>movable</strong> (<em>bool</em>) – If True, the element will be draggable. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -326,7 +331,7 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.__init__" title="AE.Display.Animation.element.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(type, **kwargs)</p></td>
 <td><p>Element constructor</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convert" title="AE.Display.Animation.element.convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert</span></code></a>(anim)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convert" title="AE.Display.Animation.element.convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert</span></code></a>(anim, name)</p></td>
 <td><p>Conversion to <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
@@ -346,7 +351,7 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.element.convert">
-<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.convert" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.convert" title="Permalink to this definition">#</a></dt>
 <dd><p>Conversion to <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p>
 <p>For internal use only.</p>
 <dl class="py attribute">

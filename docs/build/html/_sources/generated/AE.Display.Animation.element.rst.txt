@@ -1,4 +1,4 @@
-﻿AE.Display.Animation.element
+AE.Display.Animation.element
 ============================
 
 .. currentmodule:: AE.Display.Animation

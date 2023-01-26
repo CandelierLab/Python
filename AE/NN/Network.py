@@ -11,7 +11,7 @@ import networkx as nx
 
 import AE.Display.Animation as Animation
 
-# ==========================================================================
+# === Network ==============================================================
 
 class Network():
   """
@@ -89,7 +89,7 @@ class Network():
     anim.window.title = 'Network'
     anim.window.show()
 
-# ==========================================================================
+# === Visualisation ========================================================
 
 class Visu2d(Animation.Animation2d):
   """
@@ -233,7 +233,7 @@ class Visu2d(Animation.Animation2d):
       else:
         gname = 'node_' + self.Net.node[i]['name']
 
-      self.elm[gname] = Animation.element('group', 
+      self.elm[gname] = Animation.element('crew', 
         position = pos[i], 
         movable = not (node['IN'] or node['OUT']))
 
@@ -272,3 +272,12 @@ class Visu2d(Animation.Animation2d):
         center = (True, True),
         fontsize = self.fontsize
       )
+
+  def change(self, type, elm):
+    """
+    Drag callback
+
+    Reimplements the :meth:`AE.Display.Animation.Animation2d.change` 
+    method of the :class:`AE.Display.Animation.Animation2d` class.
+    """
+    print(type, elm.name)

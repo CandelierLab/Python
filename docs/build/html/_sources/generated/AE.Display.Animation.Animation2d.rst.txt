@@ -17,6 +17,7 @@ AE.Display.Animation.Animation2d
    .. autosummary::
    
       ~Animation2d.__init__
+      ~Animation2d.change
       ~Animation2d.init
       ~Animation2d.startAnimation
       ~Animation2d.update

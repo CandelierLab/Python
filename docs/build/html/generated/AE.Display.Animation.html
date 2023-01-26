@@ -159,6 +159,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Crew.html">AE.Display.Animation.Crew</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.element.html">AE.Display.Animation.element</a></li>
 </ul>
@@ -211,9 +212,11 @@
 <h2>Animation2d<a class="headerlink" href="#animation2d" title="Permalink to this heading">#</a></h2>
 <p>The <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a> wraps a  <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> and <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code>
 as well as all necessary tools for display (scene limits, antialiasing, etc.)
-It also contains a timer triggering the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.update" title="AE.Display.Animation.Animation2d.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.update()</span></code></a>
+It contains a timer triggering the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.update" title="AE.Display.Animation.Animation2d.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.update()</span></code></a>
 method at a regular pace. In subclasses, this allows to change elements’
-positions or features (color, size, etc.) to create animations.</p>
+positions or features (color, size, etc.) to create animations.
+Specific groups of elements (<em>crews</em>) can also be interacted with (selection,
+drag, etc.) independently of the animation.</p>
 </section>
 <section id="elements">
 <h2>Elements<a class="headerlink" href="#elements" title="Permalink to this heading">#</a></h2>
@@ -244,10 +247,13 @@ be used with two syntaxes:</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Animation2d</span></code></a>([dt, disp_time, ...])</p></td>
 <td><p>2D Animation</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window</span></code></a>([title])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="AE.Display.Animation.Crew.html#AE.Display.Animation.Crew" title="AE.Display.Animation.Crew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Crew</span></code></a>(elm)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window</span></code></a>([title])</p></td>
 <td><p>Animation-specific window</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="AE.Display.Animation.element.html#AE.Display.Animation.element" title="AE.Display.Animation.element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">element</span></code></a>(type, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="AE.Display.Animation.element.html#AE.Display.Animation.element" title="AE.Display.Animation.element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">element</span></code></a>(type, **kwargs)</p></td>
 <td><p>Elements of the animation</p></td>
 </tr>
 </tbody>

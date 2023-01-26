@@ -1,0 +1,249 @@
+AE.Display.Animation.Crew
+=========================
+
+.. currentmodule:: AE.Display.Animation
+
+.. autoclass:: Crew
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Crew.__init__
+      ~Crew.acceptDrops
+      ~Crew.acceptHoverEvents
+      ~Crew.acceptTouchEvents
+      ~Crew.acceptedMouseButtons
+      ~Crew.addToGroup
+      ~Crew.advance
+      ~Crew.boundingRect
+      ~Crew.boundingRegion
+      ~Crew.boundingRegionGranularity
+      ~Crew.cacheMode
+      ~Crew.childItems
+      ~Crew.childrenBoundingRect
+      ~Crew.clearFocus
+      ~Crew.clipPath
+      ~Crew.collidesWithItem
+      ~Crew.collidesWithPath
+      ~Crew.collidingItems
+      ~Crew.commonAncestorItem
+      ~Crew.contains
+      ~Crew.contextMenuEvent
+      ~Crew.cursor
+      ~Crew.data
+      ~Crew.deviceTransform
+      ~Crew.dragEnterEvent
+      ~Crew.dragLeaveEvent
+      ~Crew.dragMoveEvent
+      ~Crew.dropEvent
+      ~Crew.effectiveOpacity
+      ~Crew.ensureVisible
+      ~Crew.filtersChildEvents
+      ~Crew.flags
+      ~Crew.focusInEvent
+      ~Crew.focusItem
+      ~Crew.focusOutEvent
+      ~Crew.focusProxy
+      ~Crew.grabKeyboard
+      ~Crew.grabMouse
+      ~Crew.graphicsEffect
+      ~Crew.group
+      ~Crew.hasCursor
+      ~Crew.hasFocus
+      ~Crew.hide
+      ~Crew.hoverEnterEvent
+      ~Crew.hoverLeaveEvent
+      ~Crew.hoverMoveEvent
+      ~Crew.inputMethodEvent
+      ~Crew.inputMethodHints
+      ~Crew.inputMethodQuery
+      ~Crew.installSceneEventFilter
+      ~Crew.isActive
+      ~Crew.isAncestorOf
+      ~Crew.isBlockedByModalPanel
+      ~Crew.isClipped
+      ~Crew.isEnabled
+      ~Crew.isObscured
+      ~Crew.isObscuredBy
+      ~Crew.isPanel
+      ~Crew.isSelected
+      ~Crew.isUnderMouse
+      ~Crew.isVisible
+      ~Crew.isVisibleTo
+      ~Crew.isWidget
+      ~Crew.isWindow
+      ~Crew.itemChange
+      ~Crew.itemTransform
+      ~Crew.keyPressEvent
+      ~Crew.keyReleaseEvent
+      ~Crew.mapFromItem
+      ~Crew.mapFromParent
+      ~Crew.mapFromScene
+      ~Crew.mapRectFromItem
+      ~Crew.mapRectFromParent
+      ~Crew.mapRectFromScene
+      ~Crew.mapRectToItem
+      ~Crew.mapRectToParent
+      ~Crew.mapRectToScene
+      ~Crew.mapToItem
+      ~Crew.mapToParent
+      ~Crew.mapToScene
+      ~Crew.mouseDoubleClickEvent
+      ~Crew.mouseMoveEvent
+      ~Crew.mousePressEvent
+      ~Crew.mouseReleaseEvent
+      ~Crew.moveBy
+      ~Crew.opacity
+      ~Crew.opaqueArea
+      ~Crew.paint
+      ~Crew.panel
+      ~Crew.panelModality
+      ~Crew.parentItem
+      ~Crew.parentObject
+      ~Crew.parentWidget
+      ~Crew.pos
+      ~Crew.prepareGeometryChange
+      ~Crew.removeFromGroup
+      ~Crew.removeSceneEventFilter
+      ~Crew.resetTransform
+      ~Crew.rotation
+      ~Crew.scale
+      ~Crew.scene
+      ~Crew.sceneBoundingRect
+      ~Crew.sceneEvent
+      ~Crew.sceneEventFilter
+      ~Crew.scenePos
+      ~Crew.sceneTransform
+      ~Crew.scroll
+      ~Crew.setAcceptDrops
+      ~Crew.setAcceptHoverEvents
+      ~Crew.setAcceptTouchEvents
+      ~Crew.setAcceptedMouseButtons
+      ~Crew.setActive
+      ~Crew.setBoundingRegionGranularity
+      ~Crew.setCacheMode
+      ~Crew.setCursor
+      ~Crew.setData
+      ~Crew.setEnabled
+      ~Crew.setFiltersChildEvents
+      ~Crew.setFlag
+      ~Crew.setFlags
+      ~Crew.setFocus
+      ~Crew.setFocusProxy
+      ~Crew.setGraphicsEffect
+      ~Crew.setGroup
+      ~Crew.setInputMethodHints
+      ~Crew.setOpacity
+      ~Crew.setPanelModality
+      ~Crew.setParentItem
+      ~Crew.setPos
+      ~Crew.setRotation
+      ~Crew.setScale
+      ~Crew.setSelected
+      ~Crew.setToolTip
+      ~Crew.setTransform
+      ~Crew.setTransformOriginPoint
+      ~Crew.setTransformations
+      ~Crew.setVisible
+      ~Crew.setX
+      ~Crew.setY
+      ~Crew.setZValue
+      ~Crew.shape
+      ~Crew.show
+      ~Crew.stackBefore
+      ~Crew.toGraphicsObject
+      ~Crew.toolTip
+      ~Crew.topLevelItem
+      ~Crew.topLevelWidget
+      ~Crew.transform
+      ~Crew.transformOriginPoint
+      ~Crew.transformations
+      ~Crew.type
+      ~Crew.ungrabKeyboard
+      ~Crew.ungrabMouse
+      ~Crew.unsetCursor
+      ~Crew.update
+      ~Crew.updateMicroFocus
+      ~Crew.wheelEvent
+      ~Crew.window
+      ~Crew.x
+      ~Crew.y
+      ~Crew.zValue
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Crew.DeviceCoordinateCache
+      ~Crew.ItemAcceptsInputMethod
+      ~Crew.ItemChildAddedChange
+      ~Crew.ItemChildRemovedChange
+      ~Crew.ItemClipsChildrenToShape
+      ~Crew.ItemClipsToShape
+      ~Crew.ItemContainsChildrenInShape
+      ~Crew.ItemCoordinateCache
+      ~Crew.ItemCursorChange
+      ~Crew.ItemCursorHasChanged
+      ~Crew.ItemDoesntPropagateOpacityToChildren
+      ~Crew.ItemEnabledChange
+      ~Crew.ItemEnabledHasChanged
+      ~Crew.ItemFlagsChange
+      ~Crew.ItemFlagsHaveChanged
+      ~Crew.ItemHasNoContents
+      ~Crew.ItemIgnoresParentOpacity
+      ~Crew.ItemIgnoresTransformations
+      ~Crew.ItemIsFocusable
+      ~Crew.ItemIsMovable
+      ~Crew.ItemIsPanel
+      ~Crew.ItemIsSelectable
+      ~Crew.ItemMatrixChange
+      ~Crew.ItemNegativeZStacksBehindParent
+      ~Crew.ItemOpacityChange
+      ~Crew.ItemOpacityHasChanged
+      ~Crew.ItemParentChange
+      ~Crew.ItemParentHasChanged
+      ~Crew.ItemPositionChange
+      ~Crew.ItemPositionHasChanged
+      ~Crew.ItemRotationChange
+      ~Crew.ItemRotationHasChanged
+      ~Crew.ItemScaleChange
+      ~Crew.ItemScaleHasChanged
+      ~Crew.ItemSceneChange
+      ~Crew.ItemSceneHasChanged
+      ~Crew.ItemScenePositionHasChanged
+      ~Crew.ItemSelectedChange
+      ~Crew.ItemSelectedHasChanged
+      ~Crew.ItemSendsGeometryChanges
+      ~Crew.ItemSendsScenePositionChanges
+      ~Crew.ItemStacksBehindParent
+      ~Crew.ItemToolTipChange
+      ~Crew.ItemToolTipHasChanged
+      ~Crew.ItemTransformChange
+      ~Crew.ItemTransformHasChanged
+      ~Crew.ItemTransformOriginPointChange
+      ~Crew.ItemTransformOriginPointHasChanged
+      ~Crew.ItemUsesExtendedStyleOption
+      ~Crew.ItemVisibleChange
+      ~Crew.ItemVisibleHasChanged
+      ~Crew.ItemZValueChange
+      ~Crew.ItemZValueHasChanged
+      ~Crew.NoCache
+      ~Crew.NonModal
+      ~Crew.PanelModal
+      ~Crew.SceneModal
+      ~Crew.Type
+      ~Crew.UserType
+   
+   

@@ -14,9 +14,12 @@ for i in range(15):
 Net.show()
 
 # --- TO DO
+
 # Draggable nodes
 # Add weights as text
+# Self-links
 # Save as image
+# Save/load Network, with positions
 
 # Activation
 # Animation: colormap for values

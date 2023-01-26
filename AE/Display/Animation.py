@@ -6,9 +6,11 @@ Animation2d
 
 The :class:`Animation2d` wraps a  ``QGraphicsView`` and ``QGraphicsScene``
 as well as all necessary tools for display (scene limits, antialiasing, etc.)
-It also contains a timer triggering the :py:meth:`.Animation2d.update` 
+It contains a timer triggering the :py:meth:`.Animation2d.update` 
 method at a regular pace. In subclasses, this allows to change elements' 
 positions or features (color, size, etc.) to create animations.
+Specific groups of elements (*crews*) can also be interacted with (selection,
+drag, etc.) independently of the animation.
 
 Elements
 --------
@@ -54,6 +56,8 @@ class element():
   
   Supported types are:
     * ``group``
+    * ``crew``: similar to ``group``, but interactions are reported to the 
+      :py:meth:`Animation2d.change`: method.
     * ``text``
     * ``line``
     * ``arrow``
@@ -64,13 +68,13 @@ class element():
     * ``polygon``
 
   During animation, attributes can be modified with the methods:
-    * :py:meth:`.element.rotate`: relative rotation
-    * *TO DO* :py:meth:`.element.translate`: relative translation
-    * *TO DO* s:py:meth:`.element.etOrientation`: Set absolute orientation
-    * :py:meth:`.element.setPosition`: Set absolute position
-    * *TO DO* :py:meth:`.element.setColors`: Set fill and stroke colors
-    * *TO DO* :py:meth:`.element.setFill`: Set fill color
-    * *TO DO* :py:meth:`.element.setStroke`: Set stroke color
+    * :py:meth:`element.rotate`: relative rotation
+    * *TO DO* :py:meth:`element.translate`: relative translation
+    * *TO DO* s:py:meth:`element.etOrientation`: Set absolute orientation
+    * :py:meth:`element.setPosition`: Set absolute position
+    * *TO DO* :py:meth:`element.setColors`: Set fill and stroke colors
+    * *TO DO* :py:meth:`element.setFill`: Set fill color
+    * *TO DO* :py:meth:`element.setStroke`: Set stroke color
 
   .. note:: The :py:meth:`element.convert` method is for internal use upon
     view initialization. It is normaly not called by a user.
@@ -150,10 +154,13 @@ class element():
         or ``polygon``). Can have any value among ``solid`` (default), ``dash``
         or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
 
+      clickable (bool): *TO DO*
+
       movable (bool): If True, the element will be draggable. (default: ``False``)
     """  
 
     # Common properties
+    self.name = None
     self.type = type
     self.view = None
     self.QitemRef = None
@@ -163,6 +170,7 @@ class element():
     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
     self.position = kwargs['position'] if 'position' in kwargs else [0,0]
     self.movable = kwargs['movable'] if 'movable' in kwargs else False
+    self.clickable = kwargs['clickable'] if 'clickable' in kwargs else False
     self.color = {}
 
     # Element-dependent properties
@@ -237,7 +245,7 @@ class element():
     # Stroke style
     self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
 
-  def convert(self, anim):
+  def convert(self, anim,  name):
     """
     Conversion to ``QGraphicsItem``
 
@@ -248,6 +256,7 @@ class element():
     """
 
     self.anim = anim
+    self.name = name
 
     # --- Definition
 
@@ -256,7 +265,11 @@ class element():
       case 'group':
 
         self.QitemRef = QGraphicsItemGroup()
-        
+
+      case 'crew':
+
+        self.QitemRef = Crew(self)
+          
       case 'text':
 
         self.QitemRef = QGraphicsTextItem()
@@ -341,6 +354,8 @@ class element():
 
     if self.movable:
       self.QitemRef.setFlag(QGraphicsItem.ItemIsMovable, True)
+      self.QitemRef.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
+      self.QitemRef.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
 
     # Rotation
     self.rotate(self.rotation)
@@ -472,7 +487,23 @@ class element():
 
     self.QitemRef.setPos((x-self.anim.sceneLimits['x'][0])*self.anim.factor,
       -(y-self.anim.sceneLimits['y'][0])*self.anim.factor)
-  
+
+class Crew(QGraphicsItemGroup):
+
+  def __init__(self, elm):
+
+    super().__init__()
+
+    self.elm = elm
+
+  def itemChange(self, change, value):
+    
+    match change:
+      case QGraphicsItem.ItemPositionHasChanged:
+        self.elm.anim.change('move', self.elm)
+
+    return super().itemChange(change, value)
+
 
 # === Animation ============================================================
 
@@ -615,7 +646,7 @@ class Animation2d():
 
     # Elements
     for k,elm in self.elm.items():
-      elm.convert(self)
+      elm.convert(self, k)
       if elm.parent is None:
         self.Qscene.addItem(elm.QitemRef)
 
@@ -647,6 +678,24 @@ class Animation2d():
     # Timer display
     if self.disp_time:
       self.timeDisp.setPlainText('{:06.02f} sec'.format(self.t))
+
+  def change(self, type, elm):
+    """
+    Notification of a change in a crew
+
+    This method is triggered whenever a crew element is changed.
+    It does nothing and has to be reimplemented in subclasses.
+
+    .. Note::
+      To catch motion the ``crew`` element has to be declared as
+      movable, which is not the default.
+
+    args:
+      type (str): Type of change (``move``).
+      elm (:class:`element`): the changed crew element.
+    """
+
+    pass
     
 # === WINDOW ===============================================================
 

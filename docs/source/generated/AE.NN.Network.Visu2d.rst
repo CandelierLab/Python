@@ -1,4 +1,4 @@
-AE.NN.Network.Visu2d
+﻿AE.NN.Network.Visu2d
 ====================
 
 .. currentmodule:: AE.NN.Network
@@ -17,6 +17,7 @@ AE.NN.Network.Visu2d
    .. autosummary::
    
       ~Visu2d.__init__
+      ~Visu2d.change
       ~Visu2d.init
       ~Visu2d.startAnimation
       ~Visu2d.update
