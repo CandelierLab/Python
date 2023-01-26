@@ -1,4 +1,4 @@
-AE.Display.Animation.Animation2d
+﻿AE.Display.Animation.Animation2d
 ================================
 
 .. currentmodule:: AE.Display.Animation
@@ -19,6 +19,7 @@ AE.Display.Animation.Animation2d
       ~Animation2d.__init__
       ~Animation2d.change
       ~Animation2d.init
+      ~Animation2d.scene2pos
       ~Animation2d.startAnimation
       ~Animation2d.update
    

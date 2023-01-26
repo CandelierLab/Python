@@ -19,6 +19,7 @@
       ~Visu2d.__init__
       ~Visu2d.change
       ~Visu2d.init
+      ~Visu2d.scene2pos
       ~Visu2d.startAnimation
       ~Visu2d.update
    

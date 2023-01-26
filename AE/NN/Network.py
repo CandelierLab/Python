@@ -278,6 +278,12 @@ class Visu2d(Animation.Animation2d):
     Drag callback
 
     Reimplements :py:meth:`AE.Display.Animation.Animation2d.change`.
+
+    args:
+
+      type (str): type of change (``move``).
+
+      elm (:class:`AE.Display.Animation.element`): Element that has changed.
     """
 
     # Moved node
@@ -301,5 +307,3 @@ class Visu2d(Animation.Animation2d):
         if edge['i']==k:        
           p2 = self.scene2pos(self.elm['node_{:d}'.format(edge['j'])].QitemRef.pos())
           self.elm[name].setPoints([pos, p2])
-
-

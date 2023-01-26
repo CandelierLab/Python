@@ -417,10 +417,13 @@ animation.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.init" title="AE.Display.Animation.Animation2d.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>()</p></td>
 <td><p>Animation initialization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.startAnimation" title="AE.Display.Animation.Animation2d.startAnimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAnimation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.scene2pos" title="AE.Display.Animation.Animation2d.scene2pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scene2pos</span></code></a>(sp)</p></td>
+<td><p>Convert back scene coordinates to position</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.startAnimation" title="AE.Display.Animation.Animation2d.startAnimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAnimation</span></code></a>()</p></td>
 <td><p>Start the animation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.update" title="AE.Display.Animation.Animation2d.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.Animation2d.update" title="AE.Display.Animation.Animation2d.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>()</p></td>
 <td><p>Update animation state</p></td>
 </tr>
 </tbody>
@@ -455,6 +458,23 @@ movable, which is not the default.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Height of the <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> widget.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.Animation2d.scene2pos">
+<span class="sig-name descname"><span class="pre">scene2pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Animation2d.scene2pos" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert back scene coordinates to position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenePos</strong> (<em>QPointF</em>) – Position in scene coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Position of the element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pos ((float, float))</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1,4 +1,4 @@
-AE.Display.Animation.element
+﻿AE.Display.Animation.element
 ============================
 
 .. currentmodule:: AE.Display.Animation
@@ -18,6 +18,7 @@ AE.Display.Animation.element
    
       ~element.__init__
       ~element.convert
+      ~element.convertPoints
       ~element.rotate
       ~element.setPoints
       ~element.setPosition

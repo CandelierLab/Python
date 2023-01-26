@@ -248,10 +248,13 @@ visualization.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.init" title="AE.NN.Network.Visu2d.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>()</p></td>
 <td><p>Animation initialization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.startAnimation" title="AE.NN.Network.Visu2d.startAnimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAnimation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.scene2pos" title="AE.NN.Network.Visu2d.scene2pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scene2pos</span></code></a>(sp)</p></td>
+<td><p>Convert back scene coordinates to position</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.startAnimation" title="AE.NN.Network.Visu2d.startAnimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAnimation</span></code></a>()</p></td>
 <td><p>Start the animation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.update" title="AE.NN.Network.Visu2d.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.NN.Network.Visu2d.update" title="AE.NN.Network.Visu2d.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>()</p></td>
 <td><p>Update animation state</p></td>
 </tr>
 </tbody>
@@ -261,8 +264,15 @@ visualization.</p></li>
 <dt class="sig sig-object py" id="AE.NN.Network.Visu2d.change">
 <span class="sig-name descname"><span class="pre">change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elm</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.Visu2d.change" title="Permalink to this definition">#</a></dt>
 <dd><p>Drag callback</p>
-<p>Reimplements the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.change" title="AE.Display.Animation.Animation2d.change"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AE.Display.Animation.Animation2d.change()</span></code></a>
-method of the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">AE.Display.Animation.Animation2d</span></code></a> class.</p>
+<p>Reimplements <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.change" title="AE.Display.Animation.Animation2d.change"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AE.Display.Animation.Animation2d.change()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<em>str</em>) – type of change (<code class="docutils literal notranslate"><span class="pre">move</span></code>).</p></li>
+<li><p><strong>elm</strong> (<a class="reference internal" href="AE.Display.Animation.element.html#AE.Display.Animation.element" title="AE.Display.Animation.element"><code class="xref py py-class docutils literal notranslate"><span class="pre">AE.Display.Animation.element</span></code></a>) – Element that has changed.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -273,6 +283,23 @@ method of the <a class="reference internal" href="AE.Display.Animation.Animation
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Height of the <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> widget.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.NN.Network.Visu2d.scene2pos">
+<span class="sig-name descname"><span class="pre">scene2pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.NN.Network.Visu2d.scene2pos" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert back scene coordinates to position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scenePos</strong> (<em>QPointF</em>) – Position in scene coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Position of the element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pos ((float, float))</p>
 </dd>
 </dl>
 </dd></dl>

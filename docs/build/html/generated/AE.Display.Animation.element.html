@@ -233,7 +233,7 @@ A <code class="docutils literal notranslate"><span class="pre">group</span></cod
 <dt>During animation, attributes can be modified with the methods:</dt><dd><ul class="simple">
 <li><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.rotate()</span></code></a>: relative rotation</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.translate()</span></code>: relative translation</p></li>
-<li><p><em>TO DO</em> s:py:meth:<cite>element.etOrientation</cite>: Set absolute orientation</p></li>
+<li><p><em>TO DO</em> s:py:meth:<cite>element.setOrientation</cite>: Set absolute orientation</p></li>
 <li><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setPosition()</span></code></a>: Set absolute position</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setColors()</span></code>: Set fill and stroke colors</p></li>
 <li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setFill()</span></code>: Set fill color</p></li>
@@ -334,16 +334,19 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convert" title="AE.Display.Animation.element.convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert</span></code></a>(anim, name)</p></td>
 <td><p>Conversion to <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
-<td><p>Relative rotation</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPoints" title="AE.Display.Animation.element.setPoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPoints</span></code></a>(points)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convertPoints" title="AE.Display.Animation.element.convertPoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convertPoints</span></code></a>(points)</p></td>
 <td><p>Element position and relative points positions</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosition</span></code></a>([x, y, z])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
+<td><p>Relative rotation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPoints" title="AE.Display.Animation.element.setPoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPoints</span></code></a>([points])</p></td>
+<td><p>Set the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosition</span></code></a>([x, y, z])</p></td>
 <td><p>Absolute positionning</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.strokePen" title="AE.Display.Animation.element.strokePen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strokePen</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.strokePen" title="AE.Display.Animation.element.strokePen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strokePen</span></code></a>()</p></td>
 <td><p>Define stroke pen for compatible items</p></td>
 </tr>
 </tbody>
@@ -368,6 +371,23 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.element.convertPoints">
+<span class="sig-name descname"><span class="pre">convertPoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.convertPoints" title="Permalink to this definition">#</a></dt>
+<dd><p>Element position and relative points positions</p>
+<p>For path-style elements (<code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> and <code class="docutils literal notranslate"><span class="pre">polygon</span></code>), it sets
+the element’s position to the first point’s absolute position in the
+scene (self.position) and the relative position of all the points
+(self.points). The first point in self.points is thus always [0,0].</p>
+<p>For internal use only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>points</strong> (<em>[</em><em>[</em><em>float</em><em>,</em><em>float</em><em>]</em><em>]</em>) – Positions of the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>,
+<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (absolute, scene units).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.element.rotate">
 <span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.rotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Relative rotation</p>
@@ -387,17 +407,15 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.element.setPoints">
-<span class="sig-name descname"><span class="pre">setPoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.setPoints" title="Permalink to this definition">#</a></dt>
-<dd><p>Element position and relative points positions</p>
-<p>For path-style elements (<code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> and <code class="docutils literal notranslate"><span class="pre">polygon</span></code>), it sets
-the element’s position to the first point’s absolute position in the
-scene (self.poistion) and the relative position of all the points
-(self.points). The first point in self.points is thus always [0,0].</p>
-<p>For internal use only.</p>
+<span class="sig-name descname"><span class="pre">setPoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.setPoints" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements</p>
+<p>Use this function to update the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code>
+or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>points</strong> (<em>[</em><em>[</em><em>float</em><em>,</em><em>float</em><em>]</em><em>]</em>) – Positions of the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>,
-<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (absolute, scene units).</p>
+<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (absolute, scene units). If
+set as <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) then <code class="docutils literal notranslate"><span class="pre">self.point</span></code> is used.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -406,7 +424,7 @@ scene (self.poistion) and the relative position of all the points
 <dt class="sig sig-object py" id="AE.Display.Animation.element.setPosition">
 <span class="sig-name descname"><span class="pre">setPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.setPosition" title="Permalink to this definition">#</a></dt>
 <dd><p>Absolute positionning</p>
-<p>Places the element to an absolute position.</p>
+<p>Places the element’s referenceitem to an absolute position.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="AE.Display.Animation.element.x">
 <span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#AE.Display.Animation.element.x" title="Permalink to this definition">#</a></dt>
