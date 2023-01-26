@@ -70,7 +70,7 @@ class element():
   During animation, attributes can be modified with the methods:
     * :py:meth:`element.rotate`: relative rotation
     * *TO DO* :py:meth:`element.translate`: relative translation
-    * *TO DO* s:py:meth:`element.etOrientation`: Set absolute orientation
+    * *TO DO* s:py:meth:`element.setOrientation`: Set absolute orientation
     * :py:meth:`element.setPosition`: Set absolute position
     * *TO DO* :py:meth:`element.setColors`: Set fill and stroke colors
     * *TO DO* :py:meth:`element.setFill`: Set fill color
@@ -188,19 +188,20 @@ class element():
       case 'line':
 
         if 'points' in kwargs:           
-          self.setPoints(kwargs['points'])
+          self.points = kwargs['points']
         else:
           raise AttributeError("The 'points' argument is necessary for a line element.")
-          
-        self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
 
+        self.color['fill'] = None  
+        self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
+        
       case 'arrow':
 
         # Items of the arrow group
         self.Qitems = []
 
         if 'points' in kwargs:           
-          self.setPoints(kwargs['points'])
+          self.points = kwargs['points']
         else:
           raise AttributeError("The 'points' argument is necessary for an arrow element.")
           
@@ -224,7 +225,7 @@ class element():
       case 'polygon':
         
         if 'points' in kwargs:           
-          self.setPoints(kwargs['points'])
+          self.points = kwargs['points']
         else:
           raise AttributeError("The 'points' argument is necessary for a polygon element.")
 
@@ -284,22 +285,17 @@ class element():
 
       case 'line':
 
-        self.QitemRef = QGraphicsLineItem(0,0,
-          self.points[1][0]*anim.factor,
-          -self.points[1][1]*anim.factor)
+        self.QitemRef = QGraphicsLineItem()
+        self.setPoints()
 
       case 'arrow':
 
         self.QitemRef = QGraphicsItemGroup()
 
-        z = self.points[1][0] + 1j*self.points[1][1]
-        self.rotation += np.angle(z)
-
         # Arrow line
-        self.Qitems.append(QGraphicsLineItem(0,0,np.abs(z)*anim.factor,0))
+        self.Qitems.append(QGraphicsLineItem(0,0,0,0))
 
         # Arrowhead
-
         match self.arrow['shape']:
 
           case 'dart':
@@ -317,7 +313,7 @@ class element():
               self.arrow['size']*anim.factor,
               -self.arrow['size']*anim.factor))
 
-        self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*anim.factor,0)
+        self.setPoints()
         
       case 'circle':
 
@@ -329,12 +325,9 @@ class element():
         
       case 'polygon':
 
-        poly = []
-        for p in self.points:
-          poly.append(QPointF(p[0]*anim.factor, -p[1]*anim.factor))
+        self.QitemRef = QGraphicsPolygonItem(QPolygonF([]))
+        self.setPoints()
 
-        self.QitemRef = QGraphicsPolygonItem(QPolygonF(poly))
-        
       case 'rectangle':
 
         self.QitemRef = QGraphicsRectItem(0,0,
@@ -358,7 +351,8 @@ class element():
       self.QitemRef.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
 
     # Rotation
-    self.rotate(self.rotation)
+    if self.type not in ['arrow']:
+      self.rotate(self.rotation)
 
     # --- Parent
 
@@ -405,13 +399,13 @@ class element():
         self.Qitems[1].setPen(strokePen)
         self.Qitems[1].setBrush(QBrush(QColor(self.color['stroke'])))
 
-  def setPoints(self, points):
+  def convertPoints(self, points):
     """
     Element position and relative points positions 
     
     For path-style elements (``line``, ``arrow`` and ``polygon``), it sets
     the element's position to the first point's absolute position in the 
-    scene (self.poistion) and the relative position of all the points 
+    scene (self.position) and the relative position of all the points 
     (self.points). The first point in self.points is thus always [0,0].
 
     For internal use only.
@@ -471,7 +465,7 @@ class element():
     """
     Absolute positionning
 
-    Places the element to an absolute position.
+    Places the element's referenceitem to an absolute position.
     
     Attributes:
       x (float): :math:`x`-coordinate of the new position
@@ -487,6 +481,63 @@ class element():
 
     self.QitemRef.setPos((x-self.anim.sceneLimits['x'][0])*self.anim.factor,
       -(y-self.anim.sceneLimits['y'][0])*self.anim.factor)
+
+  def setPoints(self, points=None):
+    """
+    Set the points of ``line``, ``arrow`` or ``polygon`` elements
+
+    Use this function to update the points of ``line``, ``arrow`` 
+    or ``polygon`` elements.
+
+    args:
+      points ([[float,float]]): Positions of the points of ``line``, 
+        ``arrow`` or ``polygon`` elements (absolute, scene units). If 
+        set as ``None`` (default) then ``self.point`` is used.
+    """
+
+    if points is None:
+      points = self.points
+
+    self.position = [points[0][0], points[0][1]]
+    self.points = [[p[0]-self.position[0], p[1]-self.position[1]] for p in points]
+
+    match self.type:
+
+      case 'line':
+
+        self.QitemRef = QGraphicsLineItem(0,0,
+          self.points[1][0]*self.anim.factor,
+          -self.points[1][1]*self.anim.factor)
+
+      case 'arrow':
+
+        # Remove previous rotation
+        self.QitemRef.setRotation(self.rotation*180/np.pi)
+
+        z = self.points[1][0] + 1j*self.points[1][1]
+        
+        # Group
+        self.QitemRef.setPos(self.position[0]*self.anim.factor, 
+          -self.position[1]*self.anim.factor)
+
+        # Arrow line
+        self.Qitems[0].setLine(0,0,np.abs(z)*self.anim.factor, 0)
+
+        # Arrow head
+        self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*self.anim.factor,0)
+
+        # Rotation
+        self.rotation = np.angle(z)
+        self.QitemRef.setRotation(-self.rotation*180/np.pi)
+
+      case 'polygon':
+        
+        poly = []
+        for p in self.points:
+          poly.append(QPointF(p[0]*self.anim.factor, -p[1]*self.anim.factor))
+
+        self.QitemRef.setPolygon(QPolygonF(poly))
+
 
 class Crew(QGraphicsItemGroup):
 
@@ -649,6 +700,18 @@ class Animation2d():
       elm.convert(self, k)
       if elm.parent is None:
         self.Qscene.addItem(elm.QitemRef)
+
+  def scene2pos(self, sp):
+    """
+    Convert back scene coordinates to position
+
+    args:
+      scenePos (*QPointF*): Position in scene coordinates.
+
+    returns:
+      pos ((float, float)): Position of the element.
+    """
+    return (sp.x()/self.factor, -sp.y()/self.factor)
 
   def startAnimation(self):
     """

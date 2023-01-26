@@ -24,4 +24,10 @@ anim.elm['T'] = Animation.element('text',
   fontsize = 10
 )
 
+anim.elm['L'] = Animation.element('polygon',
+  points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
+  colors = ['green','red'],
+  movable = True
+)
+
 anim.window.show()

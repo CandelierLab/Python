@@ -277,7 +277,29 @@ class Visu2d(Animation.Animation2d):
     """
     Drag callback
 
-    Reimplements the :meth:`AE.Display.Animation.Animation2d.change` 
-    method of the :class:`AE.Display.Animation.Animation2d` class.
+    Reimplements :py:meth:`AE.Display.Animation.Animation2d.change`.
     """
-    print(type, elm.name)
+
+    # Moved node
+    k = int(elm.name[5:])
+
+    # Get new position
+    pos = self.scene2pos(elm.QitemRef.pos())
+  
+    # Edges
+    for edge in self.Net.edge:
+
+        # Name
+        name = str(edge['i']) + '→' +  str(edge['j'])
+
+        # Afferent nodes
+        if edge['j']==k:        
+          p1 = self.scene2pos(self.elm['node_{:d}'.format(edge['i'])].QitemRef.pos())
+          self.elm[name].setPoints([p1, pos])
+
+        # Efferent nodes
+        if edge['i']==k:        
+          p2 = self.scene2pos(self.elm['node_{:d}'.format(edge['j'])].QitemRef.pos())
+          self.elm[name].setPoints([pos, p2])
+
+

@@ -14,9 +14,8 @@ for i in range(15):
 Net.show()
 
 # --- TO DO
-
-# Draggable nodes
 # Add weights as text
+# Move arrows and text ?
 # Self-links
 # Save as image
 # Save/load Network, with positions
