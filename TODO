@@ -1,0 +1,16 @@
+'''
+Animation
+  Subclass all element types
+  Selection
+  Pop-ups
+  Save as image
+
+Visu2d:
+  Edge class (add text)
+  Self-edge class ?
+
+ANN:
+  Activation
+  Animation: colormap for values
+  Save/load Network, with positions
+'''

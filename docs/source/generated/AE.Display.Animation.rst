@@ -20,9 +20,9 @@
       :template: class-template.rst
    
       Animation2d
-      Crew
       Window
-      element
+      ellipse
+      item
    
    
 

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.Display.Animation.Animation2d" href="AE.Display.Animation.Animation2d.html" /><link rel="prev" title="API" href="../api.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.NN.Network" href="AE.NN.Network.html" /><link rel="prev" title="AE.Display.Animation.ellipse" href="AE.Display.Animation.ellipse.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
-        <title>AE.Display.Animation - AE Toolbox 0.1 documentation</title>
+        <title>AE.Display.Animation.item - AE Toolbox 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -157,11 +157,11 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.ellipse.html">AE.Display.Animation.ellipse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.item.html">AE.Display.Animation.item</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.item</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -199,59 +199,77 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-AE.Display.Animation">
-<span id="ae-display-animation"></span><h1>AE.Display.Animation<a class="headerlink" href="#module-AE.Display.Animation" title="Permalink to this heading">#</a></h1>
-<p>Simple tools for displaying 2D animations</p>
-<section id="animation2d">
-<h2>Animation2d<a class="headerlink" href="#animation2d" title="Permalink to this heading">#</a></h2>
-<p>The <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a> wraps a  <code class="docutils literal notranslate"><span class="pre">QGraphicsView</span></code> and <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code>
-as well as all necessary tools for display (scene limits, antialiasing, etc.)
-Groups of elements can be formed for easier manipulation, and user interaction
-is possible (drag, click, etc.). It contains a timer triggering the
-<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.update" title="AE.Display.Animation.Animation2d.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.update()</span></code></a> method at a regular pace. In subclasses, this
-allows to change elements’ positions or features (color, size, etc.) to create
-animations.</p>
-</section>
-<section id="items">
-<h2>Items<a class="headerlink" href="#items" title="Permalink to this heading">#</a></h2>
-<p>The items are the elements displayed in the scene (<em>e.g.</em> circles, lines, …).
-They derive both from the generic class <a class="reference internal" href="AE.Display.Animation.item.html#AE.Display.Animation.item" title="AE.Display.Animation.item"><code class="xref py py-class docutils literal notranslate"><span class="pre">item</span></code></a> and from their corresponding
-<code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code>. They are incorporaeted in the animation <em>via</em>
-<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.add" title="AE.Display.Animation.Animation2d.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.add()</span></code></a>.</p>
-</section>
-<section id="simple-animation-window">
-<h2>Simple animation window<a class="headerlink" href="#simple-animation-window" title="Permalink to this heading">#</a></h2>
-<p>The <a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a> class creates a simple window containing the
-<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.Qview" title="AE.Display.Animation.Animation2d.Qview"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.Qview()</span></code></a> widget. It manages the <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>, size
-on screen, shortcuts and timer trig. If an <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a> object is
-created without parent (<code class="docutils literal notranslate"><span class="pre">QWidget</span></code> or <a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a>), the default
-<a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-class docutils literal notranslate"><span class="pre">Window</span></code></a> is automatically created.</p>
-<p class="rubric">Classes</p>
+          <section id="ae-display-animation-item">
+<h1>AE.Display.Animation.item<a class="headerlink" href="#ae-display-animation-item" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="AE.Display.Animation.item">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Item of the animation (generic class)</p>
+<p>Items are the elements displayed in the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.Qscene" title="AE.Display.Animation.Animation2d.Qscene"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Animation2d.Qscene</span></code></a>.
+This class provides a common constructor, conversions of positions
+to scene coordinates and styling of <code class="docutils literal notranslate"><span class="pre">QAbstractGraphicsShapeItem</span></code>
+children.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Generic item constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>animation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Animaton2d</span></code>) – The animation container.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of the item. It should be unique, as it is used as an
+identifier in the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.item" title="AE.Display.Animation.Animation2d.item"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Animation2d.item</span></code></a> dict.</p></li>
+<li><p><strong>parent</strong> (<em>QGraphicsItem</em>) – The parent <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code>.</p></li>
+<li><p><strong>zvalue</strong> (<em>float</em>) – Z-value (stack order).</p></li>
+<li><p><strong>position</strong> (<em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Position of the item. See each item’s
+documentation for a description.</p></li>
+<li><p><strong>movable</strong> (<em>bool</em>) – If True, the element will be draggable. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+<li><p><strong>clickable</strong> (<em>bool</em>) – <em>TO DO</em></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Animation2d</span></code></a>([parent, size, sceneLimits, ...])</p></td>
-<td><p>2D Animation</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.__init__" title="AE.Display.Animation.item.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(animation, name, **kwargs)</p></td>
+<td><p>Generic item constructor</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="AE.Display.Animation.Window.html#AE.Display.Animation.Window" title="AE.Display.Animation.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window</span></code></a>([title, animation])</p></td>
-<td><p>Animation-specific window</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">a2scene</span></code>(a)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="AE.Display.Animation.ellipse.html#AE.Display.Animation.ellipse" title="AE.Display.Animation.ellipse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ellipse</span></code></a>(animation, name, **kwargs)</p></td>
-<td><p>Ellipse item</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">d2scene</span></code>(x)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="AE.Display.Animation.item.html#AE.Display.Animation.item" title="AE.Display.Animation.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>(animation, name, **kwargs)</p></td>
-<td><p>Item of the animation (generic class)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemChange</span></code>(change, value)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code>(x)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code>(xy)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code>(y)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
+</dd></dl>
+
 </section>
 
         </article>
@@ -259,23 +277,23 @@ created without parent (<code class="docutils literal notranslate"><span class="
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="AE.Display.Animation.Animation2d.html">
+          <a class="next-page" href="AE.NN.Network.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">AE.Display.Animation.Animation2d</div>
+                <div class="title">AE.NN.Network</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../api.html">
+          <a class="prev-page" href="AE.Display.Animation.ellipse.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">API</div>
+                <div class="title">AE.Display.Animation.ellipse</div>
                 
               </div>
             </a>
@@ -297,29 +315,8 @@ created without parent (<code class="docutils literal notranslate"><span class="
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">AE.Display.Animation</a><ul>
-<li><a class="reference internal" href="#animation2d">Animation2d</a></li>
-<li><a class="reference internal" href="#items">Items</a></li>
-<li><a class="reference internal" href="#simple-animation-window">Simple animation window</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

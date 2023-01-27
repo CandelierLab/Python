@@ -12,13 +12,3 @@ for i in range(15):
   Net.add_edge(np.random.randint(N), np.random.randint(N))
 
 Net.show()
-
-# --- TO DO
-# Add weights as text
-# Move arrows and text ?
-# Self-links
-# Save as image
-# Save/load Network, with positions
-
-# Activation
-# Animation: colormap for values

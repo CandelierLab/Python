@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.Display.Animation.element" href="AE.Display.Animation.element.html" /><link rel="prev" title="AE.Display.Animation.Crew" href="AE.Display.Animation.Crew.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.Display.Animation.ellipse" href="AE.Display.Animation.ellipse.html" /><link rel="prev" title="AE.Display.Animation.Animation2d" href="AE.Display.Animation.Animation2d.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>AE.Display.Animation.Window - AE Toolbox 0.1 documentation</title>
@@ -159,9 +159,9 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Crew.html">AE.Display.Animation.Crew</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.Window</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.element.html">AE.Display.Animation.element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.ellipse.html">AE.Display.Animation.ellipse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.item.html">AE.Display.Animation.item</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -209,7 +209,7 @@
 <h1>AE.Display.Animation.Window<a class="headerlink" href="#ae-display-animation-window" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="AE.Display.Animation.Window">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">Window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Animation'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Window" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">Window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Animation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Window" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Animation-specific window</p>
 <p>Creates a new window containing an animation.</p>
@@ -248,7 +248,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.Window.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Animation'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Window.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Animation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.Window.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Window constructor</p>
 <p>Defines the <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>, window title and animation to display.</p>
 <dl class="field-list simple">
@@ -262,7 +262,7 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Window.__init__" title="AE.Display.Animation.Window.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([title])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.Window.__init__" title="AE.Display.Animation.Window.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([title, animation])</p></td>
 <td><p>Window constructor</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code>()</p></td>
@@ -297,23 +297,23 @@ height of the window.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="AE.Display.Animation.element.html">
+          <a class="next-page" href="AE.Display.Animation.ellipse.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">AE.Display.Animation.element</div>
+                <div class="title">AE.Display.Animation.ellipse</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="AE.Display.Animation.Crew.html">
+          <a class="prev-page" href="AE.Display.Animation.Animation2d.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">AE.Display.Animation.Crew</div>
+                <div class="title">AE.Display.Animation.Animation2d</div>
                 
               </div>
             </a>

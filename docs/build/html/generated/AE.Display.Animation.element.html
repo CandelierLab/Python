@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.NN.Network" href="AE.NN.Network.html" /><link rel="prev" title="AE.Display.Animation.Window" href="AE.Display.Animation.Window.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>AE.Display.Animation.element - AE Toolbox 0.1 documentation</title>
@@ -155,13 +155,13 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../api.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="AE.Display.Animation.html">AE.Display.Animation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
-<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Crew.html">AE.Display.Animation.Crew</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.ellipse.html">AE.Display.Animation.ellipse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.item.html">AE.Display.Animation.item</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -207,275 +207,6 @@
         <article role="main">
           <section id="ae-display-animation-element">
 <h1>AE.Display.Animation.element<a class="headerlink" href="#ae-display-animation-element" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="AE.Display.Animation.element">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AE.Display.Animation.</span></span><span class="sig-name descname"><span class="pre">element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Elements of the animation</p>
-<p>Elements are the items displayed in the <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code> of the <a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a>.
-A <code class="docutils literal notranslate"><span class="pre">group</span></code> element groups other elements for easier manipulation. Some elements like
-<code class="docutils literal notranslate"><span class="pre">arrow</span></code> are groups of items.</p>
-<dl class="simple">
-<dt>Supported types are:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">crew</span></code>: similar to <code class="docutils literal notranslate"><span class="pre">group</span></code>, but interactions are reported to the
-<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d.change" title="AE.Display.Animation.Animation2d.change"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Animation2d.change()</span></code></a>: method.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">text</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">line</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">arrow</span></code></p></li>
-<li><p><em>TO DO</em>: <code class="docutils literal notranslate"><span class="pre">path</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">circle</span></code></p></li>
-<li><p><em>TO DO</em>: <code class="docutils literal notranslate"><span class="pre">ellipse</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rectangle</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">polygon</span></code></p></li>
-</ul>
-</dd>
-<dt>During animation, attributes can be modified with the methods:</dt><dd><ul class="simple">
-<li><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.rotate()</span></code></a>: relative rotation</p></li>
-<li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.translate()</span></code>: relative translation</p></li>
-<li><p><em>TO DO</em> s:py:meth:<cite>element.setOrientation</cite>: Set absolute orientation</p></li>
-<li><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setPosition()</span></code></a>: Set absolute position</p></li>
-<li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setColors()</span></code>: Set fill and stroke colors</p></li>
-<li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setFill()</span></code>: Set fill color</p></li>
-<li><p><em>TO DO</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">element.setStroke()</span></code>: Set stroke color</p></li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <a class="reference internal" href="#AE.Display.Animation.element.convert" title="AE.Display.Animation.element.convert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">element.convert()</span></code></a> method is for internal use upon
-view initialization. It is normaly not called by a user.</p>
-</div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.elm">
-<span class="sig-name descname"><span class="pre">elm</span></span><a class="headerlink" href="#AE.Display.Animation.element.elm" title="Permalink to this definition">#</a></dt>
-<dd><p>All elements in the scene</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>{<a class="reference internal" href="#AE.Display.Animation.element" title="AE.Display.Animation.element"><code class="xref py py-class docutils literal notranslate"><span class="pre">element</span></code></a>}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.Qitem">
-<span class="sig-name descname"><span class="pre">Qitem</span></span><a class="headerlink" href="#AE.Display.Animation.element.Qitem" title="Permalink to this definition">#</a></dt>
-<dd><p>The underlying <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code> belonging to
-the <code class="docutils literal notranslate"><span class="pre">QGraphicsScene</span></code> of the view.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>QGraphicsItem</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Element constructor</p>
-<p>An element should be fully determined upon definition, so the constructor has many options
-for the different types of elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>type</strong> (<em>str</em>) – Type of element, among <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">line</span></code>,
-<code class="docutils literal notranslate"><span class="pre">circle</span></code>, <code class="docutils literal notranslate"><span class="pre">polygon</span></code> or <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>.</p></li>
-<li><p><strong>parent</strong> (<em>QGraphicsItem</em>) – The parent <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p></li>
-<li><p><strong>belowParent</strong> (<em>bool</em>) – Determine if the element should be placed above
-the parent (<code class="docutils literal notranslate"><span class="pre">False</span></code>, default) or below (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p></li>
-<li><p><strong>zvalue</strong> (<em>float</em>) – Z-value of the element in the stack.</p></li>
-<li><p><strong>rotation</strong> (<em>float</em>) – Rotation of the element (rad)</p></li>
-<li><p><strong>position</strong> (<em>[</em><em>float</em><em>,</em><em>float</em><em>]</em>) – Position of the <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>,
-<code class="docutils literal notranslate"><span class="pre">circle</span></code>, and <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> elements (scene units).</p></li>
-<li><p><strong>points</strong> (<em>[</em><em>[</em><em>float</em><em>,</em><em>float</em><em>]</em><em>]</em>) – Positions of the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>,
-<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (scene units).</p></li>
-<li><p><strong>radius</strong> (<em>float</em>) – Radius of the circle (for <code class="docutils literal notranslate"><span class="pre">circle</span></code> only).</p></li>
-<li><p><strong>width</strong> (<em>float</em>) – Width of the <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>.</p></li>
-<li><p><strong>height</strong> (<em>float</em>) – Height of the <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>.</p></li>
-<li><p><strong>thickness</strong> (<em>float</em>) – Stroke thickness (pix). For <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">circle</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements. (Default: 0)</p></li>
-<li><p><strong>locus</strong> (<em>float</em>) – Position of the tip of arrowhead on the normalized
-curvilinear coordinates of the <code class="docutils literal notranslate"><span class="pre">arrow</span></code> element. This value should
-be between 0 and 1 (default: 1).</p></li>
-<li><p><strong>shape</strong> (<em>str</em>) – Shape of the arrowhead of <code class="docutils literal notranslate"><span class="pre">arrow</span></code> elements. Can be
-<code class="docutils literal notranslate"><span class="pre">dart</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">disk</span></code>.</p></li>
-<li><p><strong>size</strong> (<em>float</em>) – Size of the arrowhead of <code class="docutils literal notranslate"><span class="pre">arrow</span></code> elements, in scene
-units. (default: 0.02)</p></li>
-<li><p><strong>string</strong> (<em>str</em>) – String of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element. Rich HTML text is supported.</p></li>
-<li><p><strong>fontname</strong> (<em>str</em>) – Font of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element. Default: <code class="docutils literal notranslate"><span class="pre">Arial</span></code></p></li>
-<li><p><strong>fontsize</strong> (<em>int</em>) – Default font size of a <code class="docutils literal notranslate"><span class="pre">text</span></code> element, corresponding to
-the pointSize property of <code class="docutils literal notranslate"><span class="pre">QFont</span></code>. Default value: 10</p></li>
-<li><p><strong>center</strong> (<em>(</em><em>bool</em><em>,</em><em>bool</em><em>)</em>) – Center a <code class="docutils literal notranslate"><span class="pre">text</span></code> element horizontally and/or
-vertically. Default is (<code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>color</strong> (<em>color</em>) – Color for <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">line</span></code> or <code class="docutils literal notranslate"><span class="pre">arrow</span></code> elements.
-Colors can be whatever input of <code class="docutils literal notranslate"><span class="pre">QColor</span></code> (<em>e.g</em>: <code class="docutils literal notranslate"><span class="pre">darkCyan</span></code>, <code class="docutils literal notranslate"><span class="pre">#ff112233</span></code> or
-(255, 0, 0, 127)).</p></li>
-<li><p><strong>colors</strong> ([<em>color</em>, <em>color</em>]) – Fill and stroke colors for <code class="docutils literal notranslate"><span class="pre">circle</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements.  Colors can be
-whatever input of <code class="docutils literal notranslate"><span class="pre">QColor</span></code> (<em>e.g</em>: <code class="docutils literal notranslate"><span class="pre">darkCyan</span></code>, <code class="docutils literal notranslate"><span class="pre">#ff112233</span></code> or
-(255, 0, 0, 127))</p></li>
-<li><p><strong>linestyle</strong> (<em>str</em>) – Stroke style (for <code class="docutils literal notranslate"><span class="pre">circle</span></code>, <code class="docutils literal notranslate"><span class="pre">ellipse</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>
-or <code class="docutils literal notranslate"><span class="pre">polygon</span></code>). Can have any value among <code class="docutils literal notranslate"><span class="pre">solid</span></code> (default), <code class="docutils literal notranslate"><span class="pre">dash</span></code>
-or <code class="docutils literal notranslate"><span class="pre">--</span></code>, <code class="docutils literal notranslate"><span class="pre">dot</span></code> or <code class="docutils literal notranslate"><span class="pre">..</span></code> or <code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">dashdot</span></code> or <code class="docutils literal notranslate"><span class="pre">-.</span></code>.</p></li>
-<li><p><strong>clickable</strong> (<em>bool</em>) – <em>TO DO</em></p></li>
-<li><p><strong>movable</strong> (<em>bool</em>) – If True, the element will be draggable. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Methods</p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.__init__" title="AE.Display.Animation.element.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(type, **kwargs)</p></td>
-<td><p>Element constructor</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convert" title="AE.Display.Animation.element.convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert</span></code></a>(anim, name)</p></td>
-<td><p>Conversion to <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.convertPoints" title="AE.Display.Animation.element.convertPoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convertPoints</span></code></a>(points)</p></td>
-<td><p>Element position and relative points positions</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.rotate" title="AE.Display.Animation.element.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
-<td><p>Relative rotation</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPoints" title="AE.Display.Animation.element.setPoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPoints</span></code></a>([points])</p></td>
-<td><p>Set the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.element.setPosition" title="AE.Display.Animation.element.setPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosition</span></code></a>([x, y, z])</p></td>
-<td><p>Absolute positionning</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.element.strokePen" title="AE.Display.Animation.element.strokePen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strokePen</span></code></a>()</p></td>
-<td><p>Define stroke pen for compatible items</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.convert">
-<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.convert" title="Permalink to this definition">#</a></dt>
-<dd><p>Conversion to <code class="docutils literal notranslate"><span class="pre">QGraphicsItem</span></code></p>
-<p>For internal use only.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.anim">
-<span class="sig-name descname"><span class="pre">anim</span></span><a class="headerlink" href="#AE.Display.Animation.element.anim" title="Permalink to this definition">#</a></dt>
-<dd><p>Animation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.convertPoints">
-<span class="sig-name descname"><span class="pre">convertPoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.convertPoints" title="Permalink to this definition">#</a></dt>
-<dd><p>Element position and relative points positions</p>
-<p>For path-style elements (<code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> and <code class="docutils literal notranslate"><span class="pre">polygon</span></code>), it sets
-the element’s position to the first point’s absolute position in the
-scene (self.position) and the relative position of all the points
-(self.points). The first point in self.points is thus always [0,0].</p>
-<p>For internal use only.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>points</strong> (<em>[</em><em>[</em><em>float</em><em>,</em><em>float</em><em>]</em><em>]</em>) – Positions of the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>,
-<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (absolute, scene units).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.rotate">
-<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.rotate" title="Permalink to this definition">#</a></dt>
-<dd><p>Relative rotation</p>
-<p>Rotates the element relatively to its current orientation.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.angle">
-<span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#AE.Display.Animation.element.angle" title="Permalink to this definition">#</a></dt>
-<dd><p>Orientational increment (rad)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.setPoints">
-<span class="sig-name descname"><span class="pre">setPoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.setPoints" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements</p>
-<p>Use this function to update the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>, <code class="docutils literal notranslate"><span class="pre">arrow</span></code>
-or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>points</strong> (<em>[</em><em>[</em><em>float</em><em>,</em><em>float</em><em>]</em><em>]</em>) – Positions of the points of <code class="docutils literal notranslate"><span class="pre">line</span></code>,
-<code class="docutils literal notranslate"><span class="pre">arrow</span></code> or <code class="docutils literal notranslate"><span class="pre">polygon</span></code> elements (absolute, scene units). If
-set as <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) then <code class="docutils literal notranslate"><span class="pre">self.point</span></code> is used.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.setPosition">
-<span class="sig-name descname"><span class="pre">setPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.setPosition" title="Permalink to this definition">#</a></dt>
-<dd><p>Absolute positionning</p>
-<p>Places the element’s referenceitem to an absolute position.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.x">
-<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#AE.Display.Animation.element.x" title="Permalink to this definition">#</a></dt>
-<dd><p><span class="math notranslate nohighlight">\(x\)</span>-coordinate of the new position</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.y">
-<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#AE.Display.Animation.element.y" title="Permalink to this definition">#</a></dt>
-<dd><p><span class="math notranslate nohighlight">\(y\)</span>-coordinate of the new position</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.z">
-<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#AE.Display.Animation.element.z" title="Permalink to this definition">#</a></dt>
-<dd><p>A complex number <span class="math notranslate nohighlight">\(z = x+jy\)</span>. Specifying <code class="docutils literal notranslate"><span class="pre">z</span></code>
-overrides the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> arguments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="AE.Display.Animation.element.strokePen">
-<span class="sig-name descname"><span class="pre">strokePen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.element.strokePen" title="Permalink to this definition">#</a></dt>
-<dd><p>Define stroke pen for compatible items</p>
-<p>For internal use only.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A QPen defining the stroke style and color of the item based on the
-self.linestyle and self.color properties.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
         </article>
@@ -483,26 +214,8 @@ self.linestyle and self.color properties.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="AE.NN.Network.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">AE.NN.Network</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="AE.Display.Animation.Window.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">AE.Display.Animation.Window</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -533,6 +246,5 @@ self.linestyle and self.color properties.</p>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>
