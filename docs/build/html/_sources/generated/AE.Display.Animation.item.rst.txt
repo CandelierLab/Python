@@ -20,6 +20,11 @@ AE.Display.Animation.item
       ~item.a2scene
       ~item.d2scene
       ~item.itemChange
+      ~item.move
+      ~item.orientate
+      ~item.place
+      ~item.rotate
+      ~item.setParent
       ~item.setStyle
       ~item.x2scene
       ~item.xy2scene

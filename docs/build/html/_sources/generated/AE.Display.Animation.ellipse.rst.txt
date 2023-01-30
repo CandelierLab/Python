@@ -102,9 +102,11 @@ AE.Display.Animation.ellipse
       ~ellipse.mouseMoveEvent
       ~ellipse.mousePressEvent
       ~ellipse.mouseReleaseEvent
+      ~ellipse.move
       ~ellipse.moveBy
       ~ellipse.opacity
       ~ellipse.opaqueArea
+      ~ellipse.orientate
       ~ellipse.paint
       ~ellipse.panel
       ~ellipse.panelModality
@@ -112,11 +114,13 @@ AE.Display.Animation.ellipse
       ~ellipse.parentObject
       ~ellipse.parentWidget
       ~ellipse.pen
+      ~ellipse.place
       ~ellipse.pos
       ~ellipse.prepareGeometryChange
       ~ellipse.rect
       ~ellipse.removeSceneEventFilter
       ~ellipse.resetTransform
+      ~ellipse.rotate
       ~ellipse.rotation
       ~ellipse.scale
       ~ellipse.scene
@@ -148,6 +152,7 @@ AE.Display.Animation.ellipse
       ~ellipse.setInputMethodHints
       ~ellipse.setOpacity
       ~ellipse.setPanelModality
+      ~ellipse.setParent
       ~ellipse.setParentItem
       ~ellipse.setPen
       ~ellipse.setPos

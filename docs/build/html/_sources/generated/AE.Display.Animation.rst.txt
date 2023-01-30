@@ -22,6 +22,7 @@
       Animation2d
       Window
       ellipse
+      group
       item
    
    

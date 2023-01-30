@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.NN.Network" href="AE.NN.Network.html" /><link rel="prev" title="AE.Display.Animation.ellipse" href="AE.Display.Animation.ellipse.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AE.NN.Network" href="AE.NN.Network.html" /><link rel="prev" title="AE.Display.Animation.group" href="AE.Display.Animation.group.html" />
 
     <!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>AE.Display.Animation.item - AE Toolbox 0.1 documentation</title>
@@ -161,6 +161,7 @@
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Animation2d.html">AE.Display.Animation.Animation2d</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.Window.html">AE.Display.Animation.Window</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.ellipse.html">AE.Display.Animation.ellipse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.group.html">AE.Display.Animation.group</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.item</a></li>
 </ul>
 </li>
@@ -216,6 +217,17 @@
 This class provides a common constructor, conversions of positions
 to scene coordinates and styling of <code class="docutils literal notranslate"><span class="pre">QAbstractGraphicsShapeItem</span></code>
 children.</p>
+<p>Attr:</p>
+<blockquote>
+<div><p>animation (<a class="reference internal" href="AE.Display.Animation.Animation2d.html#AE.Display.Animation.Animation2d" title="AE.Display.Animation.Animation2d"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animation2d</span></code></a>): Parent animation.</p>
+<p>name (str): Unique identifier of the item.</p>
+<p>parent (<a class="reference internal" href="#AE.Display.Animation.item" title="AE.Display.Animation.item"><code class="xref py py-class docutils literal notranslate"><span class="pre">item</span></code></a> <em>subclass</em>): Parent item, if any.</p>
+<dl class="simple">
+<dt>position ([float, float]): Position of the item. See each subclass for</dt><dd><p>details.</p>
+</dd>
+</dl>
+<p>zvalue (float): Z-value (stack order).</p>
+</div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.item.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.__init__" title="Permalink to this definition">#</a></dt>
@@ -244,30 +256,275 @@ documentation for a description.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.__init__" title="AE.Display.Animation.item.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(animation, name, **kwargs)</p></td>
 <td><p>Generic item constructor</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">a2scene</span></code>(a)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.a2scene" title="AE.Display.Animation.item.a2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">a2scene</span></code></a>(a)</p></td>
+<td><p>Convert an angle in scene coordinates (radian to degrees)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">d2scene</span></code>(x)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.d2scene" title="AE.Display.Animation.item.d2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">d2scene</span></code></a>(d)</p></td>
+<td><p>Convert a distance in scene coordinates</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemChange</span></code>(change, value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.itemChange" title="AE.Display.Animation.item.itemChange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemChange</span></code></a>(change, value)</p></td>
+<td><p>Item change notification</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.move" title="AE.Display.Animation.item.move"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move</span></code></a>([dx, dy, z])</p></td>
+<td><p>Relative displacement</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code>(x)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.orientate" title="AE.Display.Animation.item.orientate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orientate</span></code></a>(angle)</p></td>
+<td><p>Absolute orientation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code>(xy)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.place" title="AE.Display.Animation.item.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>([x, y, z])</p></td>
+<td><p>Absolute positionning</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code>(y)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.rotate" title="AE.Display.Animation.item.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
+<td><p>Relative rotation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setParent" title="AE.Display.Animation.item.setParent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParent</span></code></a>(pName)</p></td>
+<td><p>Set a new parent</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setStyle" title="AE.Display.Animation.item.setStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code></a>()</p></td>
+<td><p>Item styling</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.x2scene" title="AE.Display.Animation.item.x2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code></a>(x)</p></td>
+<td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> position in scene coordinates</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.xy2scene" title="AE.Display.Animation.item.xy2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code></a>(xy)</p></td>
+<td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions in scene coordinates</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.y2scene" title="AE.Display.Animation.item.y2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code></a>(y)</p></td>
+<td><p>Convert the <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.a2scene">
+<span class="sig-name descname"><span class="pre">a2scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.a2scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert an angle in scene coordinates (radian to degrees)</p>
+<dl class="simple">
+<dt>arg:</dt><dd><p>a (float): Angle to convert.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angle in degrees.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.d2scene">
+<span class="sig-name descname"><span class="pre">d2scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.d2scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a distance in scene coordinates</p>
+<dl class="simple">
+<dt>arg:</dt><dd><p>d (float): Distance to convert.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The distance in scene coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.itemChange">
+<span class="sig-name descname"><span class="pre">itemChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.itemChange" title="Permalink to this definition">#</a></dt>
+<dd><p>Item change notification</p>
+<p>This method is triggered upon item change. The item’s transformation
+matrix has changed either because setTransform is called, or one of the
+transformation properties is changed. This notification is sent if the
+<code class="docutils literal notranslate"><span class="pre">ItemSendsGeometryChanges</span></code> flag is enabled (e.g. when an item is
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">item.movable</span></code>), and after the item’s local transformation
+matrix has changed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>change</strong> (<em>QGraphicsItem constant</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.move" title="Permalink to this definition">#</a></dt>
+<dd><p>Relative displacement</p>
+<p>Displaces the item of relative amounts.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.dx">
+<span class="sig-name descname"><span class="pre">dx</span></span><a class="headerlink" href="#AE.Display.Animation.item.dx" title="Permalink to this definition">#</a></dt>
+<dd><p><span class="math notranslate nohighlight">\(x\)</span>-coordinate of the displacement. It can also be a
+doublet [<cite>dx</cite>,`dy`], in this case the <em>dy</em> argument is overridden.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.dy">
+<span class="sig-name descname"><span class="pre">dy</span></span><a class="headerlink" href="#AE.Display.Animation.item.dy" title="Permalink to this definition">#</a></dt>
+<dd><p><span class="math notranslate nohighlight">\(y\)</span>-coordinate of the displacement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.z">
+<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#AE.Display.Animation.item.z" title="Permalink to this definition">#</a></dt>
+<dd><p>A complex number <span class="math notranslate nohighlight">\(z = dx+jdy\)</span>. Specifying <code class="docutils literal notranslate"><span class="pre">z</span></code>
+overrides the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.orientate">
+<span class="sig-name descname"><span class="pre">orientate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.orientate" title="Permalink to this definition">#</a></dt>
+<dd><p>Absolute orientation</p>
+<p>Rotates the item to the desired orientation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.angle">
+<span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#AE.Display.Animation.item.angle" title="Permalink to this definition">#</a></dt>
+<dd><p>Target orientation (rad)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.place">
+<span class="sig-name descname"><span class="pre">place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.place" title="Permalink to this definition">#</a></dt>
+<dd><p>Absolute positionning</p>
+<p>Places the item at an absolute position.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#AE.Display.Animation.item.x" title="Permalink to this definition">#</a></dt>
+<dd><p><span class="math notranslate nohighlight">\(x\)</span>-coordinate of the new position. It can also be a
+doublet [<code class="docutils literal notranslate"><span class="pre">x</span></code>,``y``], in this case the <em>y</em> argument is
+overridden.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#AE.Display.Animation.item.y" title="Permalink to this definition">#</a></dt>
+<dd><p><span class="math notranslate nohighlight">\(y\)</span>-coordinate of the new position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dd><p>A complex number <span class="math notranslate nohighlight">\(z = x+jy\)</span>. Specifying <code class="docutils literal notranslate"><span class="pre">z</span></code>
+overrides the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.rotate">
+<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.rotate" title="Permalink to this definition">#</a></dt>
+<dd><p>Relative rotation</p>
+<p>Rotates the item relatively to its current orientation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
+<dd><p>Orientational increment (rad)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.setParent">
+<span class="sig-name descname"><span class="pre">setParent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.setParent" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a new parent</p>
+<p>Sets this item’s parent item to newParent. If this item already has a
+parent, it is first removed from the previous parent. If newParent is 0,
+this item will become a top-level item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.setStyle">
+<span class="sig-name descname"><span class="pre">setStyle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.setStyle" title="Permalink to this definition">#</a></dt>
+<dd><p>Item styling</p>
+<p>This function does not take any argument, instead it applies the changes
+defined by each item’s styling attributes (<em>e.g.</em> color, stroke thickness).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.x2scene">
+<span class="sig-name descname"><span class="pre">x2scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.x2scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> position in scene coordinates</p>
+<dl class="simple">
+<dt>arg:</dt><dd><p>x (float): The <span class="math notranslate nohighlight">\(x\)</span> position.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <span class="math notranslate nohighlight">\(x\)</span> position in scene coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.xy2scene">
+<span class="sig-name descname"><span class="pre">xy2scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.xy2scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions in scene coordinates</p>
+<dl class="simple">
+<dt>arg:</dt><dd><p>xy ([float,float]): The <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.y2scene">
+<span class="sig-name descname"><span class="pre">y2scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.y2scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates</p>
+<dl class="simple">
+<dt>arg:</dt><dd><p>y (float): The <span class="math notranslate nohighlight">\(y\)</span> position.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -286,14 +543,14 @@ documentation for a description.</p></li>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="AE.Display.Animation.ellipse.html">
+          <a class="prev-page" href="AE.Display.Animation.group.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">AE.Display.Animation.ellipse</div>
+                <div class="title">AE.Display.Animation.group</div>
                 
               </div>
             </a>
@@ -327,5 +584,6 @@ documentation for a description.</p></li>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

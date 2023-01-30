@@ -532,6 +532,8 @@ from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsVi
 
 #         self.QitemRef.setPolygon(QPolygonF(poly))
 
+# --- Generic Item ---------------------------------------------------------
+
 class item():
   """
   Item of the animation (generic class)
@@ -540,6 +542,19 @@ class item():
   This class provides a common constructor, conversions of positions
   to scene coordinates and styling of ``QAbstractGraphicsShapeItem`` 
   children.
+
+  Attr:
+
+    animation (:class:`Animation2d`): Parent animation.
+
+    name (str): Unique identifier of the item.
+
+    parent (:class:`item` *subclass*): Parent item, if any.
+
+    position ([float, float]): Position of the item. See each subclass for
+      details.
+
+    zvalue (float): Z-value (stack order).
   """
 
   def __init__(self, animation, name, **kwargs):
@@ -575,14 +590,23 @@ class item():
     self.name = name
 
     # Parent
-    self.parent = kwargs['parent'] if 'parent' in kwargs else None
+    self.parent = None
+    if 'parent' in kwargs:
+      self.setParent(kwargs['parent'])
+      
+    # --- Positioning
 
+    # Position
+    self.position = [0,0]
+    if 'position' in kwargs: self.place(kwargs['position'])
+
+    # Orientation
+    self.orientation = 0
+    if 'orientation' in kwargs: self.orientate(kwargs['orientation'])
+      
     # Stack order
     if 'zvalue' in kwargs:
       self.setZValue(kwargs['zvalue'])
-    
-    # Position
-    self.position = kwargs['position'] if 'position' in kwargs else [0,0]
 
     # -- Actions
 
@@ -595,22 +619,86 @@ class item():
     self.clickable = kwargs['clickable'] if 'clickable' in kwargs else False
 
   def x2scene(self, x):
+    """
+    Convert the :math:`x` position in scene coordinates
+
+    arg:
+      x (float): The :math:`x` position.
+
+    returns:
+      The :math:`x` position in scene coordinates.
+    """
+
     return (x-self.animation.sceneLimits['x'][0])*self.animation.factor
 
   def y2scene(self, y):
+    """
+    Convert the :math:`y` position in scene coordinates
+
+    arg:
+      y (float): The :math:`y` position.
+
+    returns:
+      The :math:`y` position in scene coordinates.
+    """
+
     return (self.animation.sceneLimits['y'][0]-y)*self.animation.factor
 
   def xy2scene(self, xy):
+    """
+    Convert the :math:`x` and :math:`y` positions in scene coordinates
+
+    arg:
+      xy ([float,float]): The :math:`x` and :math:`y` positions.
+
+    returns:
+      The :math:`x` and :math:`y` position in scene coordinates.
+    """
+
     return self.x2scene(xy[0]), self.y2scene(xy[1])
 
-  def d2scene(self, x):
-    return x*self.animation.factor
+  def d2scene(self, d):
+    """
+    Convert a distance in scene coordinates
+
+    arg:
+      d (float): Distance to convert.
+
+    returns:
+      The distance in scene coordinates.
+    """
+
+    return d*self.animation.factor
 
   def a2scene(self, a):
-    return a*180/np.pi
+    """
+    Convert an angle in scene coordinates (radian to degrees)
+
+    arg:
+      a (float): Angle to convert.
+
+    returns:
+      The angle in degrees.
+    """
+
+    return -a*180/np.pi
 
   def itemChange(self, change, value):
-    
+    """
+    Item change notification
+
+    This method is triggered upon item change. The item's transformation
+    matrix has changed either because setTransform is called, or one of the
+    transformation properties is changed. This notification is sent if the 
+    ``ItemSendsGeometryChanges`` flag is enabled (e.g. when an item is 
+    :py:attr:`item.movable`), and after the item's local transformation 
+    matrix has changed.
+
+    args:
+
+      change (QGraphicsItem constant): 
+
+    """
     # -- Define type
 
     type = None
@@ -626,8 +714,25 @@ class item():
     # Propagate change
     return super().itemChange(change, value)
 
-  def setStyle(self):
+  def setParent(self, pName):
+    """
+    Set a new parent
 
+    Sets this item's parent item to newParent. If this item already has a
+    parent, it is first removed from the previous parent. If newParent is 0,
+    this item will become a top-level item.    
+    """
+
+    self.parent = pName
+    self.setParentItem(self.animation.item[self.parent])
+
+  def setStyle(self):
+    """
+    Item styling
+
+    This function does not take any argument, instead it applies the changes
+    defined by each item's styling attributes (*e.g.* color, stroke thickness).
+    """
     if isinstance(self, QAbstractGraphicsShapeItem):
 
       # --- Fill
@@ -654,24 +759,113 @@ class item():
       
       self.setPen(Pen)
 
-class ellipse(item, QGraphicsEllipseItem):
-  """
-  Ellipse item
+  def orientate(self, angle):
+    """
+    Absolute orientation
 
-  
-  Attributes:
-    Qitem (QGraphicsEllipseItem): The underlying ``QGraphicsEllipseItem`` belonging to
-      the ``QGraphicsScene``.
+    Rotates the item to the desired orientation.
+    
+    Attributes:
+      angle (float): Target orientation (rad)
+    """
+
+    self.setRotation(self.a2scene(angle))
+    self.orientation = angle
+
+  def rotate(self, angle):
+    """
+    Relative rotation
+
+    Rotates the item relatively to its current orientation.
+    
+    Attributes:
+      angle (float): Orientational increment (rad)
+    """
+
+    self.orientation += angle
+    self.setRotation(self.a2scene(self.orientation))
+    
+  def place(self, x=None, y=None, z=None):
+    """
+    Absolute positionning
+
+    Places the item at an absolute position.
+    
+    Attributes:
+      x (float): :math:`x`-coordinate of the new position. It can also be a 
+        doublet [``x``,``y``], in this case the *y* argument is 
+        overridden.
+      y (float): :math:`y`-coordinate of the new position.
+      z (float): A complex number :math:`z = x+jy`. Specifying ``z``
+        overrides the ``x`` and ``y`` arguments.
+    """
+
+    # Doublet input
+    if isinstance(x, (tuple, list)):
+      y = x[1]
+      x = x[0]  
+
+    # Convert from complex coordinates
+    if z is not None:
+      x = np.real(z)
+      y = np.imag(z)
+
+    # Store position
+    if x is not None: self.position[0] = x
+    if y is not None: self.position[1] = y
+
+    self.setPos(self.x2scene(self.position[0]), self.y2scene(self.position[1]))
+
+  def move(self, dx=None, dy=None, z=None):
+    """
+    Relative displacement
+
+    Displaces the item of relative amounts.
+    
+    Attributes:
+      dx (float): :math:`x`-coordinate of the displacement. It can also be a 
+        doublet [`dx`,`dy`], in this case the *dy* argument is overridden.
+      dy (float): :math:`y`-coordinate of the displacement.
+      z (float): A complex number :math:`z = dx+jdy`. Specifying ``z``
+        overrides the ``x`` and ``y`` arguments.
+    """
+
+    # Doublet input
+    if isinstance(dx, (tuple, list)):
+      dy = dx[1]
+      dx = dx[0]  
+
+    # Convert from complex coordinates
+    if z is not None:
+      dx = np.real(z)
+      dy = np.imag(z)
+
+    # Store position
+    if dx is not None: self.position[0] += dx
+    if dy is not None: self.position[1] += dy
+
+    self.place()
+
+# --- Group ----------------------------------------------------------------
+
+class group(item, QGraphicsItemGroup):
+  """
+  Group item
+
+  A group item has no representation upon display but serves as a parent for
+  multiple other items in order to create and manipulate composed objects.  
   """
 
   def __init__(self, animation, name, **kwargs):
     """
-    Ellipse item constructor
+    Group item constructor
 
-    Defines an ``ellipse`` item, which inherits both from ``QGraphicsEllipseItem`` and
+    Defines a group, which inherits both from ``QGraphicsItemGroup`` and
     :class:`item`.
 
     Args:
+
+      animation (:class:`Animaton2d`): The animation container.
 
       name (str): The item's identifier, which should be unique. It is used as a
         reference by :class:`Animation2d`. This is the only mandatory argument.
@@ -679,51 +873,61 @@ class ellipse(item, QGraphicsEllipseItem):
       parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
         Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
 
-      belowParent (bool): Determine if the element should be placed above
-        the parent (``False``, default) or below (``True``).
-
       zvalue (float): Z-value (stack order) of the item.
-
-      rotation (float): Rotation of the item (rad)
 
       position ([float,float]): Position of the ``group``, ``text``, 
         ``circle``, and ``rectangle`` elements (scene units).
 
-      points ([[float,float]]): Positions of the points of ``line``, 
-        ``arrow`` or ``polygon`` elements (scene units).
-                
-      radius (float): Radius of the circle (for ``circle`` only).
-      
-      width (float): Width of the ``rectangle``.
+      orientation (float): Orientation of the item (rad)
 
-      height (float): Height of the ``rectangle``.
+      clickable (bool): *TO DO*
 
-      thickness (float): Stroke thickness (pix). For ``line``, ``circle``, 
-        ``ellipse``, ``rectangle`` or ``polygon`` elements. (Default: 0)
+      movable (bool): If True, the element will be draggable. (default: ``False``)
+    """  
 
-      locus (float): Position of the tip of arrowhead on the normalized 
-        curvilinear coordinates of the ``arrow`` element. This value should 
-        be between 0 and 1 (default: 1).
+    # Generic item constructor
+    super().__init__(animation, name, **kwargs)
+    
+# --- Ellipse --------------------------------------------------------------
 
-      shape (str): Shape of the arrowhead of ``arrow`` elements. Can be
-        ``dart`` (default) or ``disk``.
+class ellipse(item, QGraphicsEllipseItem):
+  """
+  Ellipse item
 
-      size (float): Size of the arrowhead of ``arrow`` elements, in scene 
-        units. (default: 0.02)
+  The ellipse is defined by it's :py:attr:`ellipse.major` and :py:attr:`ellipse.minor`
+  axis lenghts, and by its position and orientation. The position of the 
+  center is set by :py:attr:`item.position` and the orientation ... *TO WRITE*.
+  
+  Attributes:
 
-      string (str): String of a ``text`` element. Rich HTML text is supported.
+    major (float): Length of the major axis.
 
-      fontname (str): Font of a ``text`` element. Default: ``Arial``
+    minor (float): Length of the minor axis.
+  """
 
-      fontsize (int): Default font size of a ``text`` element, corresponding to 
-        the pointSize property of ``QFont``. Default value: 10
+  def __init__(self, animation, name, **kwargs):
+    """
+    Ellipse item constructor
 
-      center ((bool,bool)): Center a ``text`` element horizontally and/or
-        vertically. Default is (``False``, ``False``).
+    Defines an ellipse, which inherits both from ``QGraphicsEllipseItem`` and
+    :class:`item`.
 
-      color (*color*): Color for ``text``, ``line`` or ``arrow`` elements. 
-        Colors can be whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
-        (255, 0, 0, 127)).
+    Args:
+
+      animation (:class:`Animaton2d`): The animation container.
+
+      name (str): The item's identifier, which should be unique. It is used as a
+        reference by :class:`Animation2d`. This is the only mandatory argument.
+
+      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
+        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
+
+      zvalue (float): Z-value (stack order) of the item.
+
+      orientation (float): Orientation of the item (rad)
+
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
 
       colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
         ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
@@ -766,22 +970,20 @@ class ellipse(item, QGraphicsEllipseItem):
 
     self.setStyle()
 
-  def setGeometry(self, position=None, major=None, minor=None):
+  def setGeometry(self, major=None, minor=None):
     """
     Set ellipse geometry
     """
 
-    if position is not None: self.position = position
     if major is not None: self.major = major
     if minor is not None: self.minor = minor
 
     # Conversion
-    x, y = self.xy2scene(self.position)
     M = self.d2scene(self.major)
     m = self.d2scene(self.minor)
 
     # Modification
-    self.setRect(QRectF(x-M/2, y-m/2, M, m))
+    self.setRect(QRectF(-M/2, -m/2, M, m))
 
 # === Animation ============================================================
 
@@ -925,7 +1127,6 @@ class Animation2d():
     self.qtimer = QTimer()
     self.qtimer.timeout.connect(self.update)
     self.timer = QElapsedTimer()
-  
     
     # Scene boundaries
     if self.disp_boundaries:
@@ -953,8 +1154,9 @@ class Animation2d():
     self.item[name] = type(self, name, **kwargs)
 
     # Add item to the scene
-    if self.item[name].parent is None:
-        self.Qscene.addItem(self.item[name])
+    self.Qscene.addItem(self.item[name])
+    print(self.item[name].position, self.item[name].pos().x())
+
 
   def show(self):
     """

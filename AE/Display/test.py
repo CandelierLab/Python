@@ -2,35 +2,27 @@ from AE.Display.Animation import *
 
 anim = Animation2d()
 
-anim.add(ellipse, 'Ell',
+anim.add(group, 'G',
   position = [0.5,0.5],
-  major = 0.1,
-  minor = 0.2,
+)
+
+anim.add(ellipse, 'E1',
+  parent = 'G',
+  position = [0,0],
+  major = 0.2,
+  minor = 0.1,
   colors = ('#444', 'white'),
   thickness = 2,
   linestyle = '--',
-  movable = True
 )
 
-anim.add(ellipse, 'Ell',
-  position = [0.7,0.5],
+anim.add(ellipse, 'E2',
+  parent = 'G',
+  position = [0.2,0],
   major = 0.1,
   minor = 0.1,
   colors = ('#444', 'red'),
 )
-
-# anim.elm['G'] = Animation.element('group',
-#   position = [0.5, 0.5],
-#   movable = True)
-
-# anim.elm['C'] = Animation.ellipse(
-#   parent = 'G',
-#   position = [0,0],
-#   radius = 0.1,
-#   colors = ('#444', 'white'),
-#   thickness = 2,
-#   linestyle = '--'
-# )
 
 # anim.elm['T'] = Animation.element('text',
 #   parent = 'G',
