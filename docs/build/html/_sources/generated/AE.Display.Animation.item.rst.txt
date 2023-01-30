@@ -20,6 +20,7 @@ AE.Display.Animation.item
       ~item.a2scene
       ~item.d2scene
       ~item.itemChange
+      ~item.mousePressEvent
       ~item.move
       ~item.orientate
       ~item.place

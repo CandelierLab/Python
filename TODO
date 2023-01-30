@@ -1,8 +1,16 @@
 '''
 Animation
-  Subclass all element types
-  Selection
   Pop-ups
+  Items:
+    text
+    circle
+    rectangle
+    line 
+    arrow
+    polygon
+    path
+    image (pixmap)
+
   Save as image
 
 Visu2d:

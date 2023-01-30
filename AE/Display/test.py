@@ -4,6 +4,7 @@ anim = Animation2d()
 
 anim.add(group, 'G',
   position = [0.5,0.5],
+  draggable = True
 )
 
 anim.add(ellipse, 'E1',
@@ -40,4 +41,3 @@ anim.add(ellipse, 'E2',
 # )
 
 anim.show()
-

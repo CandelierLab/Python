@@ -242,7 +242,7 @@ identifier in the <a class="reference internal" href="AE.Display.Animation.Anima
 <li><p><strong>zvalue</strong> (<em>float</em>) – Z-value (stack order).</p></li>
 <li><p><strong>position</strong> (<em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Position of the item. See each item’s
 documentation for a description.</p></li>
-<li><p><strong>movable</strong> (<em>bool</em>) – If True, the element will be draggable. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+<li><p><strong>draggable</strong> (<em>bool</em>) – If True, the element will be draggable. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
 <li><p><strong>clickable</strong> (<em>bool</em>) – <em>TO DO</em></p></li>
 </ul>
 </dd>
@@ -265,31 +265,34 @@ documentation for a description.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.itemChange" title="AE.Display.Animation.item.itemChange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemChange</span></code></a>(change, value)</p></td>
 <td><p>Item change notification</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.move" title="AE.Display.Animation.item.move"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move</span></code></a>([dx, dy, z])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.mousePressEvent" title="AE.Display.Animation.item.mousePressEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mousePressEvent</span></code></a>(event)</p></td>
+<td><p>Mouse click event handling</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.move" title="AE.Display.Animation.item.move"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move</span></code></a>([dx, dy, z])</p></td>
 <td><p>Relative displacement</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.orientate" title="AE.Display.Animation.item.orientate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orientate</span></code></a>(angle)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.orientate" title="AE.Display.Animation.item.orientate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orientate</span></code></a>(angle)</p></td>
 <td><p>Absolute orientation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.place" title="AE.Display.Animation.item.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>([x, y, z])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.place" title="AE.Display.Animation.item.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>([x, y, z])</p></td>
 <td><p>Absolute positionning</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.rotate" title="AE.Display.Animation.item.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.rotate" title="AE.Display.Animation.item.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle)</p></td>
 <td><p>Relative rotation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setParent" title="AE.Display.Animation.item.setParent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParent</span></code></a>(pName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setParent" title="AE.Display.Animation.item.setParent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParent</span></code></a>(pName)</p></td>
 <td><p>Set a new parent</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setStyle" title="AE.Display.Animation.item.setStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.setStyle" title="AE.Display.Animation.item.setStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code></a>()</p></td>
 <td><p>Item styling</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.x2scene" title="AE.Display.Animation.item.x2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.x2scene" title="AE.Display.Animation.item.x2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code></a>(x)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> position in scene coordinates</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.xy2scene" title="AE.Display.Animation.item.xy2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code></a>(xy)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.xy2scene" title="AE.Display.Animation.item.xy2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code></a>(xy)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions in scene coordinates</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.item.y2scene" title="AE.Display.Animation.item.y2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code></a>(y)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.item.y2scene" title="AE.Display.Animation.item.y2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code></a>(y)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates</p></td>
 </tr>
 </tbody>
@@ -338,6 +341,18 @@ matrix has changed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>change</strong> (<em>QGraphicsItem constant</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.item.mousePressEvent">
+<span class="sig-name descname"><span class="pre">mousePressEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.item.mousePressEvent" title="Permalink to this definition">#</a></dt>
+<dd><p>Mouse click event handling</p>
+<p>For internal use only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>QGraphicsSceneMouseEvent</em><em>,</em><em>event</em>) – The click event.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -36,7 +36,7 @@ from collections import defaultdict
 
 from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, QPointF, QRectF
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont
-from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem
+from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QMenu
 
 # === ELEMENTS =============================================================
 
@@ -575,7 +575,7 @@ class item():
       position ([float, float]): Position of the item. See each item's 
         documentation for a description.
 
-      movable (bool): If True, the element will be draggable. (default: ``False``)
+      draggable (bool): If True, the element will be draggable. (default: ``False``)
 
       clickable (bool): *TO DO*
     """  
@@ -610,13 +610,9 @@ class item():
 
     # -- Actions
 
-    # Movable
-    if 'movable' in kwargs and kwargs['movable']:
-      self.setFlag(QGraphicsItem.ItemIsMovable, True)
-      self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
-      self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-
-    self.clickable = kwargs['clickable'] if 'clickable' in kwargs else False
+    # Draggability
+    if 'draggable' in kwargs:
+      self.setDraggability(kwargs['draggable'])
 
   def x2scene(self, x):
     """
@@ -682,37 +678,6 @@ class item():
     """
 
     return -a*180/np.pi
-
-  def itemChange(self, change, value):
-    """
-    Item change notification
-
-    This method is triggered upon item change. The item's transformation
-    matrix has changed either because setTransform is called, or one of the
-    transformation properties is changed. This notification is sent if the 
-    ``ItemSendsGeometryChanges`` flag is enabled (e.g. when an item is 
-    :py:attr:`item.movable`), and after the item's local transformation 
-    matrix has changed.
-
-    args:
-
-      change (QGraphicsItem constant): 
-
-    """
-    # -- Define type
-
-    type = None
-
-    match change:
-      case QGraphicsItem.ItemPositionHasChanged:
-        type = 'move'
-
-    # Report to animation
-    if type is not None:
-      self.animation.change(type, self)
-
-    # Propagate change
-    return super().itemChange(change, value)
 
   def setParent(self, pName):
     """
@@ -846,6 +811,84 @@ class item():
 
     self.place()
 
+  def setDraggability(self, draggability):
+    """
+    Dragability of the item
+
+    args:
+
+      draggablity (boolean): If ``True`` the item is draggable.
+        Default: ``False``.
+    """
+
+    self.setFlag(QGraphicsItem.ItemIsMovable, draggability)
+    self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, draggability)
+    if draggability:
+      self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
+
+  def mousePressEvent(self, event):
+    """
+    Simple click event
+
+    For internal use only.
+
+    args:
+      event (QGraphicsSceneMouseEvent): The click event.
+    """
+
+    match event.button():
+      case 1: type = 'leftclick'
+      case 2: type = 'rightclick'
+      case 4: type = 'middleclick'
+      case 8: type = 'sideclick'
+
+    self.animation.change(type, self)
+    super().mousePressEvent(event)
+
+  def mouseDoubleClickEvent(self, event):
+    """
+    Double click event
+
+    For internal use only.
+
+    args:
+      event (QGraphicsSceneMouseEvent): The double click event.
+    """
+
+    self.animation.change('doubleclick', self)
+    super().mousePressEvent(event)
+
+  def itemChange(self, change, value):
+    """
+    Item change notification
+
+    This method is triggered upon item change. The item's transformation
+    matrix has changed either because setTransform is called, or one of the
+    transformation properties is changed. This notification is sent if the 
+    ``ItemSendsGeometryChanges`` flag is enabled (e.g. when an item is 
+    :py:attr:`item.movable`), and after the item's local transformation 
+    matrix has changed.
+
+    args:
+
+      change (QGraphicsItem constant): 
+
+    """
+    # -- Define type
+
+    type = None
+
+    match change:
+      case QGraphicsItem.ItemPositionHasChanged:
+        type = 'move'
+
+    # Report to animation
+    if type is not None:
+      self.animation.change(type, self)
+
+    # Propagate change
+    return super().itemChange(change, value)
+
 # --- Group ----------------------------------------------------------------
 
 class group(item, QGraphicsItemGroup):
@@ -887,7 +930,7 @@ class group(item, QGraphicsItemGroup):
 
     # Generic item constructor
     super().__init__(animation, name, **kwargs)
-    
+   
 # --- Ellipse --------------------------------------------------------------
 
 class ellipse(item, QGraphicsEllipseItem):
@@ -1155,9 +1198,7 @@ class Animation2d():
 
     # Add item to the scene
     self.Qscene.addItem(self.item[name])
-    print(self.item[name].position, self.item[name].pos().x())
-
-
+    
   def show(self):
     """
     Display animation window
@@ -1214,6 +1255,8 @@ class Animation2d():
       type (str): Type of change (``move``).
       item (:class:`item` *subclass*): The changed item.
     """
+
+    print(type, item)
 
     pass
     
