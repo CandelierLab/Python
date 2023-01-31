@@ -25,11 +25,10 @@ anim.add(ellipse, 'E1',
   linestyle = '--',
 )
 
-anim.add(ellipse, 'E2',
+anim.add(circle, 'C',
   parent = 'G',
   position = [0.2,0],
-  major = 0.1,
-  minor = 0.1,
+  radius = 0.05,
   colors = ('#444', 'red'),
 )
 
