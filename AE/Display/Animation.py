@@ -687,7 +687,8 @@ class item():
     """
 
     # Set position
-    self.setPos(self.x2scene(self._position[0]), self.y2scene(self._position[1]))
+    self.setPos(self.x2scene(self._position[0])-self._shift[0], 
+      self.y2scene(self._position[1])-self._shift[1])
 
   def move(self, dx=None, dy=None, z=None):
     """
@@ -1068,6 +1069,16 @@ class text(item, QGraphicsTextItem):
 
     if isinstance(C, bool):
       self._center = (C,C)
+
+    self._shift = [0,0]
+    if self._center[0] or self._center[1]:
+      
+      bb = self.boundingRect()
+
+      if self.center[0]:
+        self._shift[0] = bb.width()/2
+      if self._center[0]:
+        self._shift[1] = bb.height()/2
 
     self.place()
 

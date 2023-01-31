@@ -11,6 +11,7 @@ anim.add(ellipse, 'E0',
 
 anim.add(group, 'G',
   position = [0.5,0.5],
+  orientation = 0.5,
   draggable = True
 )
 
@@ -22,7 +23,6 @@ anim.add(ellipse, 'E1',
   colors = (None, 'white'),
   thickness = 2,
   linestyle = '--',
-  orientation = 2,
 )
 
 anim.add(ellipse, 'E2',
@@ -33,21 +33,22 @@ anim.add(ellipse, 'E2',
   colors = ('#444', 'red'),
 )
 
-# anim.add(text, 'T',
-#   parent = 'G',
-#   position = [0,0],
-#   string = 'a&#946;c',
-#   color = 'white',
-#   fontsize = 12
-# )
-
-# anim.item['T'].position = (0.2,0.3)
-# anim.item['T'].move(0.1, -0.1)
+anim.add(text, 'T',
+  parent = 'G',
+  position = [0,0],
+  string = 'a&#946;c',
+  color = 'white',
+  fontsize = 12,
+  center = True
+)
 
 # anim.elm['L'] = Animation.element('polygon',
 #   points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
 #   colors = ['green','red'],
 #   movable = True
 # )
+
+# anim.item['T'].center = True
+
 
 anim.show()
