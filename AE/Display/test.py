@@ -41,12 +41,19 @@ anim.add(text, 'T',
   center = True
 )
 
-anim.add(rectangle, 'R',
-  position = [0.15,0.15],
-  width = 0.3,
-  height = 0.3,
-  colors = ('darkcyan', 'white'),
-  orientation = 0.5,
+# anim.add(rectangle, 'R',
+#   position = [0.15,0.15],
+#   width = 0.3,
+#   height = 0.3,
+#   colors = ('darkcyan', 'white'),
+#   orientation = 0.5,
+# )
+
+anim.add(line, 'L',
+  points = [[0.1,0.1],[0.2,0.15]],
+  color = 'yellow',
+  thickness = 2,
+  draggable = True
 )
 
 # anim.elm['L'] = Animation.element('polygon',

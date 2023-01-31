@@ -1,8 +1,6 @@
 '''
 Animation
   Items:
-    rectangle
-    line 
     arrow
     polygon
     path
