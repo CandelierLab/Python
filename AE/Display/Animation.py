@@ -742,8 +742,6 @@ class item():
 
     if isinstance(self, QAbstractGraphicsShapeItem):
 
-      print(self._color)
-
       # --- Fill
 
       if self._color['fill'] is not None:
@@ -1386,7 +1384,8 @@ class Animation2d():
     self.item[name] = type(self, name, **kwargs)
 
     # Add item to the scene
-    self.Qscene.addItem(self.item[name])
+    if self.item[name].parent is None:
+      self.Qscene.addItem(self.item[name])
     
   def show(self):
     """

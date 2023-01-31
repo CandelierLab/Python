@@ -4,10 +4,9 @@ anim = Animation2d()
 
 anim.add(ellipse, 'E0',
   position = [0.5,0.5],
-  major = 0.01,
-  minor = 0.01,
-  colors = ('red', None),
-  zvalue = 0
+  major = 0.005,
+  minor = 0.005,
+  colors = ('white', None),
 )
 
 anim.add(group, 'G',
@@ -26,13 +25,13 @@ anim.add(ellipse, 'E1',
   orientation = 2,
 )
 
-# anim.add(ellipse, 'E2',
-#   parent = 'G',
-#   position = [0.2,0],
-#   major = 0.1,
-#   minor = 0.1,
-#   colors = ('#444', 'red'),
-# )
+anim.add(ellipse, 'E2',
+  parent = 'G',
+  position = [0.2,0],
+  major = 0.1,
+  minor = 0.1,
+  colors = ('#444', 'red'),
+)
 
 # anim.add(text, 'T',
 #   parent = 'G',
