@@ -583,36 +583,28 @@ class item():
     # Call the other item's constructor, if any
     super().__init__()
 
-    # Parent animation
+    # --- Definitions
+
+    # Reference animation
     self.animation = animation
 
     # Assign name
     self.name = name
 
-    # Parent
-    self.parent = None
-    if 'parent' in kwargs:
-      self.setParent(kwargs['parent'])
+    self._parent = None
+    self._position = [0,0]
+    self._shift = [0,0]
+    self._orientation = None
+    self._zvalue = None
+    self._draggable = None
       
-    # --- Positioning
+    # --- Initialization
 
-    # Position
-    self.position = [0,0]
-    if 'position' in kwargs: self.place(kwargs['position'])
-
-    # Orientation
-    self.orientation = 0
-    if 'orientation' in kwargs: self.orientate(kwargs['orientation'])
-      
-    # Stack order
-    if 'zvalue' in kwargs:
-      self.setZValue(kwargs['zvalue'])
-
-    # -- Actions
-
-    # Draggability
-    if 'draggable' in kwargs:
-      self.setDraggability(kwargs['draggable'])
+    if 'parent' in kwargs: self.parent = kwargs['parent']
+    if 'position' in kwargs: self.position = kwargs['position']
+    if 'orientation' in kwargs: self.orientation = kwargs['orientation']
+    if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
+    if 'draggable' in kwargs: self.draggable = kwargs['draggable']
 
   def x2scene(self, x):
     """
@@ -679,78 +671,7 @@ class item():
 
     return -a*180/np.pi
 
-  def setParent(self, pName):
-    """
-    Set a new parent
-
-    Sets this item's parent item to newParent. If this item already has a
-    parent, it is first removed from the previous parent. If newParent is 0,
-    this item will become a top-level item.    
-    """
-
-    self.parent = pName
-    self.setParentItem(self.animation.item[self.parent])
-
-  def setStyle(self):
-    """
-    Item styling
-
-    This function does not take any argument, instead it applies the changes
-    defined by each item's styling attributes (*e.g.* color, stroke thickness).
-    """
-    if isinstance(self, QAbstractGraphicsShapeItem):
-
-      # --- Fill
-
-      if self.color['fill'] is not None:
-        self.setBrush(QBrush(QColor(self.color['fill'])))
-
-      # --- Stroke
-
-      Pen = QPen()
-
-      #  Color
-      if self.color['fill'] is not None:
-        Pen.setColor(QColor(self.color['stroke']))
-
-      # Thickness
-      Pen.setWidth(self.thickness)
-
-      # Style
-      match self.linestyle:
-        case 'dash' | '--': Pen.setDashPattern([3,6])
-        case 'dot' | ':' | '..': Pen.setStyle(Qt.DotLine)
-        case 'dashdot' | '-.': Pen.setDashPattern([3,3,1,3])
-      
-      self.setPen(Pen)
-
-  def orientate(self, angle):
-    """
-    Absolute orientation
-
-    Rotates the item to the desired orientation.
-    
-    Attributes:
-      angle (float): Target orientation (rad)
-    """
-
-    self.setRotation(self.a2scene(angle))
-    self.orientation = angle
-
-  def rotate(self, angle):
-    """
-    Relative rotation
-
-    Rotates the item relatively to its current orientation.
-    
-    Attributes:
-      angle (float): Orientational increment (rad)
-    """
-
-    self.orientation += angle
-    self.setRotation(self.a2scene(self.orientation))
-    
-  def place(self, x=None, y=None, z=None):
+  def place(self):
     """
     Absolute positionning
 
@@ -765,21 +686,8 @@ class item():
         overrides the ``x`` and ``y`` arguments.
     """
 
-    # Doublet input
-    if isinstance(x, (tuple, list)):
-      y = x[1]
-      x = x[0]  
-
-    # Convert from complex coordinates
-    if z is not None:
-      x = np.real(z)
-      y = np.imag(z)
-
-    # Store position
-    if x is not None: self.position[0] = x
-    if y is not None: self.position[1] = y
-
-    self.setPos(self.x2scene(self.position[0]), self.y2scene(self.position[1]))
+    # Set position
+    self.setPos(self.x2scene(self._position[0]), self.y2scene(self._position[1]))
 
   def move(self, dx=None, dy=None, z=None):
     """
@@ -806,25 +714,58 @@ class item():
       dy = np.imag(z)
 
     # Store position
-    if dx is not None: self.position[0] += dx
-    if dy is not None: self.position[1] += dy
+    if dx is not None: self._position[0] += dx
+    if dy is not None: self._position[1] += dy
 
     self.place()
 
-  def setDraggability(self, draggability):
+  def rotate(self, angle):
     """
-    Dragability of the item
+    Relative rotation
 
-    args:
-
-      draggablity (boolean): If ``True`` the item is draggable.
-        Default: ``False``.
+    Rotates the item relatively to its current orientation.
+    
+    Attributes:
+      angle (float): Orientational increment (rad)
     """
 
-    self.setFlag(QGraphicsItem.ItemIsMovable, draggability)
-    self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, draggability)
-    if draggability:
-      self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
+    self._orientation += angle
+    self.setRotation(self.a2scene(self.orientation))
+
+  def setStyle(self):
+    """
+    Item styling
+
+    This function does not take any argument, instead it applies the changes
+    defined by each item's styling attributes (*e.g.* color, stroke thickness).
+    """
+
+    if isinstance(self, QAbstractGraphicsShapeItem):
+
+      # --- Fill
+
+      if self._color['fill'] is not None:
+        self.setBrush(QBrush(QColor(self._color['fill'])))
+
+      # --- Stroke
+
+      Pen = QPen()
+
+      #  Color
+      if self._color['fill'] is not None:
+        Pen.setColor(QColor(self._color['stroke']))
+
+      # Thickness
+      if self._thickness is not None:
+        Pen.setWidth(self._thickness)
+
+      # Style
+      match self._linestyle:
+        case 'dash' | '--': Pen.setDashPattern([3,6])
+        case 'dot' | ':' | '..': Pen.setStyle(Qt.DotLine)
+        case 'dashdot' | '-.': Pen.setDashPattern([3,3,1,3])
+      
+      self.setPen(Pen)
 
   def mousePressEvent(self, event):
     """
@@ -889,6 +830,78 @@ class item():
     # Propagate change
     return super().itemChange(change, value)
 
+  # --- Parent -------------------------------------------------------------
+
+  @property
+  def parent(self): return self._parent
+
+  @parent.setter
+  def parent(self, pName):
+    self._parent = pName
+    self.setParentItem(self.animation.item[self._parent])
+
+  # --- Position -------------------------------------------------------------
+
+  @property
+  def position(self): return self._position
+
+  @position.setter
+  def position(self, pos):
+    
+    # Doublet input
+    if isinstance(pos, (tuple, list)):
+      x = pos[0]  
+      y = pos[1]      
+
+    # Convert from complex coordinates
+    if isinstance(pos, complex):
+      x = np.real(pos)
+      y = np.imag(pos)
+
+    # Store position
+    self._position = [x,y]
+
+    # Set position
+    self.place()    
+
+  # --- Orientation --------------------------------------------------------
+
+  @property
+  def orientation(self): return self._orientation
+
+  @orientation.setter
+  def orientation(self, angle):
+    
+    self._orientation = angle
+    self.setRotation(self.a2scene(angle))
+
+  # --- Z-value ------------------------------------------------------------
+
+  @property
+  def zvalue(self): return self._zvalue
+
+  @zvalue.setter
+  def zvalue(self, z):
+    
+    self._zvalue = z
+    self.setZValue(self._zvalue)
+
+  # --- Draggability -------------------------------------------------------
+
+  @property
+  def draggable(self): return self._draggable
+
+  @draggable.setter
+  def draggable(self, z):
+    
+    self._draggable = z
+    
+    self.setFlag(QGraphicsItem.ItemIsMovable, self._draggable)
+    self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, self._draggable)
+    if self._draggable:
+      self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
+    
+
 # --- Group ----------------------------------------------------------------
 
 class group(item, QGraphicsItemGroup):
@@ -931,6 +944,133 @@ class group(item, QGraphicsItemGroup):
     # Generic item constructor
     super().__init__(animation, name, **kwargs)
    
+# --- Text --------------------------------------------------------------
+
+class text(item, QGraphicsTextItem):
+  """
+  Text item
+
+  The ellipse is defined by it's :py:attr:`ellipse.major` and :py:attr:`ellipse.minor`
+  axis lenghts, and by its position and orientation. The position of the 
+  center is set by :py:attr:`item.position` and the orientation ... *TO WRITE*.
+  
+  Attributes:
+
+    major (float): Length of the major axis.
+
+    minor (float): Length of the minor axis.
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Text item constructor
+
+    Defines a textbox, which inherits both from ``QGraphicsEllipseItem`` and
+    :class:`item`.
+
+    Args:
+
+      animation (:class:`Animaton2d`): The animation container.
+
+      name (str): The item's identifier, which should be unique. It is used as a
+        reference by :class:`Animation2d`. This is the only mandatory argument.
+
+      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
+        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
+
+      zvalue (float): Z-value (stack order) of the item.
+
+      orientation (float): Orientation of the item (rad)
+
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
+
+      colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
+        ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
+        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
+        (255, 0, 0, 127))
+
+      linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
+        or ``polygon``). Can have any value among ``solid`` (default), ``dash``
+        or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
+
+      clickable (bool): *TO DO*
+
+      movable (bool): If True, the element will be draggable. (default: ``False``)
+    """  
+
+    # Generic item constructor
+    super().__init__(animation, name, **kwargs)
+    
+    # --- Definitions
+  
+    self._string = None
+    self._color = None
+    self._fontname = 'Arial'
+    self._fontsize = 10
+    self._center = (True, True)
+    
+    # --- Initialization
+
+    self.string = kwargs['string'] if 'string' in kwargs else '-'
+    self.color = kwargs['color'] if 'color' in kwargs else 'white'
+    if 'fontname' in kwargs: self.fontname = kwargs['fontname']
+    if 'fontsize' in kwargs: self.fontsize = kwargs['fontsize']
+    if 'center' in kwargs: self.center = kwargs['center'] 
+
+  # --- String -------------------------------------------------------------
+
+  @property
+  def string(self): return self._string
+
+  @string.setter
+  def string(self, s):
+    self._string = s
+    self.setHtml(s)
+
+  # --- Color --------------------------------------------------------------
+
+  @property
+  def color(self): return self._color
+
+  @color.setter
+  def color(self, c):
+    self._color = c
+    self.setDefaultTextColor(QColor(self._color))
+
+  # --- Fontname -----------------------------------------------------------
+
+  @property
+  def fontname(self): return self._fontname
+
+  @fontname.setter
+  def fontname(self, name):
+    self._fontname = name
+    self.setFont((QFont(self._fontname, self._fontsize)))
+
+  # --- Font size ----------------------------------------------------------
+
+  @property
+  def fontsize(self): return self._fontsize
+
+  @fontsize.setter
+  def fontsize(self, name):
+    self._fontsize = name
+    self.setFont((QFont(self._fontname, self._fontsize)))
+
+  # --- Center -------------------------------------------------------------
+
+  @property
+  def center(self): return self._center
+
+  @center.setter
+  def center(self, C):
+
+    if isinstance(C, bool):
+      self._center = (C,C)
+
+    self.place()
+
 # --- Ellipse --------------------------------------------------------------
 
 class ellipse(item, QGraphicsEllipseItem):
@@ -989,7 +1129,15 @@ class ellipse(item, QGraphicsEllipseItem):
     # Generic item constructor
     super().__init__(animation, name, **kwargs)
     
-    # --- Geometry
+    # --- Definitions
+
+    self._major = None
+    self._minor = None
+    self._color = (None, None)
+    self._thickness = None
+    self._linestyle = None
+
+    # --- Initialization
 
     if 'major' not in kwargs or 'minor' not in kwargs:
       raise AttributeError("'major' and 'minor' must be specified for ellipse items.")
@@ -997,36 +1145,75 @@ class ellipse(item, QGraphicsEllipseItem):
       self.major = kwargs['major']
       self.minor = kwargs['minor']
 
-    self.setGeometry()
-
-    # --- Styling
-
-    # Colors
-    self.color = {'fill': kwargs['colors'][0] if 'colors' in kwargs else 'gray',
-      'stroke': kwargs['colors'][1] if 'colors' in kwargs else 'white'}
-    
-    # Stroke style
+    self.colors = kwargs['colors'] if 'colors' in kwargs else ['gray','white']
     self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
-
-    # Stroke thickness
     self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
 
-    self.setStyle()
+  # --- Major axis length --------------------------------------------------
 
-  def setGeometry(self, major=None, minor=None):
-    """
-    Set ellipse geometry
-    """
+  @property
+  def major(self): return self._major
 
-    if major is not None: self.major = major
-    if minor is not None: self.minor = minor
+  @major.setter
+  def major(self, major):
+
+    self._major = major
+
+    if self._minor is not None:
+
+      # Conversion
+      M = self.d2scene(self._major)
+      m = self.d2scene(self._minor)
+
+      # Set geometry
+      self.setRect(QRectF(-M/2, -m/2, M, m))
+
+  # --- Minor axis length --------------------------------------------------
+
+  @property
+  def minor(self): return self._minor
+
+  @minor.setter
+  def minor(self, minor):
+
+    self._minor = minor
 
     # Conversion
-    M = self.d2scene(self.major)
-    m = self.d2scene(self.minor)
+    M = self.d2scene(self._major)
+    m = self.d2scene(self._minor)
 
-    # Modification
+    # Set geometry
     self.setRect(QRectF(-M/2, -m/2, M, m))
+
+  # --- Colors -------------------------------------------------------------
+
+  @property
+  def colors(self): return self._color
+
+  @colors.setter
+  def colors(self, C):
+    self._color = {'fill': C[0], 'stroke': C[1]}
+    self.setStyle()
+
+  # --- Thickness ----------------------------------------------------------
+
+  @property
+  def thickness(self): return self._thickness
+
+  @thickness.setter
+  def thickness(self, t):
+    self._thickness = t
+    self.setStyle()
+
+  # --- Linestyle ----------------------------------------------------------
+
+  @property
+  def linestyle(self): return self._linestyle
+
+  @linestyle.setter
+  def linestyle(self, s):
+    self._linestyle = s
+    self.setStyle()      
 
 # === Animation ============================================================
 
@@ -1255,8 +1442,6 @@ class Animation2d():
       type (str): Type of change (``move``).
       item (:class:`item` *subclass*): The changed item.
     """
-
-    print(type, item)
 
     pass
     

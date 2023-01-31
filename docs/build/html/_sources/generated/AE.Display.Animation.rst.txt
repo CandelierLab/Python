@@ -24,6 +24,7 @@
       ellipse
       group
       item
+      text
    
    
 

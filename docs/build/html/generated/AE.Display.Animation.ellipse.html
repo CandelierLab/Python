@@ -163,6 +163,7 @@
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AE.Display.Animation.ellipse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.group.html">AE.Display.Animation.group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.item.html">AE.Display.Animation.item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AE.Display.Animation.text.html">AE.Display.Animation.text</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="AE.NN.Network.html">AE.NN.Network</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -520,14 +521,14 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mapToScene" title="AE.Display.Animation.ellipse.mapToScene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mapToScene</span></code></a>(...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mouseDoubleClickEvent" title="AE.Display.Animation.ellipse.mouseDoubleClickEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mouseDoubleClickEvent</span></code></a>(self, ...)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mouseDoubleClickEvent" title="AE.Display.Animation.ellipse.mouseDoubleClickEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mouseDoubleClickEvent</span></code></a>(event)</p></td>
+<td><p>Double click event</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mouseMoveEvent" title="AE.Display.Animation.ellipse.mouseMoveEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mouseMoveEvent</span></code></a>(self, QGraphicsSceneMouseEvent)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mousePressEvent" title="AE.Display.Animation.ellipse.mousePressEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mousePressEvent</span></code></a>(event)</p></td>
-<td><p>Mouse click event handling</p></td>
+<td><p>Simple click event</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.mouseReleaseEvent" title="AE.Display.Animation.ellipse.mouseReleaseEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mouseReleaseEvent</span></code></a>(self, QGraphicsSceneMouseEvent)</p></td>
 <td><p></p></td>
@@ -646,175 +647,178 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 <tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setData" title="AE.Display.Animation.ellipse.setData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setData</span></code></a>(self, int, Any)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setEnabled" title="AE.Display.Animation.ellipse.setEnabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnabled</span></code></a>(self, bool)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setDraggability" title="AE.Display.Animation.ellipse.setDraggability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDraggability</span></code></a>(draggability)</p></td>
+<td><p>Dragability of the item</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setEnabled" title="AE.Display.Animation.ellipse.setEnabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnabled</span></code></a>(self, bool)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFiltersChildEvents" title="AE.Display.Animation.ellipse.setFiltersChildEvents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFiltersChildEvents</span></code></a>(self, bool)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFiltersChildEvents" title="AE.Display.Animation.ellipse.setFiltersChildEvents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFiltersChildEvents</span></code></a>(self, bool)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFlag" title="AE.Display.Animation.ellipse.setFlag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFlag</span></code></a>(self, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFlag" title="AE.Display.Animation.ellipse.setFlag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFlag</span></code></a>(self, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFlags" title="AE.Display.Animation.ellipse.setFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFlags</span></code></a>(self, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFlags" title="AE.Display.Animation.ellipse.setFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFlags</span></code></a>(self, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFocus" title="AE.Display.Animation.ellipse.setFocus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFocus</span></code></a>(self[, focusReason])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFocus" title="AE.Display.Animation.ellipse.setFocus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFocus</span></code></a>(self[, focusReason])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFocusProxy" title="AE.Display.Animation.ellipse.setFocusProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFocusProxy</span></code></a>(self, QGraphicsItem)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setFocusProxy" title="AE.Display.Animation.ellipse.setFocusProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFocusProxy</span></code></a>(self, QGraphicsItem)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGeometry" title="AE.Display.Animation.ellipse.setGeometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGeometry</span></code></a>([major, minor])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGeometry" title="AE.Display.Animation.ellipse.setGeometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGeometry</span></code></a>([major, minor])</p></td>
 <td><p>Set ellipse geometry</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGraphicsEffect" title="AE.Display.Animation.ellipse.setGraphicsEffect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphicsEffect</span></code></a>(self, QGraphicsEffect)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGraphicsEffect" title="AE.Display.Animation.ellipse.setGraphicsEffect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphicsEffect</span></code></a>(self, QGraphicsEffect)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGroup" title="AE.Display.Animation.ellipse.setGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGroup</span></code></a>(self, QGraphicsItemGroup)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setGroup" title="AE.Display.Animation.ellipse.setGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGroup</span></code></a>(self, QGraphicsItemGroup)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setInputMethodHints" title="AE.Display.Animation.ellipse.setInputMethodHints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputMethodHints</span></code></a>(self, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setInputMethodHints" title="AE.Display.Animation.ellipse.setInputMethodHints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputMethodHints</span></code></a>(self, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setOpacity" title="AE.Display.Animation.ellipse.setOpacity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOpacity</span></code></a>(self, float)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setOpacity" title="AE.Display.Animation.ellipse.setOpacity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOpacity</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPanelModality" title="AE.Display.Animation.ellipse.setPanelModality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPanelModality</span></code></a>(self, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPanelModality" title="AE.Display.Animation.ellipse.setPanelModality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPanelModality</span></code></a>(self, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setParent" title="AE.Display.Animation.ellipse.setParent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParent</span></code></a>(pName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setParent" title="AE.Display.Animation.ellipse.setParent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParent</span></code></a>(pName)</p></td>
 <td><p>Set a new parent</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setParentItem" title="AE.Display.Animation.ellipse.setParentItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParentItem</span></code></a>(self, QGraphicsItem)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setParentItem" title="AE.Display.Animation.ellipse.setParentItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParentItem</span></code></a>(self, QGraphicsItem)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPen" title="AE.Display.Animation.ellipse.setPen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPen</span></code></a>(self, Union[QPen, QColor, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPen" title="AE.Display.Animation.ellipse.setPen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPen</span></code></a>(self, Union[QPen, QColor, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPos" title="AE.Display.Animation.ellipse.setPos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPos</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setPos" title="AE.Display.Animation.ellipse.setPos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPos</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setRect" title="AE.Display.Animation.ellipse.setRect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRect</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setRect" title="AE.Display.Animation.ellipse.setRect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRect</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setRotation" title="AE.Display.Animation.ellipse.setRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRotation</span></code></a>(self, float)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setRotation" title="AE.Display.Animation.ellipse.setRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRotation</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setScale" title="AE.Display.Animation.ellipse.setScale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code></a>(self, float)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setScale" title="AE.Display.Animation.ellipse.setScale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScale</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setSelected" title="AE.Display.Animation.ellipse.setSelected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSelected</span></code></a>(self, bool)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setSelected" title="AE.Display.Animation.ellipse.setSelected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSelected</span></code></a>(self, bool)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setSpanAngle" title="AE.Display.Animation.ellipse.setSpanAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSpanAngle</span></code></a>(self, int)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setSpanAngle" title="AE.Display.Animation.ellipse.setSpanAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSpanAngle</span></code></a>(self, int)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setStartAngle" title="AE.Display.Animation.ellipse.setStartAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStartAngle</span></code></a>(self, int)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setStartAngle" title="AE.Display.Animation.ellipse.setStartAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStartAngle</span></code></a>(self, int)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setStyle" title="AE.Display.Animation.ellipse.setStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setStyle" title="AE.Display.Animation.ellipse.setStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStyle</span></code></a>()</p></td>
 <td><p>Item styling</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setToolTip" title="AE.Display.Animation.ellipse.setToolTip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setToolTip</span></code></a>(self, str)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setToolTip" title="AE.Display.Animation.ellipse.setToolTip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setToolTip</span></code></a>(self, str)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransform" title="AE.Display.Animation.ellipse.setTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransform</span></code></a>(self, QTransform[, combine])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransform" title="AE.Display.Animation.ellipse.setTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransform</span></code></a>(self, QTransform[, combine])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransformOriginPoint" title="AE.Display.Animation.ellipse.setTransformOriginPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransformOriginPoint</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransformOriginPoint" title="AE.Display.Animation.ellipse.setTransformOriginPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransformOriginPoint</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransformations" title="AE.Display.Animation.ellipse.setTransformations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransformations</span></code></a>(self, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setTransformations" title="AE.Display.Animation.ellipse.setTransformations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTransformations</span></code></a>(self, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setVisible" title="AE.Display.Animation.ellipse.setVisible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVisible</span></code></a>(self, bool)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setVisible" title="AE.Display.Animation.ellipse.setVisible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVisible</span></code></a>(self, bool)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setX" title="AE.Display.Animation.ellipse.setX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setX</span></code></a>(self, float)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setX" title="AE.Display.Animation.ellipse.setX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setX</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setY" title="AE.Display.Animation.ellipse.setY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setY</span></code></a>(self, float)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setY" title="AE.Display.Animation.ellipse.setY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setY</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setZValue" title="AE.Display.Animation.ellipse.setZValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setZValue</span></code></a>(self, float)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.setZValue" title="AE.Display.Animation.ellipse.setZValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setZValue</span></code></a>(self, float)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.shape" title="AE.Display.Animation.ellipse.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.shape" title="AE.Display.Animation.ellipse.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.show" title="AE.Display.Animation.ellipse.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.show" title="AE.Display.Animation.ellipse.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.spanAngle" title="AE.Display.Animation.ellipse.spanAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spanAngle</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.spanAngle" title="AE.Display.Animation.ellipse.spanAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spanAngle</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.stackBefore" title="AE.Display.Animation.ellipse.stackBefore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stackBefore</span></code></a>(self, QGraphicsItem)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.stackBefore" title="AE.Display.Animation.ellipse.stackBefore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stackBefore</span></code></a>(self, QGraphicsItem)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.startAngle" title="AE.Display.Animation.ellipse.startAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAngle</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.startAngle" title="AE.Display.Animation.ellipse.startAngle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startAngle</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.toGraphicsObject" title="AE.Display.Animation.ellipse.toGraphicsObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toGraphicsObject</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.toGraphicsObject" title="AE.Display.Animation.ellipse.toGraphicsObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toGraphicsObject</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.toolTip" title="AE.Display.Animation.ellipse.toolTip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toolTip</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.toolTip" title="AE.Display.Animation.ellipse.toolTip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toolTip</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.topLevelItem" title="AE.Display.Animation.ellipse.topLevelItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topLevelItem</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.topLevelItem" title="AE.Display.Animation.ellipse.topLevelItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topLevelItem</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.topLevelWidget" title="AE.Display.Animation.ellipse.topLevelWidget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topLevelWidget</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.topLevelWidget" title="AE.Display.Animation.ellipse.topLevelWidget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">topLevelWidget</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transform" title="AE.Display.Animation.ellipse.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transform" title="AE.Display.Animation.ellipse.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transformOriginPoint" title="AE.Display.Animation.ellipse.transformOriginPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformOriginPoint</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transformOriginPoint" title="AE.Display.Animation.ellipse.transformOriginPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformOriginPoint</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transformations" title="AE.Display.Animation.ellipse.transformations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformations</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.transformations" title="AE.Display.Animation.ellipse.transformations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformations</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.type" title="AE.Display.Animation.ellipse.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.type" title="AE.Display.Animation.ellipse.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.ungrabKeyboard" title="AE.Display.Animation.ellipse.ungrabKeyboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ungrabKeyboard</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.ungrabKeyboard" title="AE.Display.Animation.ellipse.ungrabKeyboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ungrabKeyboard</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.ungrabMouse" title="AE.Display.Animation.ellipse.ungrabMouse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ungrabMouse</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.ungrabMouse" title="AE.Display.Animation.ellipse.ungrabMouse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ungrabMouse</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.unsetCursor" title="AE.Display.Animation.ellipse.unsetCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsetCursor</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.unsetCursor" title="AE.Display.Animation.ellipse.unsetCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsetCursor</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.update" title="AE.Display.Animation.ellipse.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>())</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.update" title="AE.Display.Animation.ellipse.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>())</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.updateMicroFocus" title="AE.Display.Animation.ellipse.updateMicroFocus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updateMicroFocus</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.updateMicroFocus" title="AE.Display.Animation.ellipse.updateMicroFocus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updateMicroFocus</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.wheelEvent" title="AE.Display.Animation.ellipse.wheelEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wheelEvent</span></code></a>(self, QGraphicsSceneWheelEvent)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.wheelEvent" title="AE.Display.Animation.ellipse.wheelEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wheelEvent</span></code></a>(self, QGraphicsSceneWheelEvent)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.window" title="AE.Display.Animation.ellipse.window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">window</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.window" title="AE.Display.Animation.ellipse.window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">window</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#id2" title="AE.Display.Animation.ellipse.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id2" title="AE.Display.Animation.ellipse.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.x2scene" title="AE.Display.Animation.ellipse.x2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.x2scene" title="AE.Display.Animation.ellipse.x2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x2scene</span></code></a>(x)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> position in scene coordinates</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.xy2scene" title="AE.Display.Animation.ellipse.xy2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code></a>(xy)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.xy2scene" title="AE.Display.Animation.ellipse.xy2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xy2scene</span></code></a>(xy)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions in scene coordinates</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#id3" title="AE.Display.Animation.ellipse.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#id3" title="AE.Display.Animation.ellipse.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.y2scene" title="AE.Display.Animation.ellipse.y2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code></a>(y)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.y2scene" title="AE.Display.Animation.ellipse.y2scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y2scene</span></code></a>(y)</p></td>
 <td><p>Convert the <span class="math notranslate nohighlight">\(y\)</span> position in scene coordinates</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.zValue" title="AE.Display.Animation.ellipse.zValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zValue</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#AE.Display.Animation.ellipse.zValue" title="AE.Display.Animation.ellipse.zValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zValue</span></code></a>(self)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1100,7 +1104,7 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.cacheMode">
-<span class="sig-name descname"><span class="pre">cacheMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.group.html#AE.Display.Animation.group.CacheMode" title="PyQt5.QtWidgets.QGraphicsItem.CacheMode"><span class="pre">QGraphicsItem.CacheMode</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.cacheMode" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cacheMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.text.html#AE.Display.Animation.text.CacheMode" title="PyQt5.QtWidgets.QGraphicsItem.CacheMode"><span class="pre">QGraphicsItem.CacheMode</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.cacheMode" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1222,7 +1226,7 @@ or <code class="docutils literal notranslate"><span class="pre">--</span></code>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.flags">
-<span class="sig-name descname"><span class="pre">flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.group.html#AE.Display.Animation.group.GraphicsItemFlags" title="PyQt5.QtWidgets.QGraphicsItem.GraphicsItemFlags"><span class="pre">QGraphicsItem.GraphicsItemFlags</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.flags" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.text.html#AE.Display.Animation.text.GraphicsItemFlags" title="PyQt5.QtWidgets.QGraphicsItem.GraphicsItemFlags"><span class="pre">QGraphicsItem.GraphicsItemFlags</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.flags" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1553,8 +1557,15 @@ matrix has changed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.mouseDoubleClickEvent">
-<span class="sig-name descname"><span class="pre">mouseDoubleClickEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QGraphicsSceneMouseEvent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.ellipse.mouseDoubleClickEvent" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">mouseDoubleClickEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.ellipse.mouseDoubleClickEvent" title="Permalink to this definition">#</a></dt>
+<dd><p>Double click event</p>
+<p>For internal use only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>QGraphicsSceneMouseEvent</em>) – The double click event.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.mouseMoveEvent">
@@ -1564,11 +1575,11 @@ matrix has changed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.mousePressEvent">
 <span class="sig-name descname"><span class="pre">mousePressEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.ellipse.mousePressEvent" title="Permalink to this definition">#</a></dt>
-<dd><p>Mouse click event handling</p>
+<dd><p>Simple click event</p>
 <p>For internal use only.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>event</strong> (<em>QGraphicsSceneMouseEvent</em><em>,</em><em>event</em>) – The click event.</p>
+<dd class="field-odd"><p><strong>event</strong> (<em>QGraphicsSceneMouseEvent</em>) – The click event.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1665,7 +1676,7 @@ overrides the <code class="docutils literal notranslate"><span class="pre">x</sp
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.panelModality">
-<span class="sig-name descname"><span class="pre">panelModality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.group.html#AE.Display.Animation.group.PanelModality" title="PyQt5.QtWidgets.QGraphicsItem.PanelModality"><span class="pre">QGraphicsItem.PanelModality</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.panelModality" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">panelModality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="AE.Display.Animation.text.html#AE.Display.Animation.text.PanelModality" title="PyQt5.QtWidgets.QGraphicsItem.PanelModality"><span class="pre">QGraphicsItem.PanelModality</span></a></span></span><a class="headerlink" href="#AE.Display.Animation.ellipse.panelModality" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1868,6 +1879,18 @@ overrides the <code class="docutils literal notranslate"><span class="pre">x</sp
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.setData">
 <span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.ellipse.setData" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AE.Display.Animation.ellipse.setDraggability">
+<span class="sig-name descname"><span class="pre">setDraggability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">draggability</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AE.Display.Animation.ellipse.setDraggability" title="Permalink to this definition">#</a></dt>
+<dd><p>Dragability of the item</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>draggablity</strong> (<em>boolean</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> the item is draggable.
+Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AE.Display.Animation.ellipse.setEnabled">

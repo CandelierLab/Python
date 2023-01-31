@@ -140,6 +140,7 @@ AE.Display.Animation.ellipse
       ~ellipse.setCacheMode
       ~ellipse.setCursor
       ~ellipse.setData
+      ~ellipse.setDraggability
       ~ellipse.setEnabled
       ~ellipse.setFiltersChildEvents
       ~ellipse.setFlag

@@ -138,6 +138,7 @@ AE.Display.Animation.group
       ~group.setCacheMode
       ~group.setCursor
       ~group.setData
+      ~group.setDraggability
       ~group.setEnabled
       ~group.setFiltersChildEvents
       ~group.setFlag
