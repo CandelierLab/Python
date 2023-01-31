@@ -742,6 +742,8 @@ class item():
 
     if isinstance(self, QAbstractGraphicsShapeItem):
 
+      print(self._color)
+
       # --- Fill
 
       if self._color['fill'] is not None:
@@ -752,7 +754,7 @@ class item():
       Pen = QPen()
 
       #  Color
-      if self._color['fill'] is not None:
+      if self._color['stroke'] is not None:
         Pen.setColor(QColor(self._color['stroke']))
 
       # Thickness

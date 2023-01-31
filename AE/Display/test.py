@@ -20,19 +20,19 @@ anim.add(ellipse, 'E1',
   position = [0,0],
   major = 0.2,
   minor = 0.1,
-  colors = ('None', 'white'),
+  colors = (None, 'white'),
   thickness = 2,
   linestyle = '--',
   orientation = 2,
 )
 
-anim.add(ellipse, 'E2',
-  parent = 'G',
-  position = [0.2,0],
-  major = 0.1,
-  minor = 0.1,
-  colors = ('#444', 'red'),
-)
+# anim.add(ellipse, 'E2',
+#   parent = 'G',
+#   position = [0.2,0],
+#   major = 0.1,
+#   minor = 0.1,
+#   colors = ('#444', 'red'),
+# )
 
 # anim.add(text, 'T',
 #   parent = 'G',
