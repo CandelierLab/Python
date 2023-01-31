@@ -1344,6 +1344,169 @@ class circle(item, QGraphicsEllipseItem):
     self._linestyle = s
     self.setStyle()      
 
+# --- Rectangle ------------------------------------------------------------
+
+class rectangle(item, QGraphicsRectItem):
+  """
+  Rectangle item
+
+  The ellipse is defined by it's :py:attr:`ellipse.major` and :py:attr:`ellipse.minor`
+  axis lenghts, and by its position and orientation. The position of the 
+  center is set by :py:attr:`item.position` and the orientation ... *TO WRITE*.
+  
+  Attributes:
+
+    major (float): Length of the major axis.
+
+    minor (float): Length of the minor axis.
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Rectangle item constructor
+
+    Defines an ellipse, which inherits both from ``QGraphicsEllipseItem`` and
+    :class:`item`.
+
+    Args:
+
+      animation (:class:`Animaton2d`): The animation container.
+
+      name (str): The item's identifier, which should be unique. It is used as a
+        reference by :class:`Animation2d`. This is the only mandatory argument.
+
+      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
+        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
+
+      zvalue (float): Z-value (stack order) of the item.
+
+      orientation (float): Orientation of the item (rad)
+
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
+
+      colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
+        ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
+        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
+        (255, 0, 0, 127))
+
+      linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
+        or ``polygon``). Can have any value among ``solid`` (default), ``dash``
+        or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
+
+      clickable (bool): *TO DO*
+
+      movable (bool): If True, the element will be draggable. (default: ``False``)
+    """  
+
+    # Generic item constructor
+    super().__init__(animation, name, **kwargs)
+    
+    # --- Definitions
+
+    self._width = None
+    self._height = None
+    self._center = (True, True)
+    self._color = (None, None)
+    self._thickness = None
+    self._linestyle = None
+
+    # --- Initialization
+
+    if 'width' not in kwargs or 'height' not in kwargs:
+      raise AttributeError("'width' and 'height' must be specified for rectangle items.")
+    else:
+      self.width = kwargs['width']
+      self.height = kwargs['height']
+
+    if 'center' in kwargs: self.center = kwargs['center']
+    self.colors = kwargs['colors'] if 'colors' in kwargs else ['gray','white']
+    self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
+    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
+
+  def setGeometry(self):
+
+    # Conversion
+    W = self.d2scene(self._width)
+    H = self.d2scene(self._height)
+
+    dx = 0
+    dy = 0
+    if self._center[0] or self._center[1]:
+      
+      bb = self.boundingRect()
+      if self.center[0]: dx = -W/2
+      if self._center[1]: dy = H/2
+
+    # Set geometry
+    self.setRect(QRectF(dx, dy, W, -H))
+
+  # --- Width --------------------------------------------------------------
+
+  @property
+  def width(self): return self._width
+
+  @width.setter
+  def width(self, w):
+
+    self._width = w
+    if self._height is not None: self.setGeometry()
+      
+
+  # --- Height -------------------------------------------------------------
+
+  @property
+  def height(self): return self._height
+
+  @height.setter
+  def height(self, h):
+
+    self._height = h
+    self.setGeometry()    
+
+  # --- Center -------------------------------------------------------------
+
+  @property
+  def center(self): return self._center
+
+  @center.setter
+  def center(self, C):
+
+    if isinstance(C, bool):
+      self._center = (C,C)
+
+    self.setGeometry()
+
+  # --- Colors -------------------------------------------------------------
+
+  @property
+  def colors(self): return self._color
+
+  @colors.setter
+  def colors(self, C):
+    self._color = {'fill': C[0], 'stroke': C[1]}
+    self.setStyle()
+
+  # --- Thickness ----------------------------------------------------------
+
+  @property
+  def thickness(self): return self._thickness
+
+  @thickness.setter
+  def thickness(self, t):
+    self._thickness = t
+    self.setStyle()
+
+  # --- Linestyle ----------------------------------------------------------
+
+  @property
+  def linestyle(self): return self._linestyle
+
+  @linestyle.setter
+  def linestyle(self, s):
+    self._linestyle = s
+    self.setStyle()      
+
 # === Animation ============================================================
 
 class Animation2d():

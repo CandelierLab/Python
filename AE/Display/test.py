@@ -41,6 +41,14 @@ anim.add(text, 'T',
   center = True
 )
 
+anim.add(rectangle, 'R',
+  position = [0.15,0.15],
+  width = 0.3,
+  height = 0.3,
+  colors = ('darkcyan', 'white'),
+  orientation = 0.5,
+)
+
 # anim.elm['L'] = Animation.element('polygon',
 #   points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
 #   colors = ['green','red'],
