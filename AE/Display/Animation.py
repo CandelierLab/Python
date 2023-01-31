@@ -1632,6 +1632,85 @@ class line(item, QGraphicsLineItem):
     self._linestyle = s
     self.setStyle()      
 
+# --- Arrow ----------------------------------------------------------------
+
+class arrow(item, QGraphicsItemGroup):
+  """
+  Arrow item
+
+  A group item has no representation upon display but serves as a parent for
+  multiple other items in order to create and manipulate composed objects.  
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Arrow item constructor
+
+    Defines a group, which inherits both from ``QGraphicsItemGroup`` and
+    :class:`item`.
+
+    Args:
+
+      animation (:class:`Animaton2d`): The animation container.
+
+      name (str): The item's identifier, which should be unique. It is used as a
+        reference by :class:`Animation2d`. This is the only mandatory argument.
+
+      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
+        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
+
+      zvalue (float): Z-value (stack order) of the item.
+
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
+
+      orientation (float): Orientation of the item (rad)
+
+      clickable (bool): *TO DO*
+
+      movable (bool): If True, the element will be draggable. (default: ``False``)
+    """  
+
+    # --- Generic item constructor
+
+    super().__init__(animation, name, **kwargs)
+
+    # Remove keys
+    kwargs.pop('draggable', None)
+   
+    # Convert points
+    points = kwargs.pop('points')
+
+    z = self.points[1][0] + 1j*self.points[1][1]
+
+    # --- Names
+
+    self.line = self.name + '_line'
+    self.head = self.name + '_head'
+    self.postParenting = [self.line, self.head]
+
+    # --- Line
+
+    
+        
+        # Group
+        self.QitemRef.setPos(self.position[0]*self.anim.factor, 
+          -self.position[1]*self.anim.factor)
+
+        # Arrow line
+        self.Qitems[0].setLine(0,0,np.abs(z)*self.anim.factor, 0)
+
+        # Arrow head
+        self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*self.anim.factor,0)
+
+        # Rotation
+        self.rotation = np.angle(z)
+        self.QitemRef.setRotation(-self.rotation*180/np.pi)
+
+    self.animation.add(line, self.line, **kwargs)
+
+
+
 # --- Polygon --------------------------------------------------------------
 
 class polygon(item, QGraphicsPolygonItem):
@@ -1877,7 +1956,6 @@ class path(item, QGraphicsPathItem):
   def linestyle(self, s):
     self._linestyle = s
     self.setStyle()      
-
 
 # === Animation ============================================================
 

@@ -56,12 +56,12 @@ anim.add(ellipse, 'E0',
 #   draggable = True
 # )
 
-anim.add(polygon, 'P',
-  points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
-  colors = ['green','red'],
-  thickness = 3,
-  draggable = True
-)
+# anim.add(polygon, 'P',
+#   points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
+#   colors = ['green','red'],
+#   thickness = 3,
+#   draggable = True
+# )
 
 # anim.add(path, 'P',
 #   points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
@@ -70,6 +70,12 @@ anim.add(polygon, 'P',
 #   draggable = True
 # )
 
+anim.add(arrow, 'A', 
+  points = [[0.1,0.1],[0.2,0.15]],
+  color = 'darkcyan',
+  thickness = 5,
+  draggable = True
+)
 
 # anim.item['T'].center = True
 

@@ -1,10 +1,7 @@
 '''
 Animation
-  Items:
-    arrow
-    path
-    image (pixmap)
-
+  arrow
+  image (pixmap)
   Save as image
 
 Visu2d:
