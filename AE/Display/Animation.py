@@ -1510,7 +1510,7 @@ class rectangle(item, QGraphicsRectItem):
     self._linestyle = s
     self.setStyle()      
 
-# --- Line ------------------------------------------------------------
+# --- Line -----------------------------------------------------------------
 
 class line(item, QGraphicsLineItem):
   """
@@ -1632,6 +1632,126 @@ class line(item, QGraphicsLineItem):
     self._linestyle = s
     self.setStyle()      
 
+# --- Polygon --------------------------------------------------------------
+
+class polygon(item, QGraphicsPolygonItem):
+  """
+  Polygon item
+
+  The ellipse is defined by it's :py:attr:`ellipse.major` and :py:attr:`ellipse.minor`
+  axis lenghts, and by its position and orientation. The position of the 
+  center is set by :py:attr:`item.position` and the orientation ... *TO WRITE*.
+  
+  Attributes:
+
+    major (float): Length of the major axis.
+
+    minor (float): Length of the minor axis.
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Polygon item constructor
+
+    Defines an ellipse, which inherits both from ``QGraphicsEllipseItem`` and
+    :class:`item`.
+
+    Args:
+
+      animation (:class:`Animaton2d`): The animation container.
+
+      name (str): The item's identifier, which should be unique. It is used as a
+        reference by :class:`Animation2d`. This is the only mandatory argument.
+
+      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
+        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
+
+      zvalue (float): Z-value (stack order) of the item.
+
+      orientation (float): Orientation of the item (rad)
+
+      position ([float,float]): Position of the ``group``, ``text``, 
+        ``circle``, and ``rectangle`` elements (scene units).
+
+      colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
+        ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
+        whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
+        (255, 0, 0, 127))
+
+      linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
+        or ``polygon``). Can have any value among ``solid`` (default), ``dash``
+        or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
+
+      clickable (bool): *TO DO*
+
+      movable (bool): If True, the element will be draggable. (default: ``False``)
+    """  
+
+    # Generic item constructor
+    super().__init__(animation, name, **kwargs)
+    
+    # --- Definitions
+
+    self._points = None
+    self._color = (None, None)
+    self._thickness = None
+    self._linestyle = None
+
+    # --- Initialization
+
+    if 'points' not in kwargs:
+      raise AttributeError("'points' must be specified for polygon items.")
+    else:
+      self.points = kwargs['points']
+
+    self.colors = kwargs['colors'] if 'colors' in kwargs else ['gray','white']
+    self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
+    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
+
+  # --- Points -------------------------------------------------------------
+
+  @property
+  def points(self): return self._points
+
+  @points.setter
+  def points(self, points):
+
+    self._points = points
+
+    poly = []
+    for p in self._points:
+      poly.append(QPointF(self.x2scene(p[0]), self.y2scene(p[1])))
+    self.setPolygon(QPolygonF(poly))
+  
+  # --- Color --------------------------------------------------------------
+
+  @property
+  def colors(self): return self._color
+
+  @colors.setter
+  def colors(self, C):
+    self._color = {'fill': C[0], 'stroke': C[1]}
+    self.setStyle()
+
+  # --- Thickness ----------------------------------------------------------
+
+  @property
+  def thickness(self): return self._thickness
+
+  @thickness.setter
+  def thickness(self, t):
+    self._thickness = t
+    self.setStyle()
+
+  # --- Linestyle ----------------------------------------------------------
+
+  @property
+  def linestyle(self): return self._linestyle
+
+  @linestyle.setter
+  def linestyle(self, s):
+    self._linestyle = s
+    self.setStyle()      
 
 
 # === Animation ============================================================

@@ -2,7 +2,6 @@
 Animation
   Items:
     arrow
-    polygon
     path
     image (pixmap)
 
