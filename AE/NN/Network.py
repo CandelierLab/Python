@@ -9,6 +9,7 @@ has to be subclassed to be useful.
 import numpy as np
 import networkx as nx
 
+from PyQt5.QtCore import Qt
 import AE.Display.Animation as Animation
 
 # === Network ==============================================================
@@ -85,9 +86,9 @@ class Network():
 
   def show(self, isolate_output=True, size=None):
 
-    anim = Visu2d(self, isolate_output=isolate_output, size=size, window=Animation.Window())
-    anim.window.title = 'Network'
-    anim.window.show()
+    anim = Visu2d(self, isolate_output=isolate_output, size=size)
+    anim.parent.title = 'Network'
+    anim.show()
 
 # === Visualisation ========================================================
 
@@ -101,7 +102,7 @@ class Visu2d(Animation.Animation2d):
   values through time.
   """
 
-  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, size=None, window=None):
+  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, size=None):
     """
     Network 2D visualization constructor
 
@@ -118,7 +119,7 @@ class Visu2d(Animation.Animation2d):
     """
 
     # Parent constructor
-    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, size=size, window=window)
+    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, size=size)
 
     # Network
     self.Net = Net
@@ -205,8 +206,8 @@ class Visu2d(Animation.Animation2d):
     self.r = 0.05
     self.fontsize = int(np.floor(self.r*self.size/4.5))
 
-    self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
-    self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
+    # self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
+    # self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
 
     # --- Edges ------------------------------------------------------------
 
@@ -215,11 +216,13 @@ class Visu2d(Animation.Animation2d):
       # Name
       name = str(edge['i']) + '→' +  str(edge['j'])
 
-      self.elm[name] = Animation.element('arrow',
-        points = [pos[edge['i']], pos[edge['j']]],
-        thickness = 2,
-        locus = 0.5
-      )
+      # if name not in self.item:
+
+      #   self.add(Animation.arrow, name,
+      #     points = [pos[edge['i']], pos[edge['j']]],
+      #     thickness = 2,
+      #     locus = 0.5
+      #   )
 
     # --- Nodes ------------------------------------------------------------
 
@@ -233,25 +236,25 @@ class Visu2d(Animation.Animation2d):
       else:
         gname = 'node_' + self.Net.node[i]['name']
 
-      self.elm[gname] = Animation.element('crew', 
+      self.add(Animation.group, gname,
         position = pos[i], 
-        movable = not (node['IN'] or node['OUT']))
+        draggable = not (node['IN'] or node['OUT']))
 
       # --- Circle
 
       # Double circle for OUTPUT Nodes
       if node['OUT']:
-        self.elm[gname+'_outercircle'] = Animation.element('circle',
+        self.add(Animation.circle, gname + '_outercircle',
           parent = gname,
-          position = (0, 0),
+          position = (0,0),
           radius = self.r*1.2,
           colors = ('black', '#ccc'),
           thickness = 2
         )
 
-      self.elm[gname+'_circle'] = Animation.element('circle',
+      self.add(Animation.circle, gname + '_circle',
         parent = gname,
-        position = (0, 0),
+        position = (0,0),
         radius = self.r,
         colors = ('#555', '#ccc'),
         thickness = 2,
@@ -264,16 +267,16 @@ class Visu2d(Animation.Animation2d):
       if len(name)>3:
         name = name[0:3]
 
-      self.elm[gname+'_text'] = Animation.element('text',
+      self.add(Animation.text, gname + '_text',
         parent = gname,
-        position = [0,0],
+        position = (0,0),
         string = name,
         color = 'white',
-        center = (True, True),
+        center = True,
         fontsize = self.fontsize
       )
 
-  def change(self, type, elm):
+  def change(self, type, item):
     """
     Drag callback
 
@@ -286,24 +289,26 @@ class Visu2d(Animation.Animation2d):
       elm (:class:`AE.Display.Animation.element`): Element that has changed.
     """
 
-    # Moved node
-    k = int(elm.name[5:])
+    pass
 
-    # Get new position
-    pos = self.scene2pos(elm.QitemRef.pos())
+    # # Moved node
+    # k = int(elm.name[5:])
+
+    # # Get new position
+    # pos = self.scene2pos(elm.QitemRef.pos())
   
-    # Edges
-    for edge in self.Net.edge:
+    # # Edges
+    # for edge in self.Net.edge:
 
-        # Name
-        name = str(edge['i']) + '→' +  str(edge['j'])
+    #     # Name
+    #     name = str(edge['i']) + '→' +  str(edge['j'])
 
-        # Afferent nodes
-        if edge['j']==k:        
-          p1 = self.scene2pos(self.elm['node_{:d}'.format(edge['i'])].QitemRef.pos())
-          self.elm[name].setPoints([p1, pos])
+    #     # Afferent nodes
+    #     if edge['j']==k:        
+    #       p1 = self.scene2pos(self.elm['node_{:d}'.format(edge['i'])].QitemRef.pos())
+    #       self.elm[name].setPoints([p1, pos])
 
-        # Efferent nodes
-        if edge['i']==k:        
-          p2 = self.scene2pos(self.elm['node_{:d}'.format(edge['j'])].QitemRef.pos())
-          self.elm[name].setPoints([pos, p2])
+    #     # Efferent nodes
+    #     if edge['i']==k:        
+    #       p2 = self.scene2pos(self.elm['node_{:d}'.format(edge['j'])].QitemRef.pos())
+    #       self.elm[name].setPoints([pos, p2])

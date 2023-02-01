@@ -1,14 +1,18 @@
 '''
+Network
+  Visu2d
+    !! DOC !!
+    Repair
+    Edge class (with text)
+    Self-edge class ?
+
+  ANN
+    Activation
+    Animation: colormap for values
+    Save/load Network, with positions
+
 Animation
+  !! DOC !!
   image (pixmap)
   Save as image
-
-Visu2d:
-  Edge class (add text)
-  Self-edge class ?
-
-ANN:
-  Activation
-  Animation: colormap for values
-  Save/load Network, with positions
 '''

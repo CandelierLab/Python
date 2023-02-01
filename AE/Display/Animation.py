@@ -125,7 +125,7 @@ class item():
       The :math:`x` position in scene coordinates.
     """
 
-    return (x-self.animation.sceneLimits['x'][0])*self.animation.factor
+    return (x-self.animation.boundaries['x'][0])*self.animation.factor
 
   def y2scene(self, y):
     """
@@ -138,7 +138,7 @@ class item():
       The :math:`y` position in scene coordinates.
     """
 
-    return (self.animation.sceneLimits['y'][0]-y)*self.animation.factor
+    return (self.animation.boundaries['y'][0]-y)*self.animation.factor
 
   def xy2scene(self, xy):
     """
@@ -359,15 +359,17 @@ class item():
   @position.setter
   def position(self, pos):
     
-    # Doublet input
-    if isinstance(pos, (tuple, list)):
-      x = pos[0]  
-      y = pos[1]      
-
-    # Convert from complex coordinates
     if isinstance(pos, complex):
+
+      # Convert from complex coordinates
       x = np.real(pos)
       y = np.imag(pos)
+
+    else:
+
+      # Doublet input
+      x = pos[0]  
+      y = pos[1]      
 
     # Store position
     self._position = [x,y]
@@ -1429,7 +1431,7 @@ class arrow(composite):
     self._points = None
     self._z = None
     self._size = None
-    self._locus = None
+    self._locus = 1
     self._shape = None
     self._color = None
 
@@ -1438,12 +1440,12 @@ class arrow(composite):
     self.size = kwargs['size'] if 'size' in kwargs else 0.015
     self.shape = kwargs['shape'] if 'shape' in kwargs else 'dart'
 
-    if 'points' in kwargs:           
+    if 'points' in kwargs:        
       self.points = kwargs['points']
     else:
       raise AttributeError("The 'points' argument is necessary for an arrow element.")
 
-    self.locus = kwargs['locus'] if 'locus' in kwargs else 1
+    if 'locus' in kwargs: self.locus = kwargs['locus']
     if 'thickness' in kwargs: self.thickness = kwargs['thickness']
     self.color = kwargs['color'] if 'color' in kwargs else 'white'
 
@@ -1493,7 +1495,7 @@ class arrow(composite):
       match self._shape:
 
         case 'dart':
-
+          
           self.animation.item[self.head] = polygon(self.animation, self.head,
             parent = self.name,
             position = [np.abs(self._z)*self._locus,0],
@@ -1548,8 +1550,7 @@ class arrow(composite):
     # Line
     self.animation.item[self.line].points = [[0,0],[np.abs(self._z)-self._size/2,0]]
 
-    # Arrowhead
-    if self._locus is None: self._locus = 1    
+    # Arrowhead 
     self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
 
   # --- Locus --------------------------------------------------------------
@@ -1589,6 +1590,23 @@ class arrow(composite):
 
 # === ANIMATION ============================================================
 
+class view(QGraphicsView):
+
+  def __init__(self, scene, *args, **kwargs):
+
+    super().__init__(*args, *kwargs)
+    self.setScene(scene)
+
+  def showEvent(self, E):
+    
+    self.fitInView(self.scene().sceneRect(), Qt.KeepAspectRatio)
+    super().showEvent(E)
+
+  def resizeEvent(self, E):
+    
+    self.fitInView(self.scene().sceneRect(), Qt.KeepAspectRatio)
+    super().resizeEvent(E)
+
 class Animation2d():
   """
   2D Animation
@@ -1611,7 +1629,7 @@ class Animation2d():
     
     item ({:class:`item` *subclass*}): All items in the scene.
 
-    sceneLimits ({'x', 'y', 'width', 'height'}): Limits of the scene.
+    boundaries ({'x', 'y', 'width', 'height'}): Limits of the scene.
 
     margin (float): Margin around the scene (pix).
 
@@ -1642,7 +1660,7 @@ class Animation2d():
     Qtimer (``QTimer``): Timer managing the display updates.
   """
 
-  def __init__(self, parent=None, size=None, sceneLimits=None, disp_boundaries=True, disp_time=False, dt=None):
+  def __init__(self, parent=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
     """
     Animation constructor
 
@@ -1657,7 +1675,7 @@ class Animation2d():
 
       size (float): Height of the ``QGraphicsView``.
 
-      sceneLimits ([[float,float],[float,float]]): Limits of the scene to display.
+      boundaries ([[float,float],[float,float]]): Limits of the scene to display.
         The first element sets the *x*-limits and the second the *y*-limits. 
         Default is [[0,1],[0,1]].
 
@@ -1692,24 +1710,23 @@ class Animation2d():
     self.timeHeight = QApplication.desktop().screenGeometry().height()*0.02
 
     # Scene limits
-    self.sceneLimits = {'x':[0,1], 'y':[0,1], 'width':None, 'height':None}
-    if sceneLimits is not None:
-      self.sceneLimits['x'] = list(sceneLimits[0])
-      self.sceneLimits['y'] = list(sceneLimits[1])
-    self.sceneLimits['width'] = self.sceneLimits['x'][1]-self.sceneLimits['x'][0]
-    self.sceneLimits['height'] = self.sceneLimits['y'][1]-self.sceneLimits['y'][0]
+    self.boundaries = {'x':[0,1], 'y':[0,1], 'width':None, 'height':None}
+    if boundaries is not None:
+      self.boundaries['x'] = list(boundaries[0])
+      self.boundaries['y'] = list(boundaries[1])
+    self.boundaries['width'] = self.boundaries['x'][1]-self.boundaries['x'][0]
+    self.boundaries['height'] = self.boundaries['y'][1]-self.boundaries['y'][0]
 
     # Scale factor
-    self.factor = self.size/self.sceneLimits['height']
+    self.factor = self.size/self.boundaries['height']
 
     # --- Scene & view
 
     # Scene
-    self.Qscene = QGraphicsScene()
-    self.Qview = QGraphicsView()
-    self.Qview.setScene(self.Qscene)
-    self.Qview.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-    self.Qview.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    self.scene = QGraphicsScene()
+    self.view = view(self.scene)
+    self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
     # Items and composite elements
     self.item = defaultdict()
@@ -1718,13 +1735,13 @@ class Animation2d():
     # --- Display
 
     # Dark background
-    self.Qview.setBackgroundBrush(Qt.black)
-    pal = self.Qview.palette()
+    self.view.setBackgroundBrush(Qt.black)
+    pal = self.view.palette()
     pal.setColor(QPalette.Window, Qt.black)
-    self.Qview.setPalette(pal)
+    self.view.setPalette(pal)
 
     # Antialiasing
-    self.Qview.setRenderHints(QPainter.Antialiasing)
+    self.view.setRenderHints(QPainter.Antialiasing)
 
     # --- Animation
   
@@ -1734,17 +1751,17 @@ class Animation2d():
     
     # Scene boundaries
     if self.disp_boundaries:
-      self.boundaries = QGraphicsRectItem(0,0,
-        self.factor*self.sceneLimits['width'],
-        -self.factor*self.sceneLimits['height'])
-      self.boundaries.setPen(QPen(Qt.lightGray, 0)) 
-      self.Qscene.addItem((self.boundaries))
+      self.box = QGraphicsRectItem(0,0,
+        self.factor*self.boundaries['width'],
+        -self.factor*self.boundaries['height'])
+      self.box.setPen(QPen(Qt.lightGray, 0)) 
+      self.scene.addItem((self.box))
 
     # Time display
     if self.disp_time:
-      self.timeDisp = self.Qscene.addText("---")
+      self.timeDisp = self.scene.addText("---")
       self.timeDisp.setDefaultTextColor(QColor('white'))
-      self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.sceneLimits['height'])
+      self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.boundaries['height'])
 
   def add(self, type, name, **kwargs):
     """
@@ -1766,7 +1783,7 @@ class Animation2d():
 
       # Add item to the scene
       if self.item[name].parent is None:
-        self.Qscene.addItem(self.item[name])
+        self.scene.addItem(self.item[name])
     
   def show(self):
     """
@@ -1877,24 +1894,24 @@ class Window():
       self.animation = Animation2d(parent=self)
 
     # Window title
-    self.animation.Qview.setWindowTitle(self.title)
+    self.animation.view.setWindowTitle(self.title)
 
     # --- Shortcuts
 
     self.shortcut = defaultdict()
 
     # Quit
-    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.animation.Qview)
+    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.animation.view)
     self.shortcut['esc'].activated.connect(self.app.quit)
 
     # --- Initialization
 
     # Window size
-    self.animation.Qview.resize(
-      int(self.animation.factor*self.animation.sceneLimits['width']+2*self.animation.margin), 
-      int(self.animation.factor*self.animation.sceneLimits['height']+2*self.animation.margin+self.animation.timeHeight))
+    self.animation.view.resize(
+      int(self.animation.factor*self.animation.boundaries['width']+2*self.animation.margin), 
+      int(self.animation.factor*self.animation.boundaries['height']+2*self.animation.margin+self.animation.timeHeight))
 
-    self.animation.Qview.show()
+    self.animation.view.show()
     self.animation.startAnimation()
     self.app.exec()
 
