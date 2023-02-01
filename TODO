@@ -1,14 +1,17 @@
 '''
 Network
-  Visu2d
-    !! DOC !!
-    Edge class (with text)
-    Self-edges
-
+  
   ANN
     Activation
-    Animation: colormap for values
     Save/load Network, with positions
+
+  Visu2d
+    !! DOC !!
+    Edge class (with text=weights)
+    Self-edges
+    Edge style: cmap on weights
+    Node style: cmap on values
+    Colored animation
 
 Animation
   !! DOC !!

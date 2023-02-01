@@ -1645,12 +1645,12 @@ class view(QGraphicsView):
 
   def showEvent(self, E):
     
-    self.fitInView(self.scene().sceneRect(), Qt.KeepAspectRatio)
+    self.fitInView(self.scene().itemsBoundingRect(), Qt.KeepAspectRatio)
     super().showEvent(E)
 
   def resizeEvent(self, E):
     
-    self.fitInView(self.scene().sceneRect(), Qt.KeepAspectRatio)
+    self.fitInView(self.scene().itemsBoundingRect(), Qt.KeepAspectRatio)
     super().resizeEvent(E)
 
 class Animation2d():

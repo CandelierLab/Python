@@ -9,20 +9,25 @@ class ANN(Network):
     # Parent constructor
     super().__init__(self)
 
-    # --- Default behavior
+    # --- Default attributes
 
+    # Activation
     self.default_activation = default_activation
 
-    # --- Propagation
-
+    # Propagation
     self.propagation_mode = propagation_mode
 
-    #  --- Convenience arrays
+    #  --- Convenience attributes
 
-    self.notIN = []
-    self.bias = []
-    self.value = []
-    self.activation_group = defaultdict
+    self._isInitialized = False
+    self.notIN = None
+    self.nNode = None
+    self.nIN = None
+    self.nNotIn = None
+    self._W = None
+    self._bias = None
+    self._value = None
+    self._activation_group = {}
 
   def add_node(self, n=1, IN=False, OUT=False, bias=0, activation=None, initial_value=0, name=None):
 
@@ -41,13 +46,14 @@ class ANN(Network):
 
     if IN:
 
-      if activation is not None and activation!='identity':
-        raise Warning("Activation has been changes to 'identity' for an input node")
+      if activation is not None:
+        raise Warning("Activation has been removed for an input node.")
 
       # Override activation
-      activation = 'identity'
-    
-    if activation is None:
+      activation = None
+
+    elif activation is None:
+
       activation = self.default_activation
 
     # --- Add node
@@ -65,8 +71,7 @@ class ANN(Network):
       self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'activation':activation, 
         'initial_value':initial_value, 'name':len(self.node) if name is None else name})
 
-
-  def add_edge(self, i, j, w=0, d=0, name=None):
+  def add_edge(self, i, j, w=0, d=0):
 
     # --- Checks
 
@@ -74,5 +79,79 @@ class ANN(Network):
 
     # --- Add edge
 
-    self.edge.append({'i':i, 'j':j, 'w':w, 'd':d, 'name':name})
+    self.edge.append({'i':i, 'j':j, 'w':w, 'd':d})
     
+  def initialize(self):
+
+    # --- Numbers
+
+    self.nNode = len(self.node)
+    self.nIN = len(self.IN)
+    self.nNotIn = self.nNode-self.nIN
+
+    # --- Weights
+
+    self._W = np.zeros((self.nNode, self.nNotIn))
+    print(self._W)
+    
+    # --- Biases
+    
+    self._bias = np.array([node['bias'] for node in self.node])
+
+    # --- Activation groups
+
+    for k, node in enumerate(self.node):
+
+      a = node['activation']
+
+      if a is None: continue
+
+      if a in self._activation_group:
+        self._activation_group[a].append(k)
+      else:
+        self._activation_group[a] = [k]
+
+    # --- Values
+
+    self._value = np.zeros(len(self.node))
+
+  def process(self, input):
+
+    if self.propagation_mode=='synchronous':
+
+      # Initialize
+      if not self._isInitialized: self.initialize()
+
+      # Update input
+      self._value[self.IN] = input
+
+      # Compute new values
+      self.step()
+
+    return self._value[self.OUT]
+
+  def step(self):
+    
+    # Weighted sum and bias
+    self._value[self._notIN] = self._value*self._W + self._bias
+
+    ''' 
+    Note:
+      Input nodes are set to zero during this operation, but this is not 
+      important for the rest of the computation since they are not used
+      afterward. They will be then reset during the initialization of the
+      next step.
+    '''
+
+    # --- Activation
+
+# f = fieldnames(this.activationGroup);
+# for k = 1:numel(f)
+
+#     % Group indices
+#     I = this.activationGroup.(f{k});
+
+#     % Compute activated values
+#     this.value(I) = this.activate(this.value(I), f{k});
+
+# end

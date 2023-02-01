@@ -12,5 +12,6 @@ for i in range(15):
   Net.add_edge(np.random.randint(N), np.random.randint(N))
 
 # print(Net)
+# Net.show()
 
-Net.show()
+Net.process([1,2,3])
