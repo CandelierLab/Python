@@ -216,13 +216,13 @@ class Visu2d(Animation.Animation2d):
       # Name
       name = str(edge['i']) + '→' +  str(edge['j'])
 
-      # if name not in self.item:
+      if name not in self.item:
 
-      #   self.add(Animation.arrow, name,
-      #     points = [pos[edge['i']], pos[edge['j']]],
-      #     thickness = 2,
-      #     locus = 0.5
-      #   )
+        self.add(Animation.arrow, name,
+          points = [pos[edge['i']], pos[edge['j']]],
+          thickness = 2,
+          locus = 0.5
+        )
 
     # --- Nodes ------------------------------------------------------------
 
@@ -289,26 +289,26 @@ class Visu2d(Animation.Animation2d):
       elm (:class:`AE.Display.Animation.element`): Element that has changed.
     """
 
-    pass
+    if type=='move':
 
-    # # Moved node
-    # k = int(elm.name[5:])
+      # Moved node
+      k = int(item.name[5:])
 
-    # # Get new position
-    # pos = self.scene2pos(elm.QitemRef.pos())
-  
-    # # Edges
-    # for edge in self.Net.edge:
+      # Get new position
+      pos = item.scene2xy(item.pos())
+    
+      # Edges
+      for edge in self.Net.edge:
 
-    #     # Name
-    #     name = str(edge['i']) + '→' +  str(edge['j'])
+          # Name
+          name = str(edge['i']) + '→' +  str(edge['j'])
 
-    #     # Afferent nodes
-    #     if edge['j']==k:        
-    #       p1 = self.scene2pos(self.elm['node_{:d}'.format(edge['i'])].QitemRef.pos())
-    #       self.elm[name].setPoints([p1, pos])
+          # Afferent nodes
+          if edge['j']==k:        
+            p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())          
+            self.composite[name].points = [p1, pos]
 
-    #     # Efferent nodes
-    #     if edge['i']==k:        
-    #       p2 = self.scene2pos(self.elm['node_{:d}'.format(edge['j'])].QitemRef.pos())
-    #       self.elm[name].setPoints([pos, p2])
+          # Efferent nodes
+          if edge['i']==k:        
+            p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
+            self.composite[name].points = [pos, p2]

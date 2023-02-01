@@ -2,9 +2,8 @@
 Network
   Visu2d
     !! DOC !!
-    Repair
     Edge class (with text)
-    Self-edge class ?
+    Self-edges
 
   ANN
     Activation

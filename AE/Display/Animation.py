@@ -178,6 +178,52 @@ class item():
     """
 
     return -a*180/np.pi
+  
+  def scene2x(self, u):
+    """
+    Convert horizontal scene coordinates into :math:`x` position
+
+    arg:
+      u (float): The horizontal coordinate.
+
+    returns:
+      The :math:`x` position.
+    """
+
+    return self.animation.boundaries['x'][0] + u/self.animation.factor
+
+  def scene2y(self, v):
+    """
+    Convert vertical scene coordinates into :math:`y` position
+
+    arg:
+      v (float): The horizontal coordinate.
+
+    returns:
+      The :math:`y` position.
+    """
+
+    return self.animation.boundaries['y'][0] - v/self.animation.factor
+
+  def scene2xy(self, pos):
+    """
+    Convert scene coordinates into :math:`x` and :math:`y` positions
+
+    arg:
+      pos ([float,float]): The position in scene coordinates.
+
+    returns:
+      The :math:`x` and :math:`y` positions.
+    """
+
+    if isinstance(pos, QPointF):
+      u = pos.x()
+      v = pos.y()
+    else:
+      u = pos[0]
+      v = pos[1]
+
+    return self.scene2x(u), self.scene2y(v)
 
   def place(self):
     """

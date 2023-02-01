@@ -11,4 +11,6 @@ N = len(Net.node)
 for i in range(15):
   Net.add_edge(np.random.randint(N), np.random.randint(N))
 
+# print(Net)
+
 Net.show()
