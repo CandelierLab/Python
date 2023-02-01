@@ -38,499 +38,7 @@ from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, QPointF, QRectF
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
 from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
-# === ELEMENTS =============================================================
-
-# class element():
-#   """
-#   Elements of the animation
-
-#   Elements are the items displayed in the ``QGraphicsScene`` of the :class:`Animation2d`.
-#   A ``group`` element groups other elements for easier manipulation. Some elements like 
-#   ``arrow`` are groups of items.
-  
-#   Supported types are:
-#     * ``group``
-#     * ``crew``: similar to ``group``, but interactions are reported to the 
-#       :py:meth:`Animation2d.change`: method.
-#     * ``text``
-#     * ``line``
-#     * ``arrow``
-#     * *TO DO*: ``path``
-#     * ``circle``
-#     * *TO DO*: ``ellipse``
-#     * ``rectangle``
-#     * ``polygon``
-
-#   During animation, attributes can be modified with the methods:
-#     * :py:meth:`element.rotate`: relative rotation
-#     * *TO DO* :py:meth:`element.translate`: relative translation
-#     * *TO DO* s:py:meth:`element.setOrientation`: Set absolute orientation
-#     * :py:meth:`element.setPosition`: Set absolute position
-#     * *TO DO* :py:meth:`element.setColors`: Set fill and stroke colors
-#     * *TO DO* :py:meth:`element.setFill`: Set fill color
-#     * *TO DO* :py:meth:`element.setStroke`: Set stroke color
-
-#   .. note:: The :py:meth:`element.convert` method is for internal use upon
-#     view initialization. It is normaly not called by a user.
-  
-#   Attributes:
-#     elm ({:class:`element`}): All elements in the scene
-#     Qitem (*QGraphicsItem*): The underlying ``QGraphicsItem`` belonging to
-#       the ``QGraphicsScene`` of the view.
-#   """
-
-#   def __init__(self, type, **kwargs):
-#     """
-#     Element constructor
-
-#     An element should be fully determined upon definition, so the constructor has many options
-#     for the different types of elements.
-
-#     Args:
-
-#       type (str): Type of element, among ``group``, ``text``, ``line``, 
-#         ``circle``, ``polygon`` or ``rectangle``.
-
-#       parent (*QGraphicsItem*): The parent ``QGraphicsItem``
-
-#       belowParent (bool): Determine if the element should be placed above
-#         the parent (``False``, default) or below (``True``).
-
-#       zvalue (float): Z-value of the element in the stack.
-
-#       rotation (float): Rotation of the element (rad)
-
-#       position ([float,float]): Position of the ``group``, ``text``, 
-#         ``circle``, and ``rectangle`` elements (scene units).
-
-#       points ([[float,float]]): Positions of the points of ``line``, 
-#         ``arrow`` or ``polygon`` elements (scene units).
-                
-#       radius (float): Radius of the circle (for ``circle`` only).
-      
-#       width (float): Width of the ``rectangle``.
-
-#       height (float): Height of the ``rectangle``.
-
-#       thickness (float): Stroke thickness (pix). For ``line``, ``circle``, 
-#         ``ellipse``, ``rectangle`` or ``polygon`` elements. (Default: 0)
-
-#       locus (float): Position of the tip of arrowhead on the normalized 
-#         curvilinear coordinates of the ``arrow`` element. This value should 
-#         be between 0 and 1 (default: 1).
-
-#       shape (str): Shape of the arrowhead of ``arrow`` elements. Can be
-#         ``dart`` (default) or ``disk``.
-
-#       size (float): Size of the arrowhead of ``arrow`` elements, in scene 
-#         units. (default: 0.02)
-
-#       string (str): String of a ``text`` element. Rich HTML text is supported.
-
-#       fontname (str): Font of a ``text`` element. Default: ``Arial``
-
-#       fontsize (int): Default font size of a ``text`` element, corresponding to 
-#         the pointSize property of ``QFont``. Default value: 10
-
-#       center ((bool,bool)): Center a ``text`` element horizontally and/or
-#         vertically. Default is (``False``, ``False``).
-
-#       color (*color*): Color for ``text``, ``line`` or ``arrow`` elements. 
-#         Colors can be whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
-#         (255, 0, 0, 127)).
-
-#       colors ([*color*, *color*]): Fill and stroke colors for ``circle``, 
-#         ``ellipse``, ``rectangle`` or ``polygon`` elements.  Colors can be 
-#         whatever input of ``QColor`` (*e.g*: ``darkCyan``, ``#ff112233`` or 
-#         (255, 0, 0, 127))
-
-#       linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
-#         or ``polygon``). Can have any value among ``solid`` (default), ``dash``
-#         or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
-
-#       clickable (bool): *TO DO*
-
-#       movable (bool): If True, the element will be draggable. (default: ``False``)
-#     """  
-
-#     # Common properties
-#     self.name = None
-#     self.type = type
-#     self.view = None
-#     self.QitemRef = None
-#     self.rotation = kwargs['rotation'] if 'rotation' in kwargs else 0
-#     self.parent = kwargs['parent'] if 'parent' in kwargs else None
-#     self.belowParent = kwargs['belowParent'] if 'belowParent' in kwargs else False
-#     self.zvalue = kwargs['zvalue'] if 'zvalue' in kwargs else None
-#     self.position = kwargs['position'] if 'position' in kwargs else [0,0]
-#     self.movable = kwargs['movable'] if 'movable' in kwargs else False
-#     self.clickable = kwargs['clickable'] if 'clickable' in kwargs else False
-#     self.color = {}
-
-#     # Element-dependent properties
-#     match type:
-
-#       case 'text':
-#         self.string = kwargs['string'] if 'string' in kwargs else '-'
-#         self.color['fill'] = kwargs['color'] if 'color' in kwargs else 'white'
-#         self.center = {}
-#         self.center['horizontal'] = kwargs['center'][0] if 'center' in kwargs else False   
-#         self.center['vertical'] = kwargs['center'][1] if 'center' in kwargs else False
-#         self.fontname = kwargs['fontname'] if 'fontname' in kwargs else 'Arial'
-#         self.fontsize = kwargs['fontsize'] if 'fontsize' in kwargs else 10
-        
-#       case 'line':
-
-#         if 'points' in kwargs:           
-#           self.points = kwargs['points']
-#         else:
-#           raise AttributeError("The 'points' argument is necessary for a line element.")
-
-#         self.color['fill'] = None  
-#         self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
-        
-#       case 'arrow':
-
-#         # Items of the arrow group
-#         self.Qitems = []
-
-#         if 'points' in kwargs:           
-#           self.points = kwargs['points']
-#         else:
-#           raise AttributeError("The 'points' argument is necessary for an arrow element.")
-          
-#         self.color['stroke'] = kwargs['color'] if 'color' in kwargs else 'white'
-
-#         # Arrow-specific properties
-#         self.arrow = {
-#           'locus': kwargs['locus'] if 'locus' in kwargs else 1,
-#           'size': kwargs['size'] if 'size' in kwargs else 0.02,
-#           'shape': kwargs['shape'] if 'shape' in kwargs else 'dart'
-#         }
-
-#         if self.arrow['locus']<0 or self.arrow['locus']>1:
-#           raise ValueError("Arrowhead position should be in [0;1] (value: {:f})".format(self.arrow['pos']))
-        
-#       case 'circle':
-#         self.radius = kwargs['radius'] if 'radius' in kwargs else 0
-#         self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
-#         self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
-
-#       case 'polygon':
-        
-#         if 'points' in kwargs:           
-#           self.points = kwargs['points']
-#         else:
-#           raise AttributeError("The 'points' argument is necessary for a polygon element.")
-
-#         self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
-#         self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
-
-#       case 'rectangle':
-#         self.width = kwargs['width'] if 'width' in kwargs else 0
-#         self.height = kwargs['height'] if 'height' in kwargs else 0
-#         self.color['fill'] = kwargs['colors'][0] if 'colors' in kwargs else 'gray'
-#         self.color['stroke'] = kwargs['colors'][1] if 'colors' in kwargs else 'white'
-        
-#     # --- Style
-
-#     # Stroke thickness
-#     self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
-
-#     # Stroke style
-#     self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
-
-#   def convert(self, anim,  name):
-#     """
-#     Conversion to ``QGraphicsItem``
-
-#     For internal use only.
-
-#     Attributes:
-#       anim (:class:`Animation2d`): Animation
-#     """
-
-#     self.anim = anim
-#     self.name = name
-
-#     # --- Definition
-
-#     match self.type:
-
-#       case 'group':
-
-#         self.QitemRef = QGraphicsItemGroup()
-
-#       case 'crew':
-
-#         self.QitemRef = Crew(self)
-          
-#       case 'text':
-
-#         self.QitemRef = QGraphicsTextItem()
-#         self.QitemRef.setHtml(self.string)
-#         self.QitemRef.setFont((QFont(self.fontname, self.fontsize)))
-
-#         bb = self.QitemRef.boundingRect()
-#         if self.center['horizontal']:
-#           self.position[0] -= bb.width()/2/anim.factor
-#         if self.center['vertical']:
-#           self.position[1] += bb.height()/2/anim.factor
-
-#       case 'line':
-
-#         self.QitemRef = QGraphicsLineItem()
-#         self.setPoints()
-
-#       case 'arrow':
-
-#         self.QitemRef = QGraphicsItemGroup()
-
-#         # Arrow line
-#         self.Qitems.append(QGraphicsLineItem(0,0,0,0))
-
-#         # Arrowhead
-#         match self.arrow['shape']:
-
-#           case 'dart':
-#             head = [QPointF(0,0),
-#               QPointF(-self.arrow['size']*anim.factor*3/2, self.arrow['size']*anim.factor/2),
-#               QPointF(-self.arrow['size']*anim.factor, 0),
-#               QPointF(-self.arrow['size']*anim.factor*3/2, -self.arrow['size']*anim.factor/2),
-#               QPointF(0,0)]
-#             self.Qitems.append(QGraphicsPolygonItem(QPolygonF(head)))
-
-#           case 'disk':
-#             self.Qitems.append(QGraphicsEllipseItem(
-#               -self.arrow['size']*anim.factor,
-#               self.arrow['size']/2*anim.factor,
-#               self.arrow['size']*anim.factor,
-#               -self.arrow['size']*anim.factor))
-
-#         self.setPoints()
-        
-#       case 'circle':
-
-#         self.QitemRef = QGraphicsEllipseItem(
-#           -self.radius*anim.factor,
-#           self.radius*anim.factor,
-#           2*self.radius*anim.factor,
-#           -2*self.radius*anim.factor)
-        
-#       case 'polygon':
-
-#         self.QitemRef = QGraphicsPolygonItem(QPolygonF([]))
-#         self.setPoints()
-
-#       case 'rectangle':
-
-#         self.QitemRef = QGraphicsRectItem(0,0,
-#           self.width*anim.factor,
-#           -self.height*anim.factor)
-
-#     # --- Position
-
-#     if self.parent is None:
-#       self.QitemRef.setPos(
-#         (self.position[0]-anim.sceneLimits['x'][0])*anim.factor, 
-#         -(self.position[1]-anim.sceneLimits['y'][0])*anim.factor)
-#     else:
-#       self.QitemRef.setPos(
-#         self.position[0]*anim.factor, 
-#         -self.position[1]*anim.factor)
-
-#     if self.movable:
-#       self.QitemRef.setFlag(QGraphicsItem.ItemIsMovable, True)
-#       self.QitemRef.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
-#       self.QitemRef.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-
-#     # Rotation
-#     if self.type not in ['arrow']:
-#       self.rotate(self.rotation)
-
-#     # --- Parent
-
-#     if self.parent is not None:
-#       self.QitemRef.setParentItem(anim.elm[self.parent].QitemRef)
-
-#     if hasattr(self, 'Qitems'):
-#       for item in self.Qitems:
-#         item.setParentItem(self.QitemRef)
-
-#     # --- Stack order
-
-#     if self.belowParent:
-#       self.QitemRef.setFlags(self.QitemRef.flags() | QGraphicsItem.ItemStacksbelowParent)
-
-#     if self.zvalue is not None:
-#       self.QitemRef.setZValue(self.zvalue)
-
-#     # --- Style
-
-#     match self.type:
-
-#       case 'text':
-
-#         self.QitemRef.setDefaultTextColor(QColor(self.color['fill']))
-
-#       case 'line' | 'path' | 'polygon' | 'circle' | 'ellipse' | 'rectangle':
-      
-#         # Fill
-#         if self.color['fill'] is not None:
-#           self.QitemRef.setBrush(QBrush(QColor(self.color['fill'])))
-
-#         # Stroke
-#         self.QitemRef.setPen(self.strokePen())
-
-#       case 'arrow':
-
-#         strokePen = self.strokePen()
-
-#         # Line stroke
-#         self.Qitems[0].setPen(strokePen)
-
-#         # Arrowhead
-#         self.Qitems[1].setPen(strokePen)
-#         self.Qitems[1].setBrush(QBrush(QColor(self.color['stroke'])))
-
-#   def convertPoints(self, points):
-#     """
-#     Element position and relative points positions 
-    
-#     For path-style elements (``line``, ``arrow`` and ``polygon``), it sets
-#     the element's position to the first point's absolute position in the 
-#     scene (self.position) and the relative position of all the points 
-#     (self.points). The first point in self.points is thus always [0,0].
-
-#     For internal use only.
-
-#     args:
-#       points ([[float,float]]): Positions of the points of ``line``, 
-#         ``arrow`` or ``polygon`` elements (absolute, scene units).
-#     """
-
-#     self.position = [points[0][0],points[0][1]]
-#     self.points = [[p[0]-points[0][0], p[1]-points[0][1]] for p in points]
-
-#   def strokePen(self):
-#     """
-#     Define stroke pen for compatible items
-
-#     For internal use only.
-
-#     Returns:
-#       A QPen defining the stroke style and color of the item based on the 
-#       self.linestyle and self.color properties.    
-#     """
-
-#     Pen = QPen()
-
-#     # Stroke color
-#     if self.color['stroke'] is not None:
-#       Pen.setColor(QColor(self.color['stroke']))
-#       Pen.setWidth(self.thickness)
-
-#     # Stroke style
-#     if self.linestyle is not None:
-      
-#       match self.linestyle:
-#         case 'dash' | '--':
-#           Pen.setDashPattern([3,6])
-#         case 'dot' | ':' | '..':
-#           Pen.setStyle(Qt.DotLine)
-#         case 'dashdot' | '-.':
-#           Pen.setDashPattern([3,3,1,3])
-
-#     return Pen
-
-#   def rotate(self, angle):
-#     """
-#     Relative rotation
-
-#     Rotates the element relatively to its current orientation.
-    
-#     Attributes:
-#       angle (float): Orientational increment (rad)
-#     """
-
-#     self.QitemRef.setRotation(-angle*180/np.pi)
-
-#   def setPosition(self, x=None, y=None, z=None):
-#     """
-#     Absolute positionning
-
-#     Places the element's referenceitem to an absolute position.
-    
-#     Attributes:
-#       x (float): :math:`x`-coordinate of the new position
-#       y (float): :math:`y`-coordinate of the new position
-#       z (float): A complex number :math:`z = x+jy`. Specifying ``z``
-#         overrides the ``x`` and ``y`` arguments.
-#     """
-
-#     # Convert from complex coordinates
-#     if z is not None:
-#       x = np.real(z)
-#       y = np.imag(z)
-
-#     self.QitemRef.setPos((x-self.anim.sceneLimits['x'][0])*self.anim.factor,
-#       -(y-self.anim.sceneLimits['y'][0])*self.anim.factor)
-
-#   def setPoints(self, points=None):
-#     """
-#     Set the points of ``line``, ``arrow`` or ``polygon`` elements
-
-#     Use this function to update the points of ``line``, ``arrow`` 
-#     or ``polygon`` elements.
-
-#     args:
-#       points ([[float,float]]): Positions of the points of ``line``, 
-#         ``arrow`` or ``polygon`` elements (absolute, scene units). If 
-#         set as ``None`` (default) then ``self.point`` is used.
-#     """
-
-#     if points is None:
-#       points = self.points
-
-#     self.position = [points[0][0], points[0][1]]
-#     self.points = [[p[0]-self.position[0], p[1]-self.position[1]] for p in points]
-
-#     match self.type:
-
-#       case 'line':
-
-#         self.QitemRef = QGraphicsLineItem(0,0,
-#           self.points[1][0]*self.anim.factor,
-#           -self.points[1][1]*self.anim.factor)
-
-#       case 'arrow':
-
-#         # Remove previous rotation
-#         self.QitemRef.setRotation(self.rotation*180/np.pi)
-
-#         z = self.points[1][0] + 1j*self.points[1][1]
-        
-#         # Group
-#         self.QitemRef.setPos(self.position[0]*self.anim.factor, 
-#           -self.position[1]*self.anim.factor)
-
-#         # Arrow line
-#         self.Qitems[0].setLine(0,0,np.abs(z)*self.anim.factor, 0)
-
-#         # Arrow head
-#         self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*self.anim.factor,0)
-
-#         # Rotation
-#         self.rotation = np.angle(z)
-#         self.QitemRef.setRotation(-self.rotation*180/np.pi)
-
-#       case 'polygon':
-        
-#         poly = []
-#         for p in self.points:
-#           poly.append(QPointF(p[0]*self.anim.factor, -p[1]*self.anim.factor))
-
-#         self.QitemRef.setPolygon(QPolygonF(poly))
+# === ITEMS ================================================================
 
 # --- Generic Item ---------------------------------------------------------
 
@@ -769,8 +277,6 @@ class item():
         case 'dashdot' | '-.': Pen.setDashPattern([3,3,1,3])
       
       self.setPen(Pen)
-
-    
 
   def mousePressEvent(self, event):
     """
@@ -1632,85 +1138,6 @@ class line(item, QGraphicsLineItem):
     self._linestyle = s
     self.setStyle()      
 
-# --- Arrow ----------------------------------------------------------------
-
-class arrow(item, QGraphicsItemGroup):
-  """
-  Arrow item
-
-  A group item has no representation upon display but serves as a parent for
-  multiple other items in order to create and manipulate composed objects.  
-  """
-
-  def __init__(self, animation, name, **kwargs):
-    """
-    Arrow item constructor
-
-    Defines a group, which inherits both from ``QGraphicsItemGroup`` and
-    :class:`item`.
-
-    Args:
-
-      animation (:class:`Animaton2d`): The animation container.
-
-      name (str): The item's identifier, which should be unique. It is used as a
-        reference by :class:`Animation2d`. This is the only mandatory argument.
-
-      parent (*QGraphicsItem*): The parent ``QGraphicsItem`` in the ``QGraphicsScene``.
-        Default is ``None``, which means the parent is the ``QGraphicsScene`` itself.
-
-      zvalue (float): Z-value (stack order) of the item.
-
-      position ([float,float]): Position of the ``group``, ``text``, 
-        ``circle``, and ``rectangle`` elements (scene units).
-
-      orientation (float): Orientation of the item (rad)
-
-      clickable (bool): *TO DO*
-
-      movable (bool): If True, the element will be draggable. (default: ``False``)
-    """  
-
-    # --- Generic item constructor
-
-    super().__init__(animation, name, **kwargs)
-
-    # Remove keys
-    kwargs.pop('draggable', None)
-   
-    # Convert points
-    points = kwargs.pop('points')
-
-    z = self.points[1][0] + 1j*self.points[1][1]
-
-    # --- Names
-
-    self.line = self.name + '_line'
-    self.head = self.name + '_head'
-    self.postParenting = [self.line, self.head]
-
-    # --- Line
-
-    
-        
-        # Group
-        self.QitemRef.setPos(self.position[0]*self.anim.factor, 
-          -self.position[1]*self.anim.factor)
-
-        # Arrow line
-        self.Qitems[0].setLine(0,0,np.abs(z)*self.anim.factor, 0)
-
-        # Arrow head
-        self.Qitems[1].setPos(np.abs(z)*self.arrow['locus']*self.anim.factor,0)
-
-        # Rotation
-        self.rotation = np.angle(z)
-        self.QitemRef.setRotation(-self.rotation*180/np.pi)
-
-    self.animation.add(line, self.line, **kwargs)
-
-
-
 # --- Polygon --------------------------------------------------------------
 
 class polygon(item, QGraphicsPolygonItem):
@@ -1957,7 +1384,210 @@ class path(item, QGraphicsPathItem):
     self._linestyle = s
     self.setStyle()      
 
-# === Animation ============================================================
+# === COMPOSITE ELEMENTS ===================================================
+
+# --- Composite ------------------------------------------------------------
+
+class composite():
+  """
+  Composite element
+
+  A composite element defines a group item containing other items.
+  """
+
+  def __init__(self):
+    pass
+
+# --- Arrow ----------------------------------------------------------------
+
+class arrow(composite):
+  """
+  Arrow composite element
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Arrow element constructor
+    """  
+
+    # --- Definitions
+
+    self.animation = animation
+
+    # Names
+    self.name = name
+    self.line = self.name + '_line'
+    self.head = self.name + '_head'
+
+    # Items
+    self.animation.add(group, self.name, **kwargs)
+    self.animation.add(line, self.line, parent = self.name, points = [[0,0],[0,0]])
+    # NB: arrowhead is created later on, when the 'shape' attibute is assigned.
+
+    # Protected attributes
+
+    self._points = None
+    self._z = None
+    self._size = None
+    self._locus = None
+    self._shape = None
+    self._color = None
+
+    # --- Arguments
+
+    self.size = kwargs['size'] if 'size' in kwargs else 0.015
+    self.shape = kwargs['shape'] if 'shape' in kwargs else 'dart'
+
+    if 'points' in kwargs:           
+      self.points = kwargs['points']
+    else:
+      raise AttributeError("The 'points' argument is necessary for an arrow element.")
+
+    self.locus = kwargs['locus'] if 'locus' in kwargs else 1
+    if 'thickness' in kwargs: self.thickness = kwargs['thickness']
+    self.color = kwargs['color'] if 'color' in kwargs else 'white'
+
+  # --- Arrowhead size -----------------------------------------------------
+
+  @property
+  def size(self): return self._size
+
+  @size.setter
+  def size(self, s):
+
+    self._size = s
+
+    if self.head in self.animation.item:
+
+      match self._shape:
+
+        case 'dart':
+
+          self.animation.item[self.head].points = [[0,0], 
+            [-self._size*3/2, self._size/2], [-self._size, 0],
+            [-self._size*3/2, -self._size/2], [0,0]]
+
+        case 'disk':
+
+          self.animation.item[self.head].radius = self._size/2
+
+
+  # --- Shape --------------------------------------------------------------
+
+  @property
+  def shape(self): return self._shape
+
+  @shape.setter
+  def shape(self, s):
+
+    # Same shape: do nothing
+    if self._shape==s: return
+
+    self._shape = s
+
+    if self.head in self.animation.item:
+
+      # Remove previous arrowhead
+      self.animation.Qscene.removeItem(self.animation.item[self.head])
+
+      match self._shape:
+
+        case 'dart':
+
+          self.animation.item[self.head] = polygon(self.animation, self.head,
+            parent = self.name,
+            position = [np.abs(self._z)*self._locus,0],
+            points = [[0,0]])
+
+        case 'disk':
+
+          self.animation.item[self.head] = circle(self.animation, self.head,
+            parent = self.name,
+            position = [np.abs(self._z)*self._locus,0],
+            radius = 0)
+
+    else:
+
+      # Initial shape
+      match self._shape:
+
+        case 'dart':
+
+          self.animation.item[self.head] = polygon(self.animation, self.head,
+            parent = self.name,
+            position = [0,0],
+            points = [[0,0]])
+
+        case 'disk':
+
+          self.animation.item[self.head] = circle(self.animation, self.head,
+            parent = self.name,
+            position = [0,0],
+            radius = 0)
+
+    # Adjust size
+    self.size = self._size
+  
+  # --- Points -------------------------------------------------------------
+
+  @property
+  def points(self): return self._points
+
+  @points.setter
+  def points(self, points):
+
+    self._points = points
+    self._z = (points[1][0]-points[0][0]) + 1j*(points[1][1]-points[0][1])
+    
+    # --- Application
+
+    # Group
+    self.animation.item[self.name].position = self._points[0]
+    self.animation.item[self.name].orientation = np.angle(self._z)
+
+    # Line
+    self.animation.item[self.line].points = [[0,0],[np.abs(self._z)-self._size/2,0]]
+
+    # Arrowhead
+    if self._locus is None: self._locus = 1    
+    self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
+
+  # --- Locus --------------------------------------------------------------
+
+  @property
+  def locus(self): return self._locus
+
+  @locus.setter
+  def locus(self, k):
+
+    self._locus = k
+
+    self.animation.item[self.head].position = [np.abs(self._z)*self._locus, 0]
+
+  # --- Thickness ----------------------------------------------------------
+
+  @property
+  def thickness(self): return self._thickness
+
+  @thickness.setter
+  def thickness(self, t):
+
+    self._thickness = t
+    self.animation.item[self.line].thickness = self._thickness
+
+  # --- Color --------------------------------------------------------------
+
+  @property
+  def color(self): return self._color
+
+  @color.setter
+  def color(self, C):
+
+    self._color = C
+    self.animation.item[self.line].color = self._color
+    self.animation.item[self.head].colors = [self._color, self._color]
+
+# === ANIMATION ============================================================
 
 class Animation2d():
   """
@@ -2081,7 +1711,9 @@ class Animation2d():
     self.Qview.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
     self.Qview.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
+    # Items and composite elements
     self.item = defaultdict()
+    self.composite = defaultdict()
 
     # --- Display
 
@@ -2122,12 +1754,19 @@ class Animation2d():
       item (:class:`item` *subclass*): The item to add.
     """
 
-    # Create item
-    self.item[name] = type(self, name, **kwargs)
+    if issubclass(type, composite):
 
-    # Add item to the scene
-    if self.item[name].parent is None:
-      self.Qscene.addItem(self.item[name])
+      # Let composite elements create items
+      self.composite[name] = type(self, name, **kwargs)
+
+    else:
+
+      # Create item
+      self.item[name] = type(self, name, **kwargs)
+
+      # Add item to the scene
+      if self.item[name].parent is None:
+        self.Qscene.addItem(self.item[name])
     
   def show(self):
     """

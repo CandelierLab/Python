@@ -77,7 +77,9 @@ anim.add(arrow, 'A',
   draggable = True
 )
 
-# anim.item['T'].center = True
+#  anim.composite['A'].points = [[0.1,0.1],[0.3,0.35]]
+# anim.composite['A'].locus = 0.5
+# anim.composite['A'].shape = 'disk'
 
 
 anim.show()
