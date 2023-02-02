@@ -134,9 +134,9 @@ class Visu2d(Animation.Animation2d):
     # --- Nodes
 
     # Vertical spacing
-    hIN = 1/len(self.Net.IN)
+    hIN = 1/len(self.Net.IN) if len(self.Net.IN) else 0.5
     if self.isolate_output:
-      hOUT = 1/len(self.Net.OUT)
+      hOUT = 1/len(self.Net.OUT) if len(self.Net.OUT) else 0.5
 
     # Input nodes
     for i,node in enumerate(self.Net.IN):
@@ -157,7 +157,10 @@ class Visu2d(Animation.Animation2d):
       I_fixed = self.Net.IN + self.Net.OUT
 
       # Optimal distance between nodes
-      k = 1/np.sqrt(len(I_hidden))
+      if len(I_hidden):
+        k = 1/np.sqrt(len(I_hidden))
+      else:
+        k = 1
 
     else:
 
@@ -226,17 +229,14 @@ class Visu2d(Animation.Animation2d):
 
     # --- Nodes ------------------------------------------------------------
 
-    for i,node in enumerate(self.Net.node):
+    for i, node in enumerate(self.Net.node):
       
       # --- Group
 
       # Name
-      if isinstance(node['name'], int):
-        gname = 'node_{:d}'.format(i)
-      else:
-        gname = 'node_' + self.Net.node[i]['name']
+      gname = 'node_' + str(node['name'])
 
-      self.add(Animation.group, gname,
+      self.add(Animation.group, i,
         position = pos[i], 
         draggable = not (node['IN'] or node['OUT']))
 
@@ -244,16 +244,16 @@ class Visu2d(Animation.Animation2d):
 
       # Double circle for OUTPUT Nodes
       if node['OUT']:
-        self.add(Animation.circle, gname + '_outercircle',
-          parent = gname,
+        self.add(Animation.circle, str(gname) + '_outercircle',
+          parent = i,
           position = (0,0),
           radius = self.r*1.2,
           colors = ('black', '#ccc'),
           thickness = 2
         )
 
-      self.add(Animation.circle, gname + '_circle',
-        parent = gname,
+      self.add(Animation.circle, str(gname) + '_circle',
+        parent = i,
         position = (0,0),
         radius = self.r,
         colors = ('#555', '#ccc'),
@@ -267,8 +267,8 @@ class Visu2d(Animation.Animation2d):
       if len(name)>3:
         name = name[0:3]  # TODO: make this html friendly ...
 
-      self.add(Animation.text, gname + '_text',
-        parent = gname,
+      self.add(Animation.text, str(gname) + '_text',
+        parent = i,
         position = (0,0),
         string = name,
         color = 'white',
@@ -291,8 +291,7 @@ class Visu2d(Animation.Animation2d):
 
     if type=='move':
 
-      # Moved node
-      k = int(item.name[5:])
+      k = item.name
 
       # Get new position
       pos = item.scene2xy(item.pos())
@@ -305,10 +304,12 @@ class Visu2d(Animation.Animation2d):
 
           # Afferent nodes
           if edge['j']==k:        
-            p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())          
+            p1 = item.scene2xy(self.item[edge['i']].pos())
+            # p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())
             self.composite[name].points = [p1, pos]
 
           # Efferent nodes
-          if edge['i']==k:        
-            p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
+          if edge['i']==k:
+            p2 = item.scene2xy(self.item[edge['j']].pos())
+            # p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
             self.composite[name].points = [pos, p2]
