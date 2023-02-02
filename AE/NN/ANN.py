@@ -131,7 +131,8 @@ class ANN(Network):
         self.OUT.append(len(self.node))
 
       self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'activation':activation, 
-        'initial_value':initial_value, 'name':len(self.node) if name is None else name, 'html':html})
+        'initial_value':initial_value, 'name': len(self.node) if name is None else name,
+        'html': html})
 
   def add_edge(self, i, j, w=0., d=0):
 

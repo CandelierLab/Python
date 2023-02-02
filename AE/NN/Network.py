@@ -263,9 +263,11 @@ class Visu2d(Animation.Animation2d):
 
       # --- Name
 
-      name = str(node['name'])
-      if len(name)>3:
-        name = name[0:3]  # TODO: make this html friendly ...
+      if node['html'] is None:
+        name = str(node['name'])
+        if len(name)>3: name = name[0:3]
+      else:
+        name = node['html']
 
       self.add(Animation.text, str(gname) + '_text',
         parent = i,
@@ -273,7 +275,8 @@ class Visu2d(Animation.Animation2d):
         string = name,
         color = 'white',
         center = True,
-        fontsize = self.fontsize
+        fontsize = self.fontsize,
+        fontname = 'Serif'
       )
 
   def change(self, type, item):
