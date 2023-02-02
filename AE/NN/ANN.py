@@ -196,6 +196,9 @@ class ANN(Network):
 
     self._value = np.zeros(len(self.node))
 
+    # Update initialization state
+    self._isInitialized = True
+
   def process(self, input):
 
     if self.propagation_mode=='synchronous':
