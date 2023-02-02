@@ -464,7 +464,6 @@ class item():
 
   @zvalue.setter
   def zvalue(self, z):
-    print(z)
     self._zvalue = z
     self.setZValue(self._zvalue)
 
