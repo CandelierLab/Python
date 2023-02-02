@@ -100,6 +100,7 @@ class item():
     self.name = name
 
     self._parent = None
+    self._behindParent = None
     self._position = [0,0]
     self._shift = [0,0]
     self._orientation = None
@@ -109,6 +110,7 @@ class item():
     # --- Initialization
 
     if 'parent' in kwargs: self.parent = kwargs['parent']
+    if 'behindParent' in kwargs: self.behindParent = kwargs['behindParent']
     if 'position' in kwargs: self.position = kwargs['position']
     if 'orientation' in kwargs: self.orientation = kwargs['orientation']
     if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
@@ -408,6 +410,16 @@ class item():
     self._parent = pName
     self.setParentItem(self.animation.item[self._parent])
 
+  # --- belowParent --------------------------------------------------------
+
+  @property
+  def behindParent(self): return self._behindParent
+
+  @behindParent.setter
+  def behindParent(self, b):
+    self._behindParent = b
+    self.setFlag(QGraphicsItem.ItemStacksBehindParent, b)
+
   # --- Position -------------------------------------------------------------
 
   @property
@@ -452,7 +464,7 @@ class item():
 
   @zvalue.setter
   def zvalue(self, z):
-    
+    print(z)
     self._zvalue = z
     self.setZValue(self._zvalue)
 
