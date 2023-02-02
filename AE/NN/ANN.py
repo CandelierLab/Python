@@ -89,7 +89,7 @@ class ANN(Network):
     self._value = None
     self._activation_group = {}
 
-  def add_node(self, n=1, IN=False, OUT=False, bias=0, activation=None, initial_value=0, name=None, html=None):
+  def add_node(self, n=1, IN=False, OUT=False, bias=0., activation=None, initial_value=0., name=None, html=None):
 
     # --- Checks
 
@@ -133,7 +133,23 @@ class ANN(Network):
       self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'activation':activation, 
         'initial_value':initial_value, 'name':len(self.node) if name is None else name, 'html':html})
 
-  def add_edge(self, i, j, w=0, d=0):
+  def add_edge(self, i, j, w=0., d=0):
+
+    # --- Conversion
+
+    # Emitting node
+    if isinstance(i, str):
+      try:
+        i = [n['name'] for n in self.node].index(i)
+      except ValueError:
+        raise ValueError("Cannot find the node '{:s}'.".format(i))
+
+    # Receiving node
+    if isinstance(j, str):
+      try:
+        j = [n['name'] for n in self.node].index(j)
+      except ValueError:
+        raise ValueError("Cannot find the node '{:s}'.".format(j))
 
     # --- Checks
 

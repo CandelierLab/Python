@@ -76,11 +76,11 @@ class Network():
 
     # Links
     if len(self.edge):
-      print('\n* Links:')
+      print('\n* Edges:')
       for i,L in enumerate(self.edge):
         print('[{:d}]'.format(i), L)
     else:
-      print('\n* No link defined.')
+      print('\n* No edge defined.')
 
     return ''
 
