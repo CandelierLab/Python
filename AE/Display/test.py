@@ -49,12 +49,13 @@ anim.add(ellipse, 'E0',
 #   orientation = 0.5,
 # )
 
-# anim.add(line, 'L',
-#   points = [[0.1,0.1],[0.2,0.15]],
-#   color = 'yellow',
-#   thickness = 2,
-#   draggable = True
-# )
+anim.add(line, 'L',
+  parent = 'E0',
+  points = [[0,0],[0.2,0.15]],
+  color = 'yellow',
+  thickness = 2,
+  draggable = True
+)
 
 # anim.add(polygon, 'P',
 #   points = [[0.7,0.7],[0.8,0.8],[0.8,0.1]],
@@ -70,12 +71,12 @@ anim.add(ellipse, 'E0',
 #   draggable = True
 # )
 
-anim.add(arrow, 'A', 
-  points = [[0.1,0.1],[0.2,0.15]],
-  color = 'darkcyan',
-  thickness = 5,
-  draggable = True
-)
+# anim.add(arrow, 'A', 
+#   points = [[0.1,0.1],[0.2,0.15]],
+#   color = 'darkcyan',
+#   thickness = 5,
+#   draggable = True
+# )
 
 #  anim.composite['A'].points = [[0.1,0.1],[0.3,0.35]]
 # anim.composite['A'].locus = 0.5

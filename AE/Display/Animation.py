@@ -124,8 +124,10 @@ class item():
     returns:
       The :math:`x` position in scene coordinates.
     """
-
-    return (x-self.animation.boundaries['x'][0])*self.animation.factor
+    if self.parent is None:
+      return (x-self.animation.boundaries['x'][0])*self.animation.factor
+    else:
+      return x*self.animation.factor
 
   def y2scene(self, y):
     """
@@ -137,8 +139,11 @@ class item():
     returns:
       The :math:`y` position in scene coordinates.
     """
-
-    return (self.animation.boundaries['y'][0]-y)*self.animation.factor
+    
+    if self.parent is None:
+      return (self.animation.boundaries['y'][0]-y)*self.animation.factor
+    else:
+      return -y*self.animation.factor
 
   def xy2scene(self, xy):
     """
@@ -190,7 +195,10 @@ class item():
       The :math:`x` position.
     """
 
-    return self.animation.boundaries['x'][0] + u/self.animation.factor
+    if self._parent is None:
+      return self.animation.boundaries['x'][0] + u/self.animation.factor
+    else:
+      return u/self.animation.factor
 
   def scene2y(self, v):
     """
@@ -203,7 +211,10 @@ class item():
       The :math:`y` position.
     """
 
-    return self.animation.boundaries['y'][0] - v/self.animation.factor
+    if self._parent is None:
+      return self.animation.boundaries['y'][0] - v/self.animation.factor
+    else:
+      return - v/self.animation.factor
 
   def scene2xy(self, pos):
     """
