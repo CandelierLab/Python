@@ -2,6 +2,57 @@ from collections import defaultdict
 import numpy as np
 from AE.NN.Network import Network
 
+# === ACTIVATION FUNCTIONS =================================================
+
+def activate(afun, x):
+
+  match afun:
+
+    case 'identity':
+      '''
+      Identity activation
+
+      NB: in practice this case is never executed since the nodes with
+      identity activation are removed from the activation groups beforehand.
+      '''
+
+      y = x
+
+    case 'sigmoid':
+      '''
+      The standard sigmoid function
+      '''
+
+      y = 1/(1+np.exp(-x))
+
+    case 'rectified_sigmoid':
+      '''
+      Rectified sigmoid function.
+      It has been used in the original NEAT paper (doi: 10.1162/106365602320169811)
+      with the justification: 
+        "The steepened sigmoid allows more fine-tuning at extreme 
+        activations. It is optimized to be close to linear during its 
+        steepest ascent between activations -0.5 and 0.5."
+      '''
+
+      y = 1/(1+np.exp(-4.9*x))
+    
+    case 'fast_rectified_sigmoid':
+      '''
+      A faster approximation of the rectified sigmoid, using np.abs() instead 
+      of np.exp().
+      '''
+
+      a = 4.9
+      y = (1+x*a/(1+np.abs(x*a)))/2
+
+    case _:
+      raise AttributeError("Unknown activation type '{:s}'.".format(afun))
+
+  return y    
+
+# === NETWORK ==============================================================
+
 class ANN(Network):
 
   def __init__(self, default_activation='sigmoid', propagation_mode='synchronous'):
@@ -18,12 +69,14 @@ class ANN(Network):
     self.propagation_mode = propagation_mode
 
     #  --- Convenience attributes
+    
+    self.BULK = []
 
+    # Defined during initialization
     self._isInitialized = False
-    self.notIN = None
-    self.nNode = None
-    self.nIN = None
-    self.nNotIn = None
+    self.nNd = None
+    self.nIn = None
+    self.nBk = None
     self._W = None
     self._bias = None
     self._value = None
@@ -60,11 +113,13 @@ class ANN(Network):
 
     for i in range(n):
 
-      # Count inputs
+      # Index inputs
       if IN:
         self.IN.append(len(self.node))
+      else:
+        self.BULK.append(len(self.node))
 
-      # Count outputs
+      # Index outputs
       if OUT:
         self.OUT.append(len(self.node))
 
@@ -85,18 +140,19 @@ class ANN(Network):
 
     # --- Numbers
 
-    self.nNode = len(self.node)
-    self.nIN = len(self.IN)
-    self.nNotIn = self.nNode-self.nIN
+    self.nNd = len(self.node)
+    self.nIn = len(self.IN)
+    self.nBk = len(self.BULK)
 
     # --- Weights
 
-    self._W = np.zeros((self.nNode, self.nNotIn))
-    print(self._W)
-    
+    self._W = np.zeros((self.nNd, self.nBk))
+    for e in self.edge:
+      self._W[e['i'], e['j']-self.nIn] = e['w']
+        
     # --- Biases
-    
-    self._bias = np.array([node['bias'] for node in self.node])
+
+    self._bias = np.array([self.node[i]['bias'] for i in self.BULK])
 
     # --- Activation groups
 
@@ -104,7 +160,8 @@ class ANN(Network):
 
       a = node['activation']
 
-      if a is None: continue
+      # Skip None or 'identity'
+      if a is None or a=='identity': continue
 
       if a in self._activation_group:
         self._activation_group[a].append(k)
@@ -133,7 +190,7 @@ class ANN(Network):
   def step(self):
     
     # Weighted sum and bias
-    self._value[self._notIN] = self._value*self._W + self._bias
+    self._value[self.BULK] = np.matmul(self._value, self._W) + self._bias
 
     ''' 
     Note:
@@ -143,15 +200,6 @@ class ANN(Network):
       next step.
     '''
 
-    # --- Activation
-
-# f = fieldnames(this.activationGroup);
-# for k = 1:numel(f)
-
-#     % Group indices
-#     I = this.activationGroup.(f{k});
-
-#     % Compute activated values
-#     this.value(I) = this.activate(this.value(I), f{k});
-
-# end
+    # Activation
+    for g in self._activation_group:
+      self._value[self._activation_group[g]] = activate(g, self._value[self._activation_group[g]])
