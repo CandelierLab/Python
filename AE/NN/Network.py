@@ -263,9 +263,9 @@ class Visu2d(Animation.Animation2d):
 
       # --- Name
 
-      name = str(self.Net.node[i]['name'])
+      name = str(node['name'])
       if len(name)>3:
-        name = name[0:3]
+        name = name[0:3]  # TODO: make this html friendly ...
 
       self.add(Animation.text, gname + '_text',
         parent = gname,

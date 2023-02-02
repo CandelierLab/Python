@@ -46,6 +46,13 @@ def activate(afun, x):
       a = 4.9
       y = (1+x*a/(1+np.abs(x*a)))/2
 
+    case 'tanh':
+      '''
+      Hyperbolic tangent
+      '''
+
+      y = np.tanh(x)
+
     case _:
       raise AttributeError("Unknown activation type '{:s}'.".format(afun))
 
@@ -82,7 +89,7 @@ class ANN(Network):
     self._value = None
     self._activation_group = {}
 
-  def add_node(self, n=1, IN=False, OUT=False, bias=0, activation=None, initial_value=0, name=None):
+  def add_node(self, n=1, IN=False, OUT=False, bias=0, activation=None, initial_value=0, name=None, html=None):
 
     # --- Checks
 
@@ -124,7 +131,7 @@ class ANN(Network):
         self.OUT.append(len(self.node))
 
       self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'activation':activation, 
-        'initial_value':initial_value, 'name':len(self.node) if name is None else name})
+        'initial_value':initial_value, 'name':len(self.node) if name is None else name, 'html':html})
 
   def add_edge(self, i, j, w=0, d=0):
 
