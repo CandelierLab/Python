@@ -87,7 +87,7 @@ class ANN(Network):
     self._W = None
     self._bias = None
     self._value = None
-    self._activation_group = {}
+    self._activation_group = None
 
   def add_node(self, n=1, IN=False, OUT=False, bias=0., activation=None, initial_value=0., name=None, html=None):
 
@@ -180,6 +180,8 @@ class ANN(Network):
 
     # --- Activation groups
 
+    self._activation_group = {}
+    
     for k, node in enumerate(self.node):
 
       a = node['activation']
