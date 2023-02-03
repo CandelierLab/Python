@@ -1864,7 +1864,6 @@ class Animation2d():
     if isinstance(self.parent, Window):
       self.parent.show()
 
-
   def startAnimation(self):
     """
     Start the animation
@@ -1875,6 +1874,20 @@ class Animation2d():
     self.qtimer.setInterval(int(1000/self.fps))
     self.qtimer.start()
     self.timer.start()
+
+  def stopAnimation(self):
+    """
+    Stop the animation
+
+    Stops the timer and close the window, if any.
+    """
+
+    # Stop the timer
+    self.qtimer.stop()
+
+    # Close the window, if any
+    if isinstance(self.parent, Window):
+      self.parent.close()
 
   def update(self):
     """
