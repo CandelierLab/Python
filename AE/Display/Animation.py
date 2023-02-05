@@ -571,9 +571,7 @@ class text(item, QGraphicsTextItem):
         (255, 0, 0, 127))
 
       linestyle (str): Stroke style (for ``circle``, ``ellipse``, ``rectangle``
-        or ``polygon``). Can have any value among ``solid`` (default), ``dash``
-        or ``--``, ``dot`` or ``..`` or ``:``, ``dashdot`` or ``-.``.
-
+        or ``p    
       clickable (bool): *TO DO*
 
       movable (bool): If True, the element will be draggable. (default: ``False``)
@@ -1882,13 +1880,15 @@ class Animation2d():
     Stops the timer and close the window, if any.
     """
 
+    print('stop')
+
     # Stop the timer
     self.qtimer.stop()
 
     # Close the window, if any
     if isinstance(self.parent, Window):
       self.parent.close()
-
+      
   def update(self):
     """
     Update animation state
@@ -1997,4 +1997,5 @@ class Window():
     self.app.exec()
 
   def close(self):
+    self.animation.view.close()
     self.app.quit()
