@@ -1880,8 +1880,6 @@ class Animation2d():
     Stops the timer and close the window, if any.
     """
 
-    print('stop')
-
     # Stop the timer
     self.qtimer.stop()
 
