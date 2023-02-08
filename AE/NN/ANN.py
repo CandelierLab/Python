@@ -102,17 +102,13 @@ class ANN(Network):
     if not isinstance(n,int):
       raise ValueError('Only an integer number of nodes can be added.')
 
-    # --- Default values
-
-    if IN:
-
-      if activation is not None:
-        raise Warning("Activation has been removed for an input node.")
-
-      # Override activation
-      activation = None
-
-    elif activation is None:
+    # --- Default activation
+    '''
+    NB: The default activation for input nodes is None (equivalent to 'identity'),
+    but it is still possible to explicitely assign another activation.
+    '''
+    
+    if not IN and activation is None:
 
       activation = self.default_activation
 
