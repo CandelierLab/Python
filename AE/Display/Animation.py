@@ -32,7 +32,6 @@ created without parent (``QWidget`` or :class:`Window`), the default
 """
 
 import numpy as np
-from collections import defaultdict
 
 from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
@@ -1771,8 +1770,8 @@ class Animation2d(QObject):
     self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
     # Items and composite elements
-    self.item = defaultdict()
-    self.composite = defaultdict()
+    self.item = {}
+    self.composite = {}
 
     # --- Layout
 
@@ -2012,7 +2011,7 @@ class Window(QWidget):
 
     # --- Shortcuts
 
-    self.shortcut = defaultdict()
+    self.shortcut = {}
 
     # Quit
     self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.widget)
