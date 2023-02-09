@@ -34,9 +34,9 @@ created without parent (``QWidget`` or :class:`Window`), the default
 import numpy as np
 from collections import defaultdict
 
-from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, QPointF, QRectF
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
-from PyQt5.QtWidgets import QApplication, QShortcut, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
+from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout, QPushButton, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
 # === ITEMS ================================================================
 
@@ -1556,7 +1556,7 @@ class arrow(composite):
     if self.head in self.animation.item:
 
       # Remove previous arrowhead
-      self.animation.Qscene.removeItem(self.animation.item[self.head])
+      self.animation.scene.removeItem(self.animation.item[self.head])
 
       match self._shape:
 
@@ -1657,7 +1657,7 @@ class arrow(composite):
 # === ANIMATION ============================================================
 
 class view(QGraphicsView):
-
+  
   def __init__(self, scene, *args, **kwargs):
 
     super().__init__(*args, *kwargs)
@@ -1673,7 +1673,7 @@ class view(QGraphicsView):
     self.fitInView(self.scene().itemsBoundingRect(), Qt.KeepAspectRatio)
     super().resizeEvent(E)
 
-class Animation2d():
+class Animation2d(QObject):
   """
   2D Animation
 
@@ -1726,6 +1726,9 @@ class Animation2d():
     Qtimer (``QTimer``): Timer managing the display updates.
   """
 
+  # Generic event signal
+  event = pyqtSignal(dict)
+
   def __init__(self, parent=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
     """
     Animation constructor
@@ -1753,11 +1756,32 @@ class Animation2d():
       dt (float): Animation time increment (s) between two updates. Default: 0.04.
     """
 
-     # --- Parent
+    super().__init__()
 
-    self.parent = parent
-    if self.parent is None:
-      self.parent = Window(animation=self)
+    # --- Parent
+
+    self.parent = parent if parent is not None else Window(animation=self)
+
+    # --- Scene & view
+
+    # Scene
+    self.scene = QGraphicsScene()
+    self.view = view(self.scene)
+    self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+    # Items and composite elements
+    self.item = defaultdict()
+    self.composite = defaultdict()
+
+    # --- Layout
+
+    self.layout = QGridLayout()
+
+    self.layout.addWidget(self.view, 0,0)
+
+    button = QPushButton('ok')
+    self.layout.addWidget(button, 1,0)
 
     # --- Time
 
@@ -1785,18 +1809,6 @@ class Animation2d():
 
     # Scale factor
     self.factor = self.size/self.boundaries['height']
-
-    # --- Scene & view
-
-    # Scene
-    self.scene = QGraphicsScene()
-    self.view = view(self.scene)
-    self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-    self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-    # Items and composite elements
-    self.item = defaultdict()
-    self.composite = defaultdict()
 
     # --- Display
 
@@ -1869,9 +1881,13 @@ class Animation2d():
     Trigs the animation :py:attr:`Animation.Qtimer` ``QTimer``, which starts
     the animation.
     """
+
     self.qtimer.setInterval(int(1000/self.fps))
     self.qtimer.start()
     self.timer.start()
+
+    # Emit event
+    self.event.emit({'type': 'start'})
 
   def stopAnimation(self):
     """
@@ -1882,6 +1898,9 @@ class Animation2d():
 
     # Stop the timer
     self.qtimer.stop()
+
+    # Emit event
+    self.event.emit({'type': 'stop'})
 
     # Close the window, if any
     if isinstance(self.parent, Window):
@@ -1900,6 +1919,9 @@ class Animation2d():
       self.t = self.timer.elapsed()/1000 
     else: 
       self.t += self.dt
+
+    # Emit event
+    self.event.emit({'type': 'update', 't': self.t})
 
     # Timer display
     if self.disp_time:
@@ -1925,7 +1947,7 @@ class Animation2d():
     
 # === WINDOW ===============================================================
 
-class Window():
+class Window(QWidget):
   """
   Animation-specific window
 
@@ -1967,33 +1989,44 @@ class Window():
       size (float): Height of the ``QGraphicsView`` widget, defining the 
         height of the window.
     """
+
     # --- Animation
 
     if self.animation is None:
       self.animation = Animation2d(parent=self)
 
+    # --- Layout -----------------------------------------------------------
+
+    self.widget = QWidget()
+    self.widget.setLayout(self.animation.layout)
+
+    # --- Settings ---------------------------------------------------------
+    
     # Window title
-    self.animation.view.setWindowTitle(self.title)
+    self.widget.setWindowTitle(self.title)
+
+    # Window size
+    # self.animation.view.resize(
+    #   int(self.animation.factor*self.animation.boundaries['width']+2*self.animation.margin), 
+    #   int(self.animation.factor*self.animation.boundaries['height']+2*self.animation.margin+self.animation.timeHeight))
 
     # --- Shortcuts
 
     self.shortcut = defaultdict()
 
     # Quit
-    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.animation.view)
+    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.widget)
     self.shortcut['esc'].activated.connect(self.app.quit)
 
-    # --- Initialization
+    # --- Display animation ------------------------------------------------
 
-    # Window size
-    self.animation.view.resize(
-      int(self.animation.factor*self.animation.boundaries['width']+2*self.animation.margin), 
-      int(self.animation.factor*self.animation.boundaries['height']+2*self.animation.margin+self.animation.timeHeight))
-
-    self.animation.view.show()
-    self.animation.startAnimation()
+    self.widget.show()
+    # self.animation.view.show()
+    # self.animation.startAnimation()
+    
     self.app.exec()
 
   def close(self):
-    self.animation.view.close()
+
+    # self.animation.stopAnimation()
     self.app.quit()
