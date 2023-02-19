@@ -37,6 +37,8 @@ from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
 from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout, QPushButton, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
+import qdarkstyle
+
 # === ITEMS ================================================================
 
 # --- Generic Item ---------------------------------------------------------
@@ -1661,6 +1663,8 @@ class view(QGraphicsView):
 
     super().__init__(*args, *kwargs)
     self.setScene(scene)
+    self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
   def showEvent(self, E):
     
@@ -1766,8 +1770,7 @@ class Animation2d(QObject):
     # Scene
     self.scene = QGraphicsScene()
     self.view = view(self.scene)
-    self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-    self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    
 
     # Items and composite elements
     self.item = {}
@@ -1795,8 +1798,7 @@ class Animation2d(QObject):
     # -- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
-    self.margin = 25
-    self.timeHeight = QApplication.desktop().screenGeometry().height()*0.02
+    # self.timeHeight = QApplication.desktop().screenGeometry().height()*0.02
 
     # Scene limits
     self.boundaries = {'x':[0,1], 'y':[0,1], 'width':None, 'height':None}
@@ -1836,9 +1838,15 @@ class Animation2d(QObject):
 
     # Time display
     if self.disp_time:
-      self.timeDisp = self.scene.addText("---")
-      self.timeDisp.setDefaultTextColor(QColor('white'))
-      self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.boundaries['height'])
+      self.add(text, 'Time',
+        position = [1.01,1],
+        string = '--- Time ---',
+        color = 'white',
+        fontsize = 12
+      )
+      # self.timeDisp = self.scene.addText("---")
+      # self.timeDisp.setDefaultTextColor(QColor('white'))
+      # self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.boundaries['height'])
 
   def add(self, type, name, **kwargs):
     """
@@ -1924,7 +1932,8 @@ class Animation2d(QObject):
 
     # Timer display
     if self.disp_time:
-      self.timeDisp.setPlainText('{:06.02f} sec'.format(self.t))
+      self.item['Time'].string = '{:06.02f} sec'.format(self.t)
+      # self.timeDisp.setPlainText('{:06.02f} sec'.format(self.t))
 
   def change(self, type, item):
     """
@@ -1974,6 +1983,9 @@ class Window(QWidget):
     # Qapplication
     self.app = QApplication([])
 
+    # Style
+    self.app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+
     # Animation
     self.animation = animation
     
@@ -2021,7 +2033,7 @@ class Window(QWidget):
 
     self.widget.show()
     # self.animation.view.show()
-    # self.animation.startAnimation()
+    self.animation.startAnimation()
     
     self.app.exec()
 

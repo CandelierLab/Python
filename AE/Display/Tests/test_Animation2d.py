@@ -110,12 +110,9 @@ class Anim(Animation2d):
     # Update timer display
       super().update()
 
-      # Time (sec)
-      t = self.timer.elapsed()/1000
-
       # Update position
-      x = self.x0 + self.R*np.cos(t)
-      y = self.y0 + self.R*np.sin(t)
+      x = self.x0 + self.R*np.cos(self.t)
+      y = self.y0 + self.R*np.sin(self.t)
       self.item['C'].position = [x, y]
 
 # --- Event listener -------------------------------------------------------
