@@ -1,12 +1,15 @@
 '''
 Animation2d:
-  - Start/pause buttons, time display
-  - Save movie
-  - backward mode ?
-  - Step by step
-  - Timebar
-  - Colormaps
-  - Colorbar
+  - Dark stylesheet
+  - Composite: colorbar (+ colormaps ?)
+  - Replay=False
+    - Start/pause buttons
+    - Step by step
+    - Snap & record
+    - Events (to control another animation)
+  - Replay=True
+    - Smart bar
+  
 
 Viewer:
   -

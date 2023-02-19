@@ -1983,8 +1983,16 @@ class Window(QWidget):
     # Qapplication
     self.app = QApplication([])
 
-    # Style
-    self.app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    # --- Style
+
+    # qdarkstyle
+    # css = qdarkstyle.load_stylesheet_pyqt5()
+
+    # Modified qdarkstyle
+    with open('AE/Display/Style/dark.css', 'r') as f:
+      css = f.read()
+
+    self.app.setStyleSheet(css)
 
     # Animation
     self.animation = animation
@@ -2011,6 +2019,13 @@ class Window(QWidget):
     self.widget = QWidget()
     self.widget.setLayout(self.animation.layout)
 
+    # self.widget.setAutoFillBackground(True)
+    # pal = QPalette()
+    # pal.setColor(QPalette.Window, Qt.black)
+    # self.widget.setPalette(pal)
+
+
+
     # --- Settings ---------------------------------------------------------
     
     # Window title
@@ -2032,7 +2047,6 @@ class Window(QWidget):
     # --- Display animation ------------------------------------------------
 
     self.widget.show()
-    # self.animation.view.show()
     self.animation.startAnimation()
     
     self.app.exec()
