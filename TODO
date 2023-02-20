@@ -1,20 +1,26 @@
 '''
+Visualization
+-------------
+
+  Animation2d:
+    - !! DOC !!
+    - Layout in View ?
+    - Composite: colorbar (+ colormaps ?)
+    - Replay=False
+      - Start/pause buttons
+      - Step by step      
+      - Events (to control another animation)
+    - Replay=True
+      - Smart bar
+    - Item image (pixmap)
+
+  Viewer ?
+
 Network
-  
+-------
+
   ANN
     !! DOC !!
     Save/load Network, with positions
 
-  Visu2d
-    !! DOC !!
-    Edge class (with text=weights)
-    Self-edges
-    Edge style: cmap on weights
-    Node style: cmap on values
-    Colored animation
-
-Animation
-  !! DOC !!
-  image (pixmap)
-  Save as image
 '''

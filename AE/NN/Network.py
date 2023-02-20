@@ -10,7 +10,7 @@ import numpy as np
 import networkx as nx
 
 from PyQt5.QtCore import Qt
-import AE.Display.Animation as Animation
+import AE.Display.Animation2d as Animation2d
 
 # === Network ==============================================================
 
@@ -92,7 +92,7 @@ class Network():
 
 # === Visualisation ========================================================
 
-class Visu2d(Animation.Animation2d):
+class Visu2d(Animation2d.Animation2d):
   """
   2D network visualisation and animation tool
 
@@ -221,7 +221,7 @@ class Visu2d(Animation.Animation2d):
 
       if name not in self.item:
 
-        self.add(Animation.arrow, name,
+        self.add(Animation2d.arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
           thickness = 2,
           locus = 0.5
@@ -236,7 +236,7 @@ class Visu2d(Animation.Animation2d):
       # Name
       gname = 'node_' + str(node['name'])
 
-      self.add(Animation.group, i,
+      self.add(Animation2d.group, i,
         position = pos[i], 
         draggable = not (node['IN'] or node['OUT']))
 
@@ -244,7 +244,7 @@ class Visu2d(Animation.Animation2d):
 
       # Double circle for OUTPUT Nodes
       if node['OUT']:
-        self.add(Animation.circle, str(gname) + '_outercircle',
+        self.add(Animation2d.circle, str(gname) + '_outercircle',
           parent = i,
           position = (0,0),
           radius = self.r*1.2,
@@ -252,7 +252,7 @@ class Visu2d(Animation.Animation2d):
           thickness = 2
         )
 
-      self.add(Animation.circle, str(gname) + '_circle',
+      self.add(Animation2d.circle, str(gname) + '_circle',
         parent = i,
         position = (0,0),
         radius = self.r,
@@ -269,7 +269,7 @@ class Visu2d(Animation.Animation2d):
       else:
         name = node['html']
 
-      self.add(Animation.text, str(gname) + '_text',
+      self.add(Animation2d.text, str(gname) + '_text',
         parent = i,
         position = (0,0),
         string = name,

@@ -33,11 +33,11 @@ created without parent (``QWidget`` or :class:`Window`), the default
 
 import numpy as np
 
-from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
-from PyQt5.QtGui import QKeySequence, QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
-from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout, QPushButton, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
+from AE.Display.Window import *
 
-import qdarkstyle
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
+from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
 # === ITEMS ================================================================
 
@@ -1732,7 +1732,7 @@ class Animation2d(QObject):
   # Generic event signal
   event = pyqtSignal(dict)
 
-  def __init__(self, parent=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
+  def __init__(self, window=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
     """
     Animation constructor
 
@@ -1763,7 +1763,7 @@ class Animation2d(QObject):
 
     # --- Parent
 
-    self.parent = parent if parent is not None else Window(animation=self)
+    self.window = window if window is not None else Window(animation=self)
 
     # --- Scene & view
 
@@ -1778,12 +1778,13 @@ class Animation2d(QObject):
 
     # --- Layout
 
-    self.layout = QGridLayout()
+    self.layout = QVBoxLayout()
 
-    self.layout.addWidget(self.view, 0,0)
+    self.layout.addWidget(self.view)
 
-    button = QPushButton('ok')
-    self.layout.addWidget(button, 1,0)
+    # bSnap = QPushButton('Snap')
+    # bSnap.clicked.connect(self.window.snap)
+    # self.layout.addWidget(bSnap)
 
     # --- Time
 
@@ -1798,8 +1799,7 @@ class Animation2d(QObject):
     # -- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
-    # self.timeHeight = QApplication.desktop().screenGeometry().height()*0.02
-
+    
     # Scene limits
     self.boundaries = {'x':[0,1], 'y':[0,1], 'width':None, 'height':None}
     if boundaries is not None:
@@ -1844,9 +1844,6 @@ class Animation2d(QObject):
         color = 'white',
         fontsize = 12
       )
-      # self.timeDisp = self.scene.addText("---")
-      # self.timeDisp.setDefaultTextColor(QColor('white'))
-      # self.timeDisp.setPos(0, -self.timeHeight-self.factor*self.boundaries['height'])
 
   def add(self, type, name, **kwargs):
     """
@@ -1878,8 +1875,8 @@ class Animation2d(QObject):
     :py:meth:`Window.show` method is called. Otherwise nothing is done.
     """
 
-    if isinstance(self.parent, Window):
-      self.parent.show()
+    if isinstance(self.window, Window):
+      self.window.show()
 
   def startAnimation(self):
     """
@@ -1933,7 +1930,6 @@ class Animation2d(QObject):
     # Timer display
     if self.disp_time:
       self.item['Time'].string = '{:06.02f} sec'.format(self.t)
-      # self.timeDisp.setPlainText('{:06.02f} sec'.format(self.t))
 
   def change(self, type, item):
     """
@@ -1952,106 +1948,3 @@ class Animation2d(QObject):
     """
 
     pass
-    
-# === WINDOW ===============================================================
-
-class Window(QWidget):
-  """
-  Animation-specific window
-
-  Creates a new window containing an animation.
-  
-  Attributes:
-    title (str): Title of the window.
-    app (``QApplication``): Underlying ``QApplication``.
-    anim (:class:`Animation2d`): Animation to display.
-  """
-
-  def __init__(self, title='Animation', animation = None):
-    """
-    Window constructor
-
-    Defines the ``QApplication``, window title and animation to display.
-
-    Args:
-      title (str): Title of the window. Default is 'Animation'.
-    """
-
-    # Attributes
-    self.title = title
-    
-    # Qapplication
-    self.app = QApplication([])
-
-    # --- Style
-
-    # qdarkstyle
-    # css = qdarkstyle.load_stylesheet_pyqt5()
-
-    # Modified qdarkstyle
-    with open('AE/Display/Style/dark.css', 'r') as f:
-      css = f.read()
-
-    self.app.setStyleSheet(css)
-
-    # Animation
-    self.animation = animation
-    
-  def show(self):
-    """
-    Creates the animation window
-    
-    Create the window to display the animation, defines the shortcuts,
-    initialize and start the animation.
-
-    Args:
-      size (float): Height of the ``QGraphicsView`` widget, defining the 
-        height of the window.
-    """
-
-    # --- Animation
-
-    if self.animation is None:
-      self.animation = Animation2d(parent=self)
-
-    # --- Layout -----------------------------------------------------------
-
-    self.widget = QWidget()
-    self.widget.setLayout(self.animation.layout)
-
-    # self.widget.setAutoFillBackground(True)
-    # pal = QPalette()
-    # pal.setColor(QPalette.Window, Qt.black)
-    # self.widget.setPalette(pal)
-
-
-
-    # --- Settings ---------------------------------------------------------
-    
-    # Window title
-    self.widget.setWindowTitle(self.title)
-
-    # Window size
-    # self.animation.view.resize(
-    #   int(self.animation.factor*self.animation.boundaries['width']+2*self.animation.margin), 
-    #   int(self.animation.factor*self.animation.boundaries['height']+2*self.animation.margin+self.animation.timeHeight))
-
-    # --- Shortcuts
-
-    self.shortcut = {}
-
-    # Quit
-    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.widget)
-    self.shortcut['esc'].activated.connect(self.app.quit)
-
-    # --- Display animation ------------------------------------------------
-
-    self.widget.show()
-    self.animation.startAnimation()
-    
-    self.app.exec()
-
-  def close(self):
-
-    # self.animation.stopAnimation()
-    self.app.quit()

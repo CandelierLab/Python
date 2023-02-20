@@ -1,4 +1,4 @@
-from AE.Display.Animation import * 
+from AE.Display.Animation2d import * 
 from AE.Display.GUI.AnimGraph import AnimGraph
 
 # --- Simple 2D Animation --------------------------------------------------

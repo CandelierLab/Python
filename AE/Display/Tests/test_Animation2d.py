@@ -1,4 +1,4 @@
-from AE.Display.Animation import *
+from AE.Display.Animation2d import *
 
 # --- 2D Animation ---------------------------------------------------------
 
