@@ -84,10 +84,15 @@ class Window(QWidget):
     self.shortcut['space'] = QShortcut(QKeySequence('Space'), self.widget)
     self.shortcut['space'].activated.connect(self.animation.play_pause)
 
+    # Increment
+    self.shortcut['next'] = QShortcut(QKeySequence.MoveToNextChar, self.widget)
+    self.shortcut['next'].activated.connect(self.animation.increment)
+
     # --- Display animation ------------------------------------------------
 
     self.widget.show()
-    self.animation.play_pause()
+    if self.animation.autoplay:
+      self.animation.play_pause()
     
     self.app.exec()
 

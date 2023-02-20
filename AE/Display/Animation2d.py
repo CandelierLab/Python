@@ -1788,15 +1788,14 @@ class Animation2d(QObject):
 
     # --- Time
 
-    self.t = 0
-    self.dt = dt
-    self.disp_time = disp_time
-    self.disp_boundaries = disp_boundaries
-
     # Framerate
     self.fps = 25
 
-    # -- Size settings
+    self.t = 0
+    self.dt = dt if dt is not None else 1/self.fps
+    self.play_forward = True
+
+      # --- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
     
@@ -1822,12 +1821,15 @@ class Animation2d(QObject):
     # Antialiasing
     self.view.setRenderHints(QPainter.Antialiasing)
 
+    # Optional display
+
+    self.disp_time = disp_time
+    self.disp_boundaries = disp_boundaries
+
     # --- Animation
   
-    self.qtimer = QTimer()
-    self.qtimer.timeout.connect(self.update)
-    self.timer = QElapsedTimer()
-    self.timer_shift = 0
+    self.timer = QTimer()
+    self.timer.timeout.connect(self.set_time)
     self.autoplay = True
     
     # Scene boundaries
@@ -1878,7 +1880,7 @@ class Animation2d(QObject):
     """
 
     # Timing options
-    self.qtimer.setInterval(int(1000/self.fps))
+    self.timer.setInterval(int(1000/self.fps))
 
     # Show parent window
     if isinstance(self.window, Window):
@@ -1901,6 +1903,15 @@ class Animation2d(QObject):
     if isinstance(self.parent, Window):
       self.parent.close()
       
+  def set_time(self):
+
+    if self.play_forward:
+      self.t += self.dt
+    else:
+      self.t -= self.dt
+
+    self.update()
+
   def update(self):
     """
     Update animation state
@@ -1908,12 +1919,6 @@ class Animation2d(QObject):
     Update the animation time :py:attr:`Animation.t`. Subclass this method
     to implement the animation, *e.g.* moving elements or changing color.
     """
-
-    # Update time
-    if self.dt is None:
-      self.t = self.timer_shift + self.timer.elapsed()/1000 
-    else: 
-      self.t += self.dt
 
     # Emit event
     self.event.emit({'type': 'update', 't': self.t})
@@ -1942,22 +1947,24 @@ class Animation2d(QObject):
 
   def play_pause(self):
 
-    if self.qtimer.isActive():
+    if self.timer.isActive():
 
       # Stop qtimer
-      self.qtimer.stop()
-
-      # Time shift
-      self.timer_shift += self.timer.elapsed()/1000
+      self.timer.stop()
 
       # Emit event
       self.event.emit({'type': 'pause'})
 
     else:
 
-      # Start qtimer and timer
-      self.qtimer.start()
+      # Start timer
       self.timer.start()
     
       # Emit event
       self.event.emit({'type': 'play'})
+
+  def increment(self):
+
+    if not self.timer.isActive():
+
+      self.set_time()
