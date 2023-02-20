@@ -1827,6 +1827,8 @@ class Animation2d(QObject):
     self.qtimer = QTimer()
     self.qtimer.timeout.connect(self.update)
     self.timer = QElapsedTimer()
+    self.timer_shift = 0
+    self.autoplay = True
     
     # Scene boundaries
     if self.disp_boundaries:
@@ -1875,25 +1877,14 @@ class Animation2d(QObject):
     :py:meth:`Window.show` method is called. Otherwise nothing is done.
     """
 
+    # Timing options
+    self.qtimer.setInterval(int(1000/self.fps))
+
+    # Show parent window
     if isinstance(self.window, Window):
       self.window.show()
 
-  def startAnimation(self):
-    """
-    Start the animation
-
-    Trigs the animation :py:attr:`Animation.Qtimer` ``QTimer``, which starts
-    the animation.
-    """
-
-    self.qtimer.setInterval(int(1000/self.fps))
-    self.qtimer.start()
-    self.timer.start()
-
-    # Emit event
-    self.event.emit({'type': 'start'})
-
-  def stopAnimation(self):
+  def stop(self):
     """
     Stop the animation
 
@@ -1920,7 +1911,7 @@ class Animation2d(QObject):
 
     # Update time
     if self.dt is None:
-      self.t = self.timer.elapsed()/1000 
+      self.t = self.timer_shift + self.timer.elapsed()/1000 
     else: 
       self.t += self.dt
 
@@ -1948,3 +1939,25 @@ class Animation2d(QObject):
     """
 
     pass
+
+  def play_pause(self):
+
+    if self.qtimer.isActive():
+
+      # Stop qtimer
+      self.qtimer.stop()
+
+      # Time shift
+      self.timer_shift += self.timer.elapsed()/1000
+
+      # Emit event
+      self.event.emit({'type': 'pause'})
+
+    else:
+
+      # Start qtimer and timer
+      self.qtimer.start()
+      self.timer.start()
+    
+      # Emit event
+      self.event.emit({'type': 'play'})

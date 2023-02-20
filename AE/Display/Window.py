@@ -78,12 +78,16 @@ class Window(QWidget):
 
     # Quit
     self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.widget)
-    self.shortcut['esc'].activated.connect(self.app.quit)
+    self.shortcut['esc'].activated.connect(self.close)
+
+    # Play/pause
+    self.shortcut['space'] = QShortcut(QKeySequence('Space'), self.widget)
+    self.shortcut['space'].activated.connect(self.animation.play_pause)
 
     # --- Display animation ------------------------------------------------
 
     self.widget.show()
-    self.animation.startAnimation()
+    self.animation.play_pause()
     
     self.app.exec()
 

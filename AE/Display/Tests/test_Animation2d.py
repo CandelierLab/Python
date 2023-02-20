@@ -129,4 +129,6 @@ def receive(event):
 
 A = Anim()
 
+A.dt = 0.01
+
 A.show()

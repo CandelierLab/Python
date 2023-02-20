@@ -7,7 +7,7 @@ Visualization
     - Layout in View ?
     - Composite: colorbar (+ colormaps ?)
     - Replay=False
-      - Start/pause buttons
+      - Start/pause shortcuts
       - Step by step      
       - Events (to control another animation)
     - Replay=True
