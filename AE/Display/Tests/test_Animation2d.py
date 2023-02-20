@@ -100,10 +100,16 @@ class Anim(Animation2d):
     # self.composite['A'].locus = 0.5
     # self.composite['A'].shape = 'disk'
 
+
+    # Allow backward
+    self.allow_backward = True
+    self.allow_negative_time = False
+
     # Add listener
     self.event.connect(receive)
 
-    # self.show()
+    # Display animation
+    self.show()
 
   def update(self):
     
@@ -111,8 +117,8 @@ class Anim(Animation2d):
       super().update()
 
       # Update position
-      x = self.x0 + self.R*np.cos(self.t)
-      y = self.y0 + self.R*np.sin(self.t)
+      x = self.x0 + self.R*np.cos(self.step*self.dt)
+      y = self.y0 + self.R*np.sin(self.step*self.dt)
       self.item['C'].position = [x, y]
 
 # --- Event listener -------------------------------------------------------
@@ -128,5 +134,3 @@ def receive(event):
 # --- Main -----------------------------------------------------------------
 
 A = Anim()
-
-A.show()

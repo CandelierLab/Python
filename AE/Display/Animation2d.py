@@ -1786,16 +1786,7 @@ class Animation2d(QObject):
     # bSnap.clicked.connect(self.window.snap)
     # self.layout.addWidget(bSnap)
 
-    # --- Time
-
-    # Framerate
-    self.fps = 25
-
-    self.t = 0
-    self.dt = dt if dt is not None else 1/self.fps
-    self.play_forward = True
-
-      # --- Size settings
+    # --- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
     
@@ -1827,10 +1818,24 @@ class Animation2d(QObject):
     self.disp_boundaries = disp_boundaries
 
     # --- Animation
-  
+
+    # Framerate
+    self.fps = 25
+
+    # Time
+    self.step = 0
+    self.dt = dt if dt is not None else 1/self.fps
+
+    # Timer
     self.timer = QTimer()
     self.timer.timeout.connect(self.set_time)
+
+    # Play
     self.autoplay = True
+    self.allow_backward = False
+    self.allow_negative_time = False
+
+    self.play_forward = True    
     
     # Scene boundaries
     if self.disp_boundaries:
@@ -1844,10 +1849,11 @@ class Animation2d(QObject):
     if self.disp_time:
       self.add(text, 'Time',
         position = [1.01,1],
-        string = '--- Time ---',
+        string = '',
         color = 'white',
-        fontsize = 12
+        fontsize = 12,
       )
+      self.update_time()
 
   def add(self, type, name, **kwargs):
     """
@@ -1903,12 +1909,19 @@ class Animation2d(QObject):
     if isinstance(self.parent, Window):
       self.parent.close()
       
-  def set_time(self):
+  def set_time(self, step=None):
 
-    if self.play_forward:
-      self.t += self.dt
+    if step is None:
+      if self.play_forward:
+        self.step += 1
+      else:
+        self.step -= 1
     else:
-      self.t -= self.dt
+      self.step = step
+
+    # Check negative times
+    if not self.allow_negative_time and self.step<0:
+      self.step = 0
 
     self.update()
 
@@ -1921,11 +1934,15 @@ class Animation2d(QObject):
     """
 
     # Emit event
-    self.event.emit({'type': 'update', 't': self.t})
+    self.event.emit({'type': 'update', 'step': self.step})
 
     # Timer display
+    self.update_time()
+
+  def update_time(self):
+
     if self.disp_time:
-      self.item['Time'].string = '{:06.02f} sec'.format(self.t)
+      self.item['Time'].string = '<p>step {:06d}</p><font size=2>{:06.02f} sec</font>'.format(self.step, self.step*self.dt)
 
   def change(self, type, item):
     """
@@ -1945,7 +1962,7 @@ class Animation2d(QObject):
 
     pass
 
-  def play_pause(self):
+  def play_pause(self, force=None):
 
     if self.timer.isActive():
 
@@ -1965,6 +1982,16 @@ class Animation2d(QObject):
 
   def increment(self):
 
-    if not self.timer.isActive():
+    self.play_forward = True
 
+    if not self.timer.isActive():
       self.set_time()
+
+  def decrement(self):
+
+    if self.allow_backward:
+
+      self.play_forward = False
+
+      if not self.timer.isActive():
+        self.set_time()
