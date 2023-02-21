@@ -9,10 +9,7 @@ class Anim(Animation2d):
     super().__init__(disp_time=True)
 
     self.add(colorbar, 'Cb',
-      position = [0, 0.5],
-      major = 0.005,
-      minor = 0.005,
-      colors = ('white', None),
+      position = [0.5, 0.25],      
     )
 
     

@@ -33,11 +33,12 @@ created without parent (``QWidget`` or :class:`Window`), the default
 
 import numpy as np
 
-from AE.Display.Window import *
-
 from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
-from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath
+from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
+
+from AE.Display.Colormap import *
+from AE.Display.Window import *
 
 # === ITEMS ================================================================
 
@@ -1698,16 +1699,12 @@ class colorbar(composite):
     self._position = None
     self._width = None
     self._height = None
-    self._colormap = None
-    self._range = None
     self._nticks = None
 
     # --- Arguments
 
     self.width = kwargs['width'] if 'width' in kwargs else 0.05
     self.height = kwargs['height'] if 'height' in kwargs else 0.5
-    if 'colormap' in kwargs: self.colormap = kwargs['colormap']
-    self.range = kwargs['range'] if 'range' in kwargs else [0,1]
     self.nticks = kwargs['nticks'] if 'nticks' in kwargs else 2
 
     # --- Items
@@ -1721,9 +1718,21 @@ class colorbar(composite):
     self.animation.add(rectangle, self.rect, parent = self.name,
       width = self.width,
       height = self.height,
-      center = (False, False))
+      center = False,
+      colors = [None, None])
 
-    # self.animation.item[self.rect].center = False
+    # --- Set gradient
+
+    g = QLinearGradient(self.animation.item[self.rect].boundingRect().topLeft(),
+      self.animation.item[self.rect].boundingRect().bottomLeft())
+    
+    for i in np.linspace(self.animation.colormap.range[0],
+      self.animation.colormap.range[1], 
+      self.animation.colormap.ncolors):
+
+      g.setColorAt(i, self.animation.colormap.qcolor(i))
+  
+    self.animation.item[self.rect].setBrush(g)
   
 
 
@@ -1881,7 +1890,7 @@ class Animation2d(QObject):
     self.view.setRenderHints(QPainter.Antialiasing)
 
     # Optional display
-
+    self.colormap = Colormap()
     self.disp_boundaries = disp_boundaries
     self.disp_time = disp_time
     self.insight = {'vpos': self.boundaries['y'][1], 
