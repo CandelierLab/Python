@@ -217,7 +217,7 @@ class item():
     if self._parent is None:
       return self.animation.boundaries['y'][0] - v/self.animation.factor
     else:
-      return - v/self.animation.factor
+      return -v/self.animation.factor
 
   def scene2xy(self, pos):
     """
@@ -238,6 +238,28 @@ class item():
       v = pos[1]
 
     return self.scene2x(u), self.scene2y(v)
+
+  def scene2d(self, d):
+   
+    return d/self.animation.factor
+
+  def width(self):
+
+    if isinstance(self, group):
+      bRect = self.childrenBoundingRect()
+    else:
+      bRect = self.boundingRect()
+
+    return bRect.width()/self.animation.factor
+
+  def height(self):
+
+    if isinstance(self, group):      
+      bRect = self.childrenBoundingRect()
+    else:
+      bRect = self.boundingRect()
+
+    return bRect.height()/self.animation.factor
 
   def place(self):
     """
@@ -1491,7 +1513,7 @@ class arrow(composite):
     # Items
     self.animation.add(group, self.name, **kwargs)
     self.animation.add(line, self.line, parent = self.name, points = [[0,0],[0,0]])
-    # NB: arrowhead is created later on, when the 'shape' attibute is assigned.
+    # NB: arrowhead is created later on, when the 'shape' attribute is assigned.
 
     # Protected attributes
 
@@ -1539,7 +1561,6 @@ class arrow(composite):
         case 'disk':
 
           self.animation.item[self.head].radius = self._size/2
-
 
   # --- Shape --------------------------------------------------------------
 
@@ -1782,10 +1803,6 @@ class Animation2d(QObject):
 
     self.layout.addWidget(self.view)
 
-    # bSnap = QPushButton('Snap')
-    # bSnap.clicked.connect(self.window.snap)
-    # self.layout.addWidget(bSnap)
-
     # --- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
@@ -1814,9 +1831,13 @@ class Animation2d(QObject):
 
     # Optional display
 
-    self.disp_time = disp_time
     self.disp_boundaries = disp_boundaries
-
+    self.disp_time = disp_time
+    self.insight = {'vpos': self.boundaries['y'][1], 
+                    'vmin': self.boundaries['y'][0],
+                    'hpadding': self.boundaries['width']/100,
+                    'vpadding': self.boundaries['height']/100}
+    
     # --- Animation
 
     # Framerate
@@ -1848,12 +1869,34 @@ class Animation2d(QObject):
     # Time display
     if self.disp_time:
       self.add(text, 'Time',
-        position = [1.01,1],
-        string = '',
+        insight = True,
+        string = self.time_str(),
         color = 'white',
         fontsize = 12,
       )
-      self.update_time()
+
+      self.add(arrow, 'A18', 
+        insight = True,
+        height = 0.15,
+        points = [[0,0],[0.2,-0.15]],
+        color = 'darkcyan',
+        thickness = 5,
+      )
+
+      self.add(text, 'Time3',
+        insight = True,
+        string = self.time_str(),
+        color = 'white',
+        fontsize = 12,
+      )
+
+      # self.add(text, 'Colorbar',
+      #   insight = True,
+      #   height = 0.5,
+      #   string = self.time_str(),
+      #   color = 'white',
+      #   fontsize = 12,
+      # )
 
   def add(self, type, name, **kwargs):
     """
@@ -1863,6 +1906,21 @@ class Animation2d(QObject):
       item (:class:`item` *subclass*): The item to add.
     """
 
+    # Insights
+    if 'insight' in kwargs:
+      insight = kwargs['insight']
+      del kwargs['insight']
+    else:
+      insight = False
+
+    if 'height' in kwargs:
+      height = kwargs['height']
+      del kwargs['height']
+    else:
+      height = None
+      
+
+    # Add items
     if issubclass(type, composite):
 
       # Let composite elements create items
@@ -1877,6 +1935,27 @@ class Animation2d(QObject):
       if self.item[name].parent is None:
         self.scene.addItem(self.item[name])
     
+    # --- Insights
+
+    if insight:
+
+      x = self.boundaries['x'][1] + self.insight['hpadding']
+      y = self.insight['vpos']
+
+      self.item[name].position = [x, y]
+      if height is None:
+        self.insight['vpos'] -= self.item[name].height()
+      elif isinstance(height, float):
+        self.insight['vpos'] -= height
+      else:
+        pass
+
+      self.insight['vpos'] -= self.insight['vpadding']
+
+
+      # print(type, name, kwargs, self.item[name].height())
+      print(self.insight)
+
   def show(self):
     """
     Display animation window
@@ -1937,12 +2016,14 @@ class Animation2d(QObject):
     self.event.emit({'type': 'update', 'step': self.step})
 
     # Timer display
-    self.update_time()
-
-  def update_time(self):
-
     if self.disp_time:
-      self.item['Time'].string = '<p>step {:06d}</p><font size=2>{:06.02f} sec</font>'.format(self.step, self.step*self.dt)
+      self.item['Time'].string = self.time_str()
+
+  def time_str(self):
+
+    s = '<p>step {:06d}</p><font size=2>{:06.02f} sec</font>'.format(self.step, self.step*self.dt)
+
+    return s
 
   def change(self, type, item):
     """

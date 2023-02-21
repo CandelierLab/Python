@@ -4,7 +4,6 @@ Visualization
 
   Animation2d:
     - !! DOC !!
-    - Layout in View ?
     - Composite: colorbar (+ colormaps ?)
     - Replay=False
       - Start/pause shortcuts
