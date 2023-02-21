@@ -1035,7 +1035,7 @@ class rectangle(item, QGraphicsRectItem):
     if self._center[0] or self._center[1]:
       
       bb = self.boundingRect()
-      if self.center[0]: dx = -W/2
+      if self._center[0]: dx = -W/2
       if self._center[1]: dy = H/2
 
     # Set geometry
@@ -1052,7 +1052,6 @@ class rectangle(item, QGraphicsRectItem):
     self._width = w
     if self._height is not None: self.setGeometry()
       
-
   # --- Height -------------------------------------------------------------
 
   @property
@@ -1074,6 +1073,8 @@ class rectangle(item, QGraphicsRectItem):
 
     if isinstance(C, bool):
       self._center = (C,C)
+    else:
+      self._center = C
 
     self.setGeometry()
 
@@ -1676,6 +1677,56 @@ class arrow(composite):
     self.animation.item[self.line].color = self._color
     self.animation.item[self.head].colors = [self._color, self._color]
 
+# --- Arrow ----------------------------------------------------------------
+
+class colorbar(composite):
+  """
+  Colorbar composite element
+  """
+
+  def __init__(self, animation, name, **kwargs):
+    """
+    Colorbar constructor
+    """  
+
+    # --- Definitions
+
+    self.animation = animation
+
+    # Protected attributes
+
+    self._position = None
+    self._width = None
+    self._height = None
+    self._colormap = None
+    self._range = None
+    self._nticks = None
+
+    # --- Arguments
+
+    self.width = kwargs['width'] if 'width' in kwargs else 0.05
+    self.height = kwargs['height'] if 'height' in kwargs else 0.5
+    if 'colormap' in kwargs: self.colormap = kwargs['colormap']
+    self.range = kwargs['range'] if 'range' in kwargs else [0,1]
+    self.nticks = kwargs['nticks'] if 'nticks' in kwargs else 2
+
+    # --- Items
+
+    # Names
+    self.name = name
+    self.rect = self.name + '_rect'
+
+    # Items
+    self.animation.add(group, self.name, **kwargs)
+    self.animation.add(rectangle, self.rect, parent = self.name,
+      width = self.width,
+      height = self.height,
+      center = (False, False))
+
+    # self.animation.item[self.rect].center = False
+  
+
+
 # === ANIMATION ============================================================
 
 class view(QGraphicsView):
@@ -1875,20 +1926,20 @@ class Animation2d(QObject):
         fontsize = 12,
       )
 
-      self.add(arrow, 'A18', 
-        insight = True,
-        height = 0.15,
-        points = [[0,0],[0.2,-0.15]],
-        color = 'darkcyan',
-        thickness = 5,
-      )
+      # self.add(arrow, 'A18', 
+      #   insight = True,
+      #   insight_height = 0.15,
+      #   points = [[0,0],[0.2,-0.15]],
+      #   color = 'darkcyan',
+      #   thickness = 5,
+      # )
 
-      self.add(text, 'Time3',
-        insight = True,
-        string = self.time_str(),
-        color = 'white',
-        fontsize = 12,
-      )
+      # self.add(text, 'Time3',
+      #   insight = True,
+      #   string = self.time_str(),
+      #   color = 'white',
+      #   fontsize = 12,
+      # )
 
       # self.add(text, 'Colorbar',
       #   insight = True,
@@ -1913,9 +1964,9 @@ class Animation2d(QObject):
     else:
       insight = False
 
-    if 'height' in kwargs:
-      height = kwargs['height']
-      del kwargs['height']
+    if 'insight_height' in kwargs:
+      height = kwargs['insight_height']
+      del kwargs['insight_height']
     else:
       height = None
       
@@ -1951,10 +2002,6 @@ class Animation2d(QObject):
         pass
 
       self.insight['vpos'] -= self.insight['vpadding']
-
-
-      # print(type, name, kwargs, self.item[name].height())
-      print(self.insight)
 
   def show(self):
     """

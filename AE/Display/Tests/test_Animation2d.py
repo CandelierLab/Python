@@ -114,12 +114,12 @@ class Anim(Animation2d):
   def update(self):
     
     # Update timer display
-      super().update()
+    super().update()
 
-      # Update position
-      x = self.x0 + self.R*np.cos(self.step*self.dt)
-      y = self.y0 + self.R*np.sin(self.step*self.dt)
-      self.item['C'].position = [x, y]
+    # Update position
+    x = self.x0 + self.R*np.cos(self.step*self.dt)
+    y = self.y0 + self.R*np.sin(self.step*self.dt)
+    self.item['C'].position = [x, y]
 
 # --- Event listener -------------------------------------------------------
 
