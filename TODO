@@ -4,11 +4,6 @@ Visualization
 
   Animation2d:
     - !! DOC !!
-    - Composite: colorbar (+ colormaps ?)
-    - Replay=False
-      - Start/pause shortcuts
-      - Step by step      
-      - Events (to control another animation)
     - Replay=True
       - Smart bar
     - Item image (pixmap)
