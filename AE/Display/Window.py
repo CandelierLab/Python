@@ -1,3 +1,4 @@
+import os
 import AE.Display.Animation2d as Animation2d
 
 from PyQt5.QtGui import QKeySequence
@@ -38,7 +39,7 @@ class Window(QWidget):
     # --- Style
 
     # Modified qdarkstyle
-    with open('AE/Display/Style/dark.css', 'r') as f:
+    with open(os.path.dirname(os.path.abspath(__file__))+'/Style/dark.css', 'r') as f:
       css = f.read()
       self.app.setStyleSheet(css)
 
