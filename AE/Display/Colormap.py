@@ -1,16 +1,15 @@
 from matplotlib import cm
-import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
 from PyQt5.QtGui import QColor
 
 class Colormap():
     
   def __init__(self, name='jet'):
     
-    self.ncolors = 4
+    self.ncolors = 64
 
     # Range
     self.norm = None
-    self._range = None
     self.range = [0,1]
 
     # Colormap
@@ -21,24 +20,34 @@ class Colormap():
 
     self.cmap = cm.get_cmap(name, self.ncolors)
 
-  def qcolor(self, value):
+  def qcolor(self, value, scaled=False):
 
-    # Reduced value
-    if value<self.range[0]:
-      value = self.range[0]
-    elif value>self.range[1]:
-      value = self.range[1]
+    if not scaled:
+
+      # Scale value in range
+      if value<self.range[0]:
+        value = 0
+      elif value>self.range[1]:
+        value = 1
+      else:
+        value = (value - self.range[0])/(self.range[1] - self.range[0])
     
-    c = self.cmap(self.norm(value))
+    c = self.cmap(value)
 
     return QColor(int(c[0]*255), int(c[1]*255), int(c[2]*255))
-  
-  # --- Range -------------------------------------------------------------
 
-  @property
-  def range(self): return self._range
+  def htmlcolor(self, value, scaled=False):
 
-  @range.setter
-  def range(self, r):
-    self.norm = plt.Normalize(r[0], r[1])
-    self._range = r
+    if not scaled:
+
+      # Scale value in range
+      if value<self.range[0]:
+        value = 0
+      elif value>self.range[1]:
+        value = 1
+      else:
+        value = (value - self.range[0])/(self.range[1] - self.range[0])
+    
+    c = self.cmap(value)
+
+    return 'rgb({:d},{:d},{:d})'.format(int(c[0]*255), int(c[1]*255), int(c[2]*255))

@@ -1696,16 +1696,9 @@ class colorbar(composite):
 
     self.animation = animation
 
-    # Protected attributes
-
-    self._position = None
-    self._width = None
-    self._height = None
-    self._nticks = None
-
     # --- Arguments
 
-    self.width = kwargs['width'] if 'width' in kwargs else 0.05
+    self.width = kwargs['width'] if 'width' in kwargs else 0.025
     self.height = kwargs['height'] if 'height' in kwargs else 0.5
     self.nticks = kwargs['nticks'] if 'nticks' in kwargs else 2
 
@@ -1725,27 +1718,30 @@ class colorbar(composite):
 
     # --- Set gradient
 
+    cm = self.animation.colormap
+
     g = QLinearGradient(self.animation.item[self.rect].boundingRect().topLeft(),
       self.animation.item[self.rect].boundingRect().bottomLeft())
     
-    for i in np.linspace(self.animation.colormap.range[0],
-      self.animation.colormap.range[1], 
-      self.animation.colormap.ncolors):
-
-      g.setColorAt(i, self.animation.colormap.qcolor(i))
+    for z in np.linspace(0, 1, cm.ncolors):      
+      g.setColorAt(z, self.animation.colormap.qcolor(z, scaled=True))
   
     self.animation.item[self.rect].setBrush(g)
 
     # --- Ticks
 
-    self.animation.add(text, 'tick_0', parent = self.name,
-      position = [self.width,0],
-      string = 'a&#946;c',
-      color = 'white',
-      fontsize = 12,
-      center = (False, True))
-  
+    for z in np.linspace(0, 1, self.nticks):
 
+      v = cm.range[0] + z*(cm.range[1]-cm.range[0])
+      y = self.animation.item[self.name]._position[0] + z*self.height
+
+      self.animation.add(text, 'tick_0', parent = self.name,
+        position = [self.width, y],
+        string = '<span style="color: ' + self.animation.colormap.htmlcolor(z, scaled=True) + ';">◄</span> <span style="color: #AAA;">{:.02f}</span>'.format(v),
+        color = 'white',
+        fontsize = 10,
+        center = (False, True))
+  
 # === ANIMATION ============================================================
 
 class view(QGraphicsView):
@@ -1905,8 +1901,8 @@ class Animation2d(QObject):
     self.disp_time = disp_time
     self.insight = {'vpos': self.boundaries['y'][1], 
                     'vmin': self.boundaries['y'][0],
-                    'hpadding': self.boundaries['width']/100,
-                    'vpadding': self.boundaries['height']/100}
+                    'hpadding': self.boundaries['width']/50,
+                    'vpadding': self.boundaries['height']/50}
     
     # --- Animation
 
@@ -1945,29 +1941,6 @@ class Animation2d(QObject):
         fontsize = 12,
       )
 
-      # self.add(arrow, 'A18', 
-      #   insight = True,
-      #   insight_height = 0.15,
-      #   points = [[0,0],[0.2,-0.15]],
-      #   color = 'darkcyan',
-      #   thickness = 5,
-      # )
-
-      # self.add(text, 'Time3',
-      #   insight = True,
-      #   string = self.time_str(),
-      #   color = 'white',
-      #   fontsize = 12,
-      # )
-
-      # self.add(text, 'Colorbar',
-      #   insight = True,
-      #   height = 0.5,
-      #   string = self.time_str(),
-      #   color = 'white',
-      #   fontsize = 12,
-      # )
-
   def add(self, type, name, **kwargs):
     """
     Add an item to the scene.
@@ -1983,13 +1956,12 @@ class Animation2d(QObject):
     else:
       insight = False
 
-    if 'insight_height' in kwargs:
-      height = kwargs['insight_height']
-      del kwargs['insight_height']
-    else:
-      height = None
-      
+    height = kwargs['height'] if 'height' in kwargs else None
 
+    if height=='fill':
+      height = self.insight['vpos']-self.boundaries['y'][0]
+      kwargs['height'] = height
+      
     # Add items
     if issubclass(type, composite):
 
@@ -2012,16 +1984,18 @@ class Animation2d(QObject):
       x = self.boundaries['x'][1] + self.insight['hpadding']
       y = self.insight['vpos']
 
-      self.item[name].position = [x, y]
       if height is None:
         self.insight['vpos'] -= self.item[name].height()
-      elif isinstance(height, float):
-        self.insight['vpos'] -= height
       else:
-        pass
+        self.insight['vpos'] -= height
+        y -= height
 
+      # Set position
+      self.item[name].position = [x, y]
+
+      # Bottom padding
       self.insight['vpos'] -= self.insight['vpadding']
-
+      
   def show(self):
     """
     Display animation window
