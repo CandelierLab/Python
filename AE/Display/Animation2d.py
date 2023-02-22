@@ -1929,7 +1929,7 @@ class Animation2d(QObject):
       self.box = QGraphicsRectItem(0,0,
         self.factor*self.boundaries['width'],
         -self.factor*self.boundaries['height'])
-      self.box.setPen(QPen(Qt.lightGray, 0)) 
+      self.box.setPen(QPen(Qt.lightGray, 2)) 
       self.scene.addItem((self.box))
 
     # Time display
@@ -2058,6 +2058,9 @@ class Animation2d(QObject):
     # Timer display
     if self.disp_time:
       self.item['Time'].string = self.time_str()
+
+    # Repaint
+    self.view.viewport().repaint()
 
   def time_str(self):
 
