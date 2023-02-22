@@ -670,6 +670,8 @@ class text(item, QGraphicsTextItem):
 
     if isinstance(C, bool):
       self._center = (C,C)
+    else:
+      self._center = C
 
     self._shift = [0,0]
     if self._center[0] or self._center[1]:
@@ -678,7 +680,7 @@ class text(item, QGraphicsTextItem):
 
       if self.center[0]:
         self._shift[0] = bb.width()/2
-      if self._center[0]:
+      if self._center[1]:
         self._shift[1] = bb.height()/2
 
     self.place()
@@ -1733,8 +1735,16 @@ class colorbar(composite):
       g.setColorAt(i, self.animation.colormap.qcolor(i))
   
     self.animation.item[self.rect].setBrush(g)
-  
 
+    # --- Ticks
+
+    self.animation.add(text, 'tick_0', parent = self.name,
+      position = [self.width,0],
+      string = 'a&#946;c',
+      color = 'white',
+      fontsize = 12,
+      center = (False, True))
+  
 
 # === ANIMATION ============================================================
 
