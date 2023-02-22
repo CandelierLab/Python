@@ -2019,7 +2019,7 @@ class Animation2d(QObject):
     """
 
     # Stop the timer
-    self.qtimer.stop()
+    self.timer.stop()
 
     # Emit event
     self.event.emit({'type': 'stop'})
