@@ -1746,21 +1746,30 @@ class colorbar(composite):
 
 class view(QGraphicsView):
   
-  def __init__(self, scene, *args, **kwargs):
+  def __init__(self, scene, padding, *args, **kwargs):
 
     super().__init__(*args, *kwargs)
     self.setScene(scene)
+    self.padding = padding
     self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
     self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-  def showEvent(self, E):
+  def fit(self):
     
-    self.fitInView(self.scene().itemsBoundingRect(), Qt.KeepAspectRatio)
+    rect = self.scene().itemsBoundingRect()
+    rect.setLeft(rect.left() - self.padding)
+    rect.setTop(rect.top() - self.padding)
+    rect.setBottom(rect.bottom() + self.padding)
+    self.fitInView(rect, Qt.KeepAspectRatio)
+
+  def showEvent(self, E):
+
+    self.fit()    
     super().showEvent(E)
 
   def resizeEvent(self, E):
     
-    self.fitInView(self.scene().itemsBoundingRect(), Qt.KeepAspectRatio)
+    self.fit()
     super().resizeEvent(E)
 
 class Animation2d(QObject):
@@ -1819,7 +1828,7 @@ class Animation2d(QObject):
   # Generic event signal
   event = pyqtSignal(dict)
 
-  def __init__(self, window=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
+  def __init__(self, window=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None, padding=0):
     """
     Animation constructor
 
@@ -1852,27 +1861,13 @@ class Animation2d(QObject):
 
     self.window = window if window is not None else Window(animation=self)
 
-    # --- Scene & view
-
-    # Scene
-    self.scene = QGraphicsScene()
-    self.view = view(self.scene)
-    
-
-    # Items and composite elements
-    self.item = {}
-    self.composite = {}
-
-    # --- Layout
-
-    self.layout = QVBoxLayout()
-
-    self.layout.addWidget(self.view)
-
     # --- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
-    
+    self.padding = padding
+
+     # --- Scene & view
+
     # Scene limits
     self.boundaries = {'x':[0,1], 'y':[0,1], 'width':None, 'height':None}
     if boundaries is not None:
@@ -1883,6 +1878,20 @@ class Animation2d(QObject):
 
     # Scale factor
     self.factor = self.size/self.boundaries['height']
+
+    # Scene
+    self.scene = QGraphicsScene()
+    self.view = view(self.scene, self.padding*self.factor)
+
+    # --- Items and composite elements
+
+    self.item = {}
+    self.composite = {}
+
+    # --- Layout
+
+    self.layout = QVBoxLayout()
+    self.layout.addWidget(self.view)
 
     # --- Display
 

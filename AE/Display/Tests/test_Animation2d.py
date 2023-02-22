@@ -6,7 +6,7 @@ class Anim(Animation2d):
 
   def __init__(self):
 
-    super().__init__(disp_time=True)
+    super().__init__(disp_time=True, padding=0.01)
 
     self.x0 = 0.5
     self.y0 = 0.5
