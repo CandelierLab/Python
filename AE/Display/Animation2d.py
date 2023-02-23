@@ -1746,11 +1746,11 @@ class colorbar(composite):
 
 class view(QGraphicsView):
   
-  def __init__(self, scene, padding, *args, **kwargs):
+  def __init__(self, scene, *args, **kwargs):
 
     super().__init__(*args, *kwargs)
     self.setScene(scene)
-    self.padding = padding
+    self.padding = 0
     self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
     self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
@@ -1828,7 +1828,7 @@ class Animation2d(QObject):
   # Generic event signal
   event = pyqtSignal(dict)
 
-  def __init__(self, window=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None, padding=0):
+  def __init__(self, window=None, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
     """
     Animation constructor
 
@@ -1864,8 +1864,7 @@ class Animation2d(QObject):
     # --- Size settings
 
     self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
-    self.padding = padding
-
+    
      # --- Scene & view
 
     # Scene limits
@@ -1881,7 +1880,7 @@ class Animation2d(QObject):
 
     # Scene
     self.scene = QGraphicsScene()
-    self.view = view(self.scene, self.padding*self.factor)
+    self.view = view(self.scene)
 
     # --- Items and composite elements
 
@@ -2004,7 +2003,11 @@ class Animation2d(QObject):
 
       # Bottom padding
       self.insight['vpos'] -= self.insight['vpadding']
-      
+
+  def setPadding(self, padding):
+
+    self.view.padding = padding*self.factor
+
   def show(self):
     """
     Display animation window
