@@ -32,6 +32,7 @@ created without parent (``QWidget`` or :class:`Window`), the default
 """
 
 import numpy as np
+import re 
 
 from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
 from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient
@@ -2076,7 +2077,10 @@ class Animation2d(QObject):
 
   def time_str(self):
 
-    s = '<p>step {:06d}</p><font size=2>{:06.02f} sec</font>'.format(self.step, self.step*self.dt)
+    s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(self.step, self.step*self.dt)
+
+    # Grey zeros
+    s = re.sub(r'( )([0]+)', r'\1<span style="color:grey;">\2</span>', s)
 
     return s
 
