@@ -1531,9 +1531,12 @@ class composite():
     self.animation = animation
     self.name = name
 
+    # Position
     self._position = None
-
     self.position = kwargs['position'] if 'position' in kwargs else (0,0)
+
+    # Main item
+    self.animation.add(group, self.name, **kwargs)
 
   # --- Points -------------------------------------------------------------
 
@@ -1565,7 +1568,6 @@ class arrow(composite):
     self.head = self.name + '_head'
 
     # Items
-    self.animation.add(group, self.name, **kwargs)
     self.animation.add(line, self.line, parent = self.name, points = [[0,0],[0,0]])
     # NB: arrowhead is created later on, when the 'shape' attribute is assigned.
 
@@ -1755,7 +1757,6 @@ class colorbar(composite):
     self.rect = self.name + '_rect'
 
     # Items
-    self.animation.add(group, self.name, **kwargs)
     self.animation.add(rectangle, self.rect, parent = self.name,
       width = self.width,
       height = self.height,
