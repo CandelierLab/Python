@@ -34,8 +34,8 @@ created without parent (``QWidget`` or :class:`Window`), the default
 import numpy as np
 import re 
 
-from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QElapsedTimer, QPointF, QRectF
-from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QPointF, QRectF
+from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient, QTransform
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
 from AE.Display.Colormap import *
@@ -108,6 +108,7 @@ class item():
     self._shift = [0,0]
     self._transformPoint = [0,0]
     self._orientation = None
+    self._scale = None
     self._zvalue = None
     self._draggable = None
       
@@ -118,6 +119,7 @@ class item():
     if 'position' in kwargs: self.position = kwargs['position']
     if 'transformPoint' in kwargs: self.transformPoint = kwargs['transformPoint']
     if 'orientation' in kwargs: self.orientation = kwargs['orientation']
+    if 'scale' in kwargs: self.scale = kwargs['scale']
     if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
     if 'draggable' in kwargs: self.draggable = kwargs['draggable']
 
@@ -506,9 +508,18 @@ class item():
 
   @orientation.setter
   def orientation(self, angle):
-    
     self._orientation = angle
     self.setRotation(self.a2scene(angle))
+
+  # --- Scale --------------------------------------------------------
+
+  @property
+  def scale(self): return self._scale
+
+  @scale.setter
+  def scale(self, scale):
+    self._scale = scale
+    self.setTransform(QTransform.fromScale(scale[0], scale[1]), True)
 
   # --- Z-value ------------------------------------------------------------
 
