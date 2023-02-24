@@ -106,6 +106,7 @@ class item():
     self._behindParent = None
     self._position = [0,0]
     self._shift = [0,0]
+    self._transformPoint = [0,0]
     self._orientation = None
     self._zvalue = None
     self._draggable = None
@@ -115,6 +116,7 @@ class item():
     if 'parent' in kwargs: self.parent = kwargs['parent']
     if 'behindParent' in kwargs: self.behindParent = kwargs['behindParent']
     if 'position' in kwargs: self.position = kwargs['position']
+    if 'transformPoint' in kwargs: self.transformPoint = kwargs['transformPoint']
     if 'orientation' in kwargs: self.orientation = kwargs['orientation']
     if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
     if 'draggable' in kwargs: self.draggable = kwargs['draggable']
@@ -470,6 +472,32 @@ class item():
 
     # Set position
     self.place()    
+
+  # --- Transform point ----------------------------------------------------
+
+  @property
+  def transformPoint(self): return self._transformPoint
+
+  @transformPoint.setter
+  def transformPoint(self, pt):
+    
+    if isinstance(pt, complex):
+
+      # Convert from complex coordinates
+      x = np.real(pt)
+      y = np.imag(pt)
+
+    else:
+
+      # Doublet input
+      x = pt[0]  
+      y = pt[1]      
+
+    # Store transform point
+    self._transformPoint = [x,y]
+
+    # Set transform point
+    self.setTransformOriginPoint(self.x2scene(x), self.y2scene(y))    
 
   # --- Orientation --------------------------------------------------------
 

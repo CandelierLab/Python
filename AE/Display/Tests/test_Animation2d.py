@@ -61,13 +61,14 @@ class Anim(Animation2d):
     #   center = True
     # )
 
-    # self.add(rectangle, 'R',
-    #   position = [0.15,0.75],
-    #   width = 0.2,
-    #   height = 0.2,
-    #   colors = ('darkcyan', 'white'),
-    #   orientation = 0.5,
-    # )
+    self.add(rectangle, 'R',
+      position = [0.5,0.5],
+      width = 0.2,
+      height = 0.2,
+      colors = ('darkcyan', 'white'),
+      orientation = np.pi/4,
+      transformPoint = (0.1,0.1),
+    )
 
     # self.add(line, 'L',
     #   parent = 'E0',
