@@ -751,6 +751,7 @@ class ellipse(item, QGraphicsEllipseItem):
     self._color = (None, None)
     self._thickness = None
     self._linestyle = None
+    self._span = None
 
     # --- Initialization
 
@@ -763,6 +764,7 @@ class ellipse(item, QGraphicsEllipseItem):
     self.colors = kwargs['colors'] if 'colors' in kwargs else ['gray','white']
     self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
     self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
+    self.span = kwargs['span'] if 'span' in kwargs else None
 
   # --- Major axis length --------------------------------------------------
 
@@ -830,6 +832,21 @@ class ellipse(item, QGraphicsEllipseItem):
     self._linestyle = s
     self.setStyle()      
 
+ # --- Span ----------------------------------------------------------------
+
+  @property
+  def span(self): return self._span
+
+  @span.setter
+  def span(self, span):
+    self._span = span
+    if span is None:
+      self.setStartAngle(0)
+      self.setSpanAngle(5760)
+    else:
+      self.setStartAngle(int(span[0]*2880/np.pi))
+      self.setSpanAngle(int(span[1]*2880/np.pi))
+
 # --- Circle ---------------------------------------------------------------
 
 class circle(item, QGraphicsEllipseItem):
@@ -894,6 +911,7 @@ class circle(item, QGraphicsEllipseItem):
     self._color = (None, None)
     self._thickness = None
     self._linestyle = None
+    self._span = None
 
     # --- Initialization
 
@@ -904,7 +922,8 @@ class circle(item, QGraphicsEllipseItem):
 
     self.colors = kwargs['colors'] if 'colors' in kwargs else ['gray','white']
     self.linestyle = kwargs['linestyle'] if 'linestyle' in kwargs else None
-    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0   
+    self.thickness = kwargs['thickness'] if 'thickness' in kwargs else 0
+    self.span = kwargs['span'] if 'span' in kwargs else None
 
   # --- Radius -------------------------------------------------------------
 
@@ -947,6 +966,21 @@ class circle(item, QGraphicsEllipseItem):
   def linestyle(self, s):
     self._linestyle = s
     self.setStyle()      
+
+  # --- Span ----------------------------------------------------------------
+
+  @property
+  def span(self): return self._span
+
+  @span.setter
+  def span(self, span):
+    self._span = span
+    if span is None:
+      self.setStartAngle(0)
+      self.setSpanAngle(5760)
+    else:
+      self.setStartAngle(int(span[0]*2880/np.pi))
+      self.setSpanAngle(int(span[1]*2880/np.pi))
 
 # --- Rectangle ------------------------------------------------------------
 
