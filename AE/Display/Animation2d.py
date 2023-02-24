@@ -1525,8 +1525,26 @@ class composite():
   A composite element defines a group item containing other items.
   """
 
-  def __init__(self):
-    pass
+  def __init__(self, animation, name, **kwargs):
+
+    # Definition
+    self.animation = animation
+    self.name = name
+
+    self._position = None
+
+    self.position = kwargs['position'] if 'position' in kwargs else (0,0)
+
+  # --- Points -------------------------------------------------------------
+
+  @property
+  def position(self): return self._position
+
+  @position.setter
+  def position(self, position):
+    self._position = position
+    if self.name in self.animation.item:
+      self.animation.item[self.name].position = self._position
 
 # --- Arrow ----------------------------------------------------------------
 
@@ -1540,12 +1558,9 @@ class arrow(composite):
     Arrow element constructor
     """  
 
-    # --- Definitions
-
-    self.animation = animation
+    super().__init__(animation, name, **kwargs)
 
     # Names
-    self.name = name
     self.line = self.name + '_line'
     self.head = self.name + '_head'
 
@@ -1715,7 +1730,7 @@ class arrow(composite):
     self.animation.item[self.line].color = self._color
     self.animation.item[self.head].colors = [self._color, self._color]
 
-# --- Arrow ----------------------------------------------------------------
+# --- Colorbar -------------------------------------------------------------
 
 class colorbar(composite):
   """
@@ -1727,9 +1742,7 @@ class colorbar(composite):
     Colorbar constructor
     """  
 
-    # --- Definitions
-
-    self.animation = animation
+    super().__init__(animation, name, **kwargs)
 
     # --- Arguments
 
@@ -1739,8 +1752,6 @@ class colorbar(composite):
 
     # --- Items
 
-    # Names
-    self.name = name
     self.rect = self.name + '_rect'
 
     # Items
