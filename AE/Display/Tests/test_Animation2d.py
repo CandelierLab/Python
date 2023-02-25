@@ -102,6 +102,9 @@ class Anim(Animation2d):
     # Add listener
     self.event.connect(receive)
 
+    # Save movie
+    self.movieFile = '/home/raphael/Science/Projects/AE/MovingAgents/Movies/test.mp4'
+
     # Display animation
     self.show()
 

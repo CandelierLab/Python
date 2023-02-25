@@ -103,5 +103,5 @@ class Window(QWidget):
 
   def close(self):
 
-    # self.animation.stopAnimation()
+    self.animation.stop()
     self.app.quit()

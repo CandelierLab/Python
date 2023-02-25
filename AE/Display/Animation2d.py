@@ -32,10 +32,11 @@ created without parent (``QWidget`` or :class:`Window`), the default
 """
 
 import numpy as np
-import re 
+import re
+import imageio
 
-from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QPointF, QRectF
-from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient, QTransform
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QPoint, QPointF, QRectF
+from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient, QTransform, QImage
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
 
 from AE.Display.Colormap import *
@@ -2035,6 +2036,11 @@ class Animation2d(QObject):
         fontsize = 12,
       )
 
+    # Output movie
+    self.movieFile = None
+    self.movieWriter = None
+    self.movieWidth = 800     # Must be a multiple of 16
+
   def add(self, type, name, **kwargs):
     """
     Add an item to the scene.
@@ -2105,6 +2111,10 @@ class Animation2d(QObject):
     # Timing options
     self.timer.setInterval(int(1000/self.fps))
 
+    # Movie
+    if self.movieFile is not None:
+      self.movieWriter = imageio.get_writer(self.movieFile, fps=25)
+
     # Show parent window
     if isinstance(self.window, Window):
       self.window.show()
@@ -2121,6 +2131,9 @@ class Animation2d(QObject):
 
     # Emit event
     self.event.emit({'type': 'stop'})
+
+    # Movie
+    self.movieWriter.close()
 
     # Close the window, if any
     if isinstance(self.parent, Window):
@@ -2160,6 +2173,23 @@ class Animation2d(QObject):
     # Repaint
     self.view.viewport().repaint()
 
+    # Movie
+    if self.movieWriter is not None:
+
+      # GEt image
+      img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
+
+      # Create numpy array
+      ptr = img.constBits()
+      ptr.setsize(img.height()*img.width()*3)
+      A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
+
+      # Add missing rows (to get a height multiple of 16)
+      A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
+      
+      # Append array to movie
+      self.movieWriter.append_data(A)
+
   def time_str(self):
 
     s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(self.step, self.step*self.dt)
@@ -2198,6 +2228,8 @@ class Animation2d(QObject):
       self.event.emit({'type': 'pause'})
 
     else:
+
+      # self.view.grab().save()
 
       # Start timer
       self.timer.start()
