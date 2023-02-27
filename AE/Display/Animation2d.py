@@ -2133,7 +2133,8 @@ class Animation2d(QObject):
     self.event.emit({'type': 'stop'})
 
     # Movie
-    self.movieWriter.close()
+    if self.movieWriter is not None:
+      self.movieWriter.close()
 
     # Close the window, if any
     if isinstance(self.parent, Window):
