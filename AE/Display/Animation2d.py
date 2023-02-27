@@ -2040,6 +2040,7 @@ class Animation2d(QObject):
     self.movieFile = None
     self.movieWriter = None
     self.movieWidth = 1600     # Must be a multiple of 16
+    self.moviefps = 25
 
   def add(self, type, name, **kwargs):
     """
@@ -2120,7 +2121,7 @@ class Animation2d(QObject):
         os.makedirs(dname)
 
       # Open video file
-      self.movieWriter = imageio.get_writer(self.movieFile, fps=25)
+      self.movieWriter = imageio.get_writer(self.movieFile, fps=self.moviefps)
 
     # Show parent window
     if isinstance(self.window, Window):
