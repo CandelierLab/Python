@@ -2113,6 +2113,13 @@ class Animation2d(QObject):
 
     # Movie
     if self.movieFile is not None:
+
+      # Check directory
+      dname = os.path.dirname(self.movieFile)
+      if not os.path.isdir(dname):
+        os.makedirs(dname)
+
+      # Open video file
       self.movieWriter = imageio.get_writer(self.movieFile, fps=25)
 
     # Show parent window
