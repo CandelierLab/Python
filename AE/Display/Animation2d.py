@@ -2039,7 +2039,7 @@ class Animation2d(QObject):
     # Output movie
     self.movieFile = None
     self.movieWriter = None
-    self.movieWidth = 800     # Must be a multiple of 16
+    self.movieWidth = 1600     # Must be a multiple of 16
 
   def add(self, type, name, **kwargs):
     """
@@ -2176,7 +2176,7 @@ class Animation2d(QObject):
     # Movie
     if self.movieWriter is not None:
 
-      # GEt image
+      # Get image
       img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
 
       # Create numpy array
