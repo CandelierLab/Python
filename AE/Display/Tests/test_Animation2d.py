@@ -6,7 +6,7 @@ class Anim(Animation2d):
 
   def __init__(self):
 
-    super().__init__(disp_time=True)
+    super().__init__(disp_time=True, boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
 
     self.padding=0.01
 
@@ -69,12 +69,12 @@ class Anim(Animation2d):
     #   draggable = True
     # )
 
-    # self.add(polygon, 'P',
-    #   points = [[0.9,0.7],[0.85,0.8],[0.85,0.1]],
-    #   colors = ['green','red'],
-    #   thickness = 3,
-    #   draggable = True
-    # )
+    self.add(polygon, 'P',
+      points = [[0.5,0.5],[0.5,0.75],[0.75,0.5]],
+      colors = ['green','red'],
+      thickness = 3,
+      draggable = True
+    )
 
     # self.add(path, 'P',
     #   points = [[0.85,0.65],[0.80,0.80],[0.80,0.15]],

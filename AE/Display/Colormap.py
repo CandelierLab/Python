@@ -26,12 +26,12 @@ class Colormap():
 
       # Scale value in range
       if value<self.range[0]:
-        value = 0
+        value = 0.0
       elif value>self.range[1]:
-        value = 1
+        value = 1.0
       else:
         value = (value - self.range[0])/(self.range[1] - self.range[0])
-    
+
     c = self.cmap(value)
 
     return QColor(int(c[0]*255), int(c[1]*255), int(c[2]*255))
