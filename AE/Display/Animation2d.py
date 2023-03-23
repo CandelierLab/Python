@@ -2128,7 +2128,7 @@ class Animation2d(QObject):
       self.window.show()
 
   def stop(self):
-    """
+    """f
     Stop the animation
 
     Stops the timer and close the window, if any.
@@ -2237,8 +2237,6 @@ class Animation2d(QObject):
       self.event.emit({'type': 'pause'})
 
     else:
-
-      # self.view.grab().save()
 
       # Start timer
       self.timer.start()
