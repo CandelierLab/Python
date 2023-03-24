@@ -1,0 +1,271 @@
+AE.Display.Animation2d.group
+============================
+
+.. currentmodule:: AE.Display.Animation2d
+
+.. autoclass:: group
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~group.__init__
+      ~group.a2scene
+      ~group.acceptDrops
+      ~group.acceptHoverEvents
+      ~group.acceptTouchEvents
+      ~group.acceptedMouseButtons
+      ~group.addToGroup
+      ~group.advance
+      ~group.boundingRect
+      ~group.boundingRegion
+      ~group.boundingRegionGranularity
+      ~group.cacheMode
+      ~group.childItems
+      ~group.childrenBoundingRect
+      ~group.clearFocus
+      ~group.clipPath
+      ~group.collidesWithItem
+      ~group.collidesWithPath
+      ~group.collidingItems
+      ~group.commonAncestorItem
+      ~group.contains
+      ~group.contextMenuEvent
+      ~group.cursor
+      ~group.d2scene
+      ~group.data
+      ~group.deviceTransform
+      ~group.dragEnterEvent
+      ~group.dragLeaveEvent
+      ~group.dragMoveEvent
+      ~group.dropEvent
+      ~group.effectiveOpacity
+      ~group.ensureVisible
+      ~group.filtersChildEvents
+      ~group.flags
+      ~group.focusInEvent
+      ~group.focusItem
+      ~group.focusOutEvent
+      ~group.focusProxy
+      ~group.grabKeyboard
+      ~group.grabMouse
+      ~group.graphicsEffect
+      ~group.group
+      ~group.hasCursor
+      ~group.hasFocus
+      ~group.height
+      ~group.hide
+      ~group.hoverEnterEvent
+      ~group.hoverLeaveEvent
+      ~group.hoverMoveEvent
+      ~group.inputMethodEvent
+      ~group.inputMethodHints
+      ~group.inputMethodQuery
+      ~group.installSceneEventFilter
+      ~group.isActive
+      ~group.isAncestorOf
+      ~group.isBlockedByModalPanel
+      ~group.isClipped
+      ~group.isEnabled
+      ~group.isObscured
+      ~group.isObscuredBy
+      ~group.isPanel
+      ~group.isSelected
+      ~group.isUnderMouse
+      ~group.isVisible
+      ~group.isVisibleTo
+      ~group.isWidget
+      ~group.isWindow
+      ~group.itemChange
+      ~group.itemTransform
+      ~group.keyPressEvent
+      ~group.keyReleaseEvent
+      ~group.mapFromItem
+      ~group.mapFromParent
+      ~group.mapFromScene
+      ~group.mapRectFromItem
+      ~group.mapRectFromParent
+      ~group.mapRectFromScene
+      ~group.mapRectToItem
+      ~group.mapRectToParent
+      ~group.mapRectToScene
+      ~group.mapToItem
+      ~group.mapToParent
+      ~group.mapToScene
+      ~group.mouseDoubleClickEvent
+      ~group.mouseMoveEvent
+      ~group.mousePressEvent
+      ~group.mouseReleaseEvent
+      ~group.move
+      ~group.moveBy
+      ~group.opacity
+      ~group.opaqueArea
+      ~group.paint
+      ~group.panel
+      ~group.panelModality
+      ~group.parentItem
+      ~group.parentObject
+      ~group.parentWidget
+      ~group.place
+      ~group.pos
+      ~group.prepareGeometryChange
+      ~group.removeFromGroup
+      ~group.removeSceneEventFilter
+      ~group.resetTransform
+      ~group.rotate
+      ~group.rotation
+      ~group.scene
+      ~group.scene2d
+      ~group.scene2x
+      ~group.scene2xy
+      ~group.scene2y
+      ~group.sceneBoundingRect
+      ~group.sceneEvent
+      ~group.sceneEventFilter
+      ~group.scenePos
+      ~group.sceneTransform
+      ~group.scroll
+      ~group.setAcceptDrops
+      ~group.setAcceptHoverEvents
+      ~group.setAcceptTouchEvents
+      ~group.setAcceptedMouseButtons
+      ~group.setActive
+      ~group.setBoundingRegionGranularity
+      ~group.setCacheMode
+      ~group.setCursor
+      ~group.setData
+      ~group.setEnabled
+      ~group.setFiltersChildEvents
+      ~group.setFlag
+      ~group.setFlags
+      ~group.setFocus
+      ~group.setFocusProxy
+      ~group.setGraphicsEffect
+      ~group.setGroup
+      ~group.setInputMethodHints
+      ~group.setOpacity
+      ~group.setPanelModality
+      ~group.setParentItem
+      ~group.setPos
+      ~group.setRotation
+      ~group.setScale
+      ~group.setSelected
+      ~group.setStyle
+      ~group.setToolTip
+      ~group.setTransform
+      ~group.setTransformOriginPoint
+      ~group.setTransformations
+      ~group.setVisible
+      ~group.setX
+      ~group.setY
+      ~group.setZValue
+      ~group.shape
+      ~group.show
+      ~group.stackBefore
+      ~group.toGraphicsObject
+      ~group.toolTip
+      ~group.topLevelItem
+      ~group.topLevelWidget
+      ~group.transform
+      ~group.transformOriginPoint
+      ~group.transformations
+      ~group.type
+      ~group.ungrabKeyboard
+      ~group.ungrabMouse
+      ~group.unsetCursor
+      ~group.update
+      ~group.updateMicroFocus
+      ~group.wheelEvent
+      ~group.width
+      ~group.window
+      ~group.x
+      ~group.x2scene
+      ~group.xy2scene
+      ~group.y
+      ~group.y2scene
+      ~group.zValue
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~group.DeviceCoordinateCache
+      ~group.ItemAcceptsInputMethod
+      ~group.ItemChildAddedChange
+      ~group.ItemChildRemovedChange
+      ~group.ItemClipsChildrenToShape
+      ~group.ItemClipsToShape
+      ~group.ItemContainsChildrenInShape
+      ~group.ItemCoordinateCache
+      ~group.ItemCursorChange
+      ~group.ItemCursorHasChanged
+      ~group.ItemDoesntPropagateOpacityToChildren
+      ~group.ItemEnabledChange
+      ~group.ItemEnabledHasChanged
+      ~group.ItemFlagsChange
+      ~group.ItemFlagsHaveChanged
+      ~group.ItemHasNoContents
+      ~group.ItemIgnoresParentOpacity
+      ~group.ItemIgnoresTransformations
+      ~group.ItemIsFocusable
+      ~group.ItemIsMovable
+      ~group.ItemIsPanel
+      ~group.ItemIsSelectable
+      ~group.ItemMatrixChange
+      ~group.ItemNegativeZStacksBehindParent
+      ~group.ItemOpacityChange
+      ~group.ItemOpacityHasChanged
+      ~group.ItemParentChange
+      ~group.ItemParentHasChanged
+      ~group.ItemPositionChange
+      ~group.ItemPositionHasChanged
+      ~group.ItemRotationChange
+      ~group.ItemRotationHasChanged
+      ~group.ItemScaleChange
+      ~group.ItemScaleHasChanged
+      ~group.ItemSceneChange
+      ~group.ItemSceneHasChanged
+      ~group.ItemScenePositionHasChanged
+      ~group.ItemSelectedChange
+      ~group.ItemSelectedHasChanged
+      ~group.ItemSendsGeometryChanges
+      ~group.ItemSendsScenePositionChanges
+      ~group.ItemStacksBehindParent
+      ~group.ItemToolTipChange
+      ~group.ItemToolTipHasChanged
+      ~group.ItemTransformChange
+      ~group.ItemTransformHasChanged
+      ~group.ItemTransformOriginPointChange
+      ~group.ItemTransformOriginPointHasChanged
+      ~group.ItemUsesExtendedStyleOption
+      ~group.ItemVisibleChange
+      ~group.ItemVisibleHasChanged
+      ~group.ItemZValueChange
+      ~group.ItemZValueHasChanged
+      ~group.NoCache
+      ~group.NonModal
+      ~group.PanelModal
+      ~group.SceneModal
+      ~group.Type
+      ~group.UserType
+      ~group.behindParent
+      ~group.draggable
+      ~group.orientation
+      ~group.parent
+      ~group.position
+      ~group.scale
+      ~group.transformPoint
+      ~group.zvalue
+   
+   

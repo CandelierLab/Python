@@ -1,7 +1,7 @@
-AE.Display.Animation.ellipse
-============================
+AE.Display.Animation2d.ellipse
+==============================
 
-.. currentmodule:: AE.Display.Animation
+.. currentmodule:: AE.Display.Animation2d
 
 .. autoclass:: ellipse
    :members:
@@ -60,6 +60,7 @@ AE.Display.Animation.ellipse
       ~ellipse.group
       ~ellipse.hasCursor
       ~ellipse.hasFocus
+      ~ellipse.height
       ~ellipse.hide
       ~ellipse.hoverEnterEvent
       ~ellipse.hoverLeaveEvent
@@ -106,7 +107,6 @@ AE.Display.Animation.ellipse
       ~ellipse.moveBy
       ~ellipse.opacity
       ~ellipse.opaqueArea
-      ~ellipse.orientate
       ~ellipse.paint
       ~ellipse.panel
       ~ellipse.panelModality
@@ -122,8 +122,11 @@ AE.Display.Animation.ellipse
       ~ellipse.resetTransform
       ~ellipse.rotate
       ~ellipse.rotation
-      ~ellipse.scale
       ~ellipse.scene
+      ~ellipse.scene2d
+      ~ellipse.scene2x
+      ~ellipse.scene2xy
+      ~ellipse.scene2y
       ~ellipse.sceneBoundingRect
       ~ellipse.sceneEvent
       ~ellipse.sceneEventFilter
@@ -140,20 +143,17 @@ AE.Display.Animation.ellipse
       ~ellipse.setCacheMode
       ~ellipse.setCursor
       ~ellipse.setData
-      ~ellipse.setDraggability
       ~ellipse.setEnabled
       ~ellipse.setFiltersChildEvents
       ~ellipse.setFlag
       ~ellipse.setFlags
       ~ellipse.setFocus
       ~ellipse.setFocusProxy
-      ~ellipse.setGeometry
       ~ellipse.setGraphicsEffect
       ~ellipse.setGroup
       ~ellipse.setInputMethodHints
       ~ellipse.setOpacity
       ~ellipse.setPanelModality
-      ~ellipse.setParent
       ~ellipse.setParentItem
       ~ellipse.setPen
       ~ellipse.setPos
@@ -191,6 +191,7 @@ AE.Display.Animation.ellipse
       ~ellipse.update
       ~ellipse.updateMicroFocus
       ~ellipse.wheelEvent
+      ~ellipse.width
       ~ellipse.window
       ~ellipse.x
       ~ellipse.x2scene
@@ -266,5 +267,19 @@ AE.Display.Animation.ellipse
       ~ellipse.SceneModal
       ~ellipse.Type
       ~ellipse.UserType
+      ~ellipse.behindParent
+      ~ellipse.colors
+      ~ellipse.draggable
+      ~ellipse.linestyle
+      ~ellipse.major
+      ~ellipse.minor
+      ~ellipse.orientation
+      ~ellipse.parent
+      ~ellipse.position
+      ~ellipse.scale
+      ~ellipse.span
+      ~ellipse.thickness
+      ~ellipse.transformPoint
+      ~ellipse.zvalue
    
    

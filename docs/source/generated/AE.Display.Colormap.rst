@@ -1,7 +1,7 @@
-﻿AE.Display.Animation
-====================
+﻿AE.Display.Colormap
+===================
 
-.. automodule:: AE.Display.Animation
+.. automodule:: AE.Display.Colormap
   
    
    
@@ -19,12 +19,7 @@
       :toctree:
       :template: class-template.rst
    
-      Animation2d
-      Window
-      ellipse
-      group
-      item
-      text
+      Colormap
    
    
 

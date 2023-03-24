@@ -1,7 +1,7 @@
-AE.Display.Animation.group
-==========================
+AE.Display.Animation2d.group
+============================
 
-.. currentmodule:: AE.Display.Animation
+.. currentmodule:: AE.Display.Animation2d
 
 .. autoclass:: group
    :members:
@@ -60,6 +60,7 @@ AE.Display.Animation.group
       ~group.group
       ~group.hasCursor
       ~group.hasFocus
+      ~group.height
       ~group.hide
       ~group.hoverEnterEvent
       ~group.hoverLeaveEvent
@@ -106,7 +107,6 @@ AE.Display.Animation.group
       ~group.moveBy
       ~group.opacity
       ~group.opaqueArea
-      ~group.orientate
       ~group.paint
       ~group.panel
       ~group.panelModality
@@ -121,8 +121,11 @@ AE.Display.Animation.group
       ~group.resetTransform
       ~group.rotate
       ~group.rotation
-      ~group.scale
       ~group.scene
+      ~group.scene2d
+      ~group.scene2x
+      ~group.scene2xy
+      ~group.scene2y
       ~group.sceneBoundingRect
       ~group.sceneEvent
       ~group.sceneEventFilter
@@ -138,7 +141,6 @@ AE.Display.Animation.group
       ~group.setCacheMode
       ~group.setCursor
       ~group.setData
-      ~group.setDraggability
       ~group.setEnabled
       ~group.setFiltersChildEvents
       ~group.setFlag
@@ -150,7 +152,6 @@ AE.Display.Animation.group
       ~group.setInputMethodHints
       ~group.setOpacity
       ~group.setPanelModality
-      ~group.setParent
       ~group.setParentItem
       ~group.setPos
       ~group.setRotation
@@ -182,6 +183,7 @@ AE.Display.Animation.group
       ~group.update
       ~group.updateMicroFocus
       ~group.wheelEvent
+      ~group.width
       ~group.window
       ~group.x
       ~group.x2scene
@@ -257,5 +259,13 @@ AE.Display.Animation.group
       ~group.SceneModal
       ~group.Type
       ~group.UserType
+      ~group.behindParent
+      ~group.draggable
+      ~group.orientation
+      ~group.parent
+      ~group.position
+      ~group.scale
+      ~group.transformPoint
+      ~group.zvalue
    
    

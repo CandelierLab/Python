@@ -1,7 +1,7 @@
-AE.Display.Animation.text
-=========================
+AE.Display.Animation2d.text
+===========================
 
-.. currentmodule:: AE.Display.Animation
+.. currentmodule:: AE.Display.Animation2d
 
 .. autoclass:: text
    :members:
@@ -79,6 +79,7 @@ AE.Display.Animation.text
       ~text.group
       ~text.hasCursor
       ~text.hasFocus
+      ~text.height
       ~text.hide
       ~text.hoverEnterEvent
       ~text.hoverLeaveEvent
@@ -135,11 +136,9 @@ AE.Display.Animation.text
       ~text.opacity
       ~text.opaqueArea
       ~text.openExternalLinks
-      ~text.orientate
       ~text.paint
       ~text.panel
       ~text.panelModality
-      ~text.parent
       ~text.parentItem
       ~text.parentObject
       ~text.parentWidget
@@ -154,8 +153,11 @@ AE.Display.Animation.text
       ~text.resetTransform
       ~text.rotate
       ~text.rotation
-      ~text.scale
       ~text.scene
+      ~text.scene2d
+      ~text.scene2x
+      ~text.scene2xy
+      ~text.scene2y
       ~text.sceneBoundingRect
       ~text.sceneEvent
       ~text.sceneEventFilter
@@ -175,7 +177,6 @@ AE.Display.Animation.text
       ~text.setData
       ~text.setDefaultTextColor
       ~text.setDocument
-      ~text.setDraggability
       ~text.setEnabled
       ~text.setFiltersChildEvents
       ~text.setFlag
@@ -241,6 +242,7 @@ AE.Display.Animation.text
       ~text.update
       ~text.updateMicroFocus
       ~text.wheelEvent
+      ~text.width
       ~text.window
       ~text.x
       ~text.x2scene
@@ -316,20 +318,32 @@ AE.Display.Animation.text
       ~text.SceneModal
       ~text.Type
       ~text.UserType
+      ~text.behindParent
+      ~text.center
+      ~text.color
       ~text.destroyed
+      ~text.draggable
       ~text.enabledChanged
+      ~text.fontname
+      ~text.fontsize
       ~text.linkActivated
       ~text.linkHovered
       ~text.objectNameChanged
       ~text.opacityChanged
+      ~text.orientation
+      ~text.parent
       ~text.parentChanged
+      ~text.position
       ~text.rotationChanged
+      ~text.scale
       ~text.scaleChanged
       ~text.staticMetaObject
       ~text.string
+      ~text.transformPoint
       ~text.visibleChanged
       ~text.xChanged
       ~text.yChanged
       ~text.zChanged
+      ~text.zvalue
    
    
