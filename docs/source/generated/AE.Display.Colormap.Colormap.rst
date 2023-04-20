@@ -1,4 +1,4 @@
-AE.Display.Colormap.Colormap
+﻿AE.Display.Colormap.Colormap
 ============================
 
 .. currentmodule:: AE.Display.Colormap
@@ -17,6 +17,7 @@ AE.Display.Colormap.Colormap
    .. autosummary::
    
       ~Colormap.__init__
+      ~Colormap.hexcolor
       ~Colormap.htmlcolor
       ~Colormap.qcolor
       ~Colormap.set
