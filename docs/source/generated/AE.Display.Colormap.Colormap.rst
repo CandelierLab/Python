@@ -17,7 +17,6 @@
    .. autosummary::
    
       ~Colormap.__init__
-      ~Colormap.hexcolor
       ~Colormap.htmlcolor
       ~Colormap.qcolor
       ~Colormap.set

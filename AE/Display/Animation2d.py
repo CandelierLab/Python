@@ -2110,8 +2110,9 @@ class Animation2d(QObject):
     """
 
     # Timing options
-    self.timer.setInterval(int(1000/self.fps))
-
+    # self.timer.setInterval(int(1000/self.fps))
+    self.timer.setInterval(int(1000*self.dt))
+    
     # Movie
     if self.movieFile is not None:
 
@@ -2128,7 +2129,7 @@ class Animation2d(QObject):
       self.window.show()
 
   def stop(self):
-    """f
+    """
     Stop the animation
 
     Stops the timer and close the window, if any.

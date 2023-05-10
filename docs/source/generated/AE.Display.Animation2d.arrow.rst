@@ -1,4 +1,4 @@
-AE.Display.Animation2d.arrow
+﻿AE.Display.Animation2d.arrow
 ============================
 
 .. currentmodule:: AE.Display.Animation2d

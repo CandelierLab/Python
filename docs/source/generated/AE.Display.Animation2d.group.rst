@@ -1,4 +1,4 @@
-AE.Display.Animation2d.group
+﻿AE.Display.Animation2d.group
 ============================
 
 .. currentmodule:: AE.Display.Animation2d

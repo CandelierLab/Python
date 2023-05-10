@@ -1,4 +1,4 @@
-AE.Display.Animation2d.composite
+﻿AE.Display.Animation2d.composite
 ================================
 
 .. currentmodule:: AE.Display.Animation2d

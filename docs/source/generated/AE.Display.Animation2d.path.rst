@@ -1,4 +1,4 @@
-AE.Display.Animation2d.path
+﻿AE.Display.Animation2d.path
 ===========================
 
 .. currentmodule:: AE.Display.Animation2d

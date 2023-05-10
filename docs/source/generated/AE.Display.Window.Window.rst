@@ -1,4 +1,4 @@
-AE.Display.Window.Window
+﻿AE.Display.Window.Window
 ========================
 
 .. currentmodule:: AE.Display.Window

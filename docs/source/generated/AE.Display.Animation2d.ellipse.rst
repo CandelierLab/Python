@@ -1,4 +1,4 @@
-AE.Display.Animation2d.ellipse
+﻿AE.Display.Animation2d.ellipse
 ==============================
 
 .. currentmodule:: AE.Display.Animation2d

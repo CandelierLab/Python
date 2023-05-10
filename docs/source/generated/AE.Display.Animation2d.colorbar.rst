@@ -1,4 +1,4 @@
-AE.Display.Animation2d.colorbar
+﻿AE.Display.Animation2d.colorbar
 ===============================
 
 .. currentmodule:: AE.Display.Animation2d

@@ -1,4 +1,4 @@
-AE.Display.Animation2d.circle
+﻿AE.Display.Animation2d.circle
 =============================
 
 .. currentmodule:: AE.Display.Animation2d

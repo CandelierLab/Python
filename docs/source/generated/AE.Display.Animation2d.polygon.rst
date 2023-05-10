@@ -1,4 +1,4 @@
-AE.Display.Animation2d.polygon
+﻿AE.Display.Animation2d.polygon
 ==============================
 
 .. currentmodule:: AE.Display.Animation2d

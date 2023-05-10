@@ -1,4 +1,4 @@
-AE.Display.Animation2d.rectangle
+﻿AE.Display.Animation2d.rectangle
 ================================
 
 .. currentmodule:: AE.Display.Animation2d
