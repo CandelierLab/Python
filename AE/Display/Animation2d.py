@@ -2201,6 +2201,9 @@ class Animation2d(QObject):
       self.movieWriter.append_data(A)
 
   def time_str(self):
+    '''
+    Format time string for display
+    '''
 
     s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(self.step, self.step*self.dt)
 
