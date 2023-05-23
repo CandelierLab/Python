@@ -2041,6 +2041,7 @@ class Animation2d(QObject):
     self.movieWriter = None
     self.movieWidth = 1600     # Must be a multiple of 16
     self.moviefps = 25
+    self.keep_every = 1
 
   def add(self, type, name, **kwargs):
     """
@@ -2184,7 +2185,7 @@ class Animation2d(QObject):
     self.view.viewport().repaint()
 
     # Movie
-    if self.movieWriter is not None:
+    if self.movieWriter is not None and not (self.step % self.keep_every):
 
       # Get image
       img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
