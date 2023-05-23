@@ -13,7 +13,7 @@ class Anim(Animation2d):
     self.x0 = 0.5
     self.y0 = 0.5
     self.R = 0.25
-    self.r = 0.01
+    self.r = 0.02
 
     self.add(ellipse, 'E0',
       position = [self.x0, self.y0],
@@ -69,12 +69,12 @@ class Anim(Animation2d):
     #   draggable = True
     # )
 
-    self.add(polygon, 'P',
-      points = [[0.5,0.5],[0.5,0.75],[0.75,0.5]],
-      colors = ['green','red'],
-      thickness = 3,
-      draggable = True
-    )
+    # self.add(polygon, 'P',
+    #   points = [[0.5,0.5],[0.5,0.75],[0.75,0.5]],
+    #   colors = ['green','red'],
+    #   thickness = 3,
+    #   draggable = True
+    # )
 
     # self.add(path, 'P',
     #   points = [[0.85,0.65],[0.80,0.80],[0.80,0.15]],
