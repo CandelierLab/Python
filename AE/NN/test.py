@@ -1,5 +1,8 @@
+import os
 import numpy as np
 from AE.NN.ANN import ANN
+
+os.system('clear')
 
 Net = ANN()
 
@@ -15,6 +18,9 @@ N = len(Net.node)
 for i in range(15):
   Net.add_edge(np.random.randint(N), np.random.randint(N), w=i)
 
+Net.add_edge(3, 3, w=1)
+
+print(Net)
 
 # print(Net)
 Net.show()

@@ -1614,7 +1614,7 @@ class arrow(composite):
     # Protected attributes
 
     self._points = None
-    self._z = None
+    self._zvalue = None
     self._size = None
     self._locus = 1
     self._shape = None
@@ -1632,6 +1632,7 @@ class arrow(composite):
 
     if 'locus' in kwargs: self.locus = kwargs['locus']
     if 'thickness' in kwargs: self.thickness = kwargs['thickness']
+    if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
     self.color = kwargs['color'] if 'color' in kwargs else 'white'
 
   # --- Arrowhead size -----------------------------------------------------
@@ -1759,6 +1760,18 @@ class arrow(composite):
 
     self._thickness = t
     self.animation.item[self.line].thickness = self._thickness
+
+  # --- Z-value ------------------------------------------------------------
+
+  @property
+  def zvalue(self): return self._zvalue
+
+  @zvalue.setter
+  def zvalue(self, z):
+
+    self._zvalue = z
+    self.animation.item[self.line].zvalue = self._zvalue
+    self.animation.item[self.head].zvalue = self._zvalue
 
   # --- Color --------------------------------------------------------------
 

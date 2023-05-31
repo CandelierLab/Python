@@ -87,7 +87,7 @@ class Network():
   def show(self, isolate_output=True, size=None):
 
     anim = Visu2d(self, isolate_output=isolate_output, size=size)
-    anim.parent.title = 'Network'
+    anim.window.title = 'Network'
     anim.show()
 
 # === Visualisation ========================================================
@@ -205,22 +205,21 @@ class Visu2d(Animation2d.Animation2d):
 
     # --- Scene settings ---------------------------------------------------
 
-    # self.r = 0.025
-    self.r = 0.05
-    self.fontsize = int(np.floor(self.r*self.size/4.5))
+    self.r = 0.04
+    self.fontsize = int(np.floor(self.r*self.size/4.5*2))
 
     # self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     # self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
 
     # --- Edges ------------------------------------------------------------
 
-    for i,edge in enumerate(self.Net.edge):
+    for edge in self.Net.edge:
 
       # Name
       name = str(edge['i']) + '→' +  str(edge['j'])
 
-      if name not in self.item:
-
+      if name not in self.item and edge['i']!=edge['j']:
+          
         self.add(Animation2d.arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
           thickness = 2,
@@ -240,6 +239,29 @@ class Visu2d(Animation2d.Animation2d):
         position = pos[i], 
         draggable = not (node['IN'] or node['OUT']))
 
+      # --- Self-edge
+
+      for edge in self.Net.edge:
+
+        # Name
+        name = str(edge['i']) + '→' +  str(edge['j'])
+
+        if name not in self.item and edge['i']==i and edge['j']==i:
+          
+          self.add(Animation2d.circle, name,
+            parent = i,
+            position = (0, self.r),
+            radius = self.r,
+            colors = (None, '#ccc'),
+            thickness = 2
+          )
+
+          self.add(Animation2d.arrow, name + '_arrowhead',
+            parent = i,
+            points = [(-0.005, 2*self.r), (-0.02, 2*self.r)],
+            locus = 0.5
+          )
+
       # --- Circle
 
       # Double circle for OUTPUT Nodes
@@ -258,7 +280,7 @@ class Visu2d(Animation2d.Animation2d):
         radius = self.r,
         colors = ('#555', '#ccc'),
         thickness = 2,
-        linestyle = '--' if node['IN'] else None
+        linestyle = ':' if node['IN'] else None
       )
 
       # --- Name
@@ -278,6 +300,8 @@ class Visu2d(Animation2d.Animation2d):
         fontsize = self.fontsize,
         fontname = 'Serif'
       )
+
+    
 
   def change(self, type, item):
     """
@@ -305,14 +329,19 @@ class Visu2d(Animation2d.Animation2d):
           # Name
           name = str(edge['i']) + '→' +  str(edge['j'])
 
-          # Afferent nodes
-          if edge['j']==k:        
-            p1 = item.scene2xy(self.item[edge['i']].pos())
-            # p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())
-            self.composite[name].points = [p1, pos]
+          if edge['i']==edge['j']:
+            pass
 
-          # Efferent nodes
-          if edge['i']==k:
-            p2 = item.scene2xy(self.item[edge['j']].pos())
-            # p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
-            self.composite[name].points = [pos, p2]
+          else:
+
+            # Afferent nodes
+            if edge['j']==k:        
+              p1 = item.scene2xy(self.item[edge['i']].pos())
+              # p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())
+              self.composite[name].points = [p1, pos]
+
+            # Efferent nodes
+            if edge['i']==k:
+              p2 = item.scene2xy(self.item[edge['j']].pos())
+              # p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
+              self.composite[name].points = [pos, p2]
