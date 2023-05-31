@@ -1606,9 +1606,21 @@ class arrow(composite):
     # Names
     self.line = self.name + '_line'
     self.head = self.name + '_head'
+    self.text = self.name + '_text'
 
     # Items
-    self.animation.add(line, self.line, parent = self.name, points = [[0,0],[0,0]])
+    self.animation.add(line,self.line,
+      parent = self.name, 
+      points = [[0,0],[0,0]]
+    )
+
+    self.animation.add(text, self.text,
+      parent = self.name,
+      position = (0,0),
+      fontsize = 9,
+      center = (True, False),
+      string = ''
+    )
     # NB: arrowhead is created later on, when the 'shape' attribute is assigned.
 
     # Protected attributes
@@ -1619,6 +1631,7 @@ class arrow(composite):
     self._locus = 1
     self._shape = None
     self._color = None
+    self._string = None
 
     # --- Arguments
 
@@ -1634,6 +1647,7 @@ class arrow(composite):
     if 'thickness' in kwargs: self.thickness = kwargs['thickness']
     if 'zvalue' in kwargs: self.zvalue = kwargs['zvalue']
     self.color = kwargs['color'] if 'color' in kwargs else 'white'
+    if 'string' in kwargs: self.string = kwargs['string']
 
   # --- Arrowhead size -----------------------------------------------------
 
@@ -1738,6 +1752,9 @@ class arrow(composite):
     # Arrowhead 
     self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
 
+    # Text
+    self.animation.item[self.text].position = [np.abs(self._z)*self._locus,0]
+
   # --- Locus --------------------------------------------------------------
 
   @property
@@ -1748,7 +1765,11 @@ class arrow(composite):
 
     self._locus = k
 
-    self.animation.item[self.head].position = [np.abs(self._z)*self._locus, 0]
+    # Arrowhead 
+    self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
+
+    # Text
+    self.animation.item[self.text].position = [np.abs(self._z)*self._locus,0]
 
   # --- Thickness ----------------------------------------------------------
 
@@ -1772,6 +1793,7 @@ class arrow(composite):
     self._zvalue = z
     self.animation.item[self.line].zvalue = self._zvalue
     self.animation.item[self.head].zvalue = self._zvalue
+    self.animation.item[self.text].zvalue = self._zvalue
 
   # --- Color --------------------------------------------------------------
 
@@ -1784,6 +1806,19 @@ class arrow(composite):
     self._color = C
     self.animation.item[self.line].color = self._color
     self.animation.item[self.head].colors = [self._color, self._color]
+    self.animation.item[self.text].color = self._color
+
+  # --- String -------------------------------------------------------------
+
+  @property
+  def string(self): return self._string
+
+  @string.setter
+  def string(self, s):
+
+    self._string = str(s)
+    self.animation.item[self.text].string = self._string
+
 
 # --- Colorbar -------------------------------------------------------------
 

@@ -222,8 +222,8 @@ class Visu2d(Animation2d.Animation2d):
           
         self.add(Animation2d.arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
-          thickness = 2,
-          locus = 0.5
+          locus = 0.5,
+          string = 0.18
         )
 
     # --- Nodes ------------------------------------------------------------
@@ -253,13 +253,13 @@ class Visu2d(Animation2d.Animation2d):
             position = (0, self.r),
             radius = self.r,
             colors = (None, '#ccc'),
-            thickness = 2
           )
 
           self.add(Animation2d.arrow, name + '_arrowhead',
             parent = i,
             points = [(-0.005, 2*self.r), (-0.02, 2*self.r)],
-            locus = 0.5
+            locus = 0.5,
+            string = 'self'
           )
 
       # --- Circle
@@ -278,7 +278,7 @@ class Visu2d(Animation2d.Animation2d):
         parent = i,
         position = (0,0),
         radius = self.r,
-        colors = ('#555', '#ccc'),
+        colors = ('#555', '#aaa'),
         thickness = 2,
         linestyle = ':' if node['IN'] else None
       )
@@ -290,6 +290,8 @@ class Visu2d(Animation2d.Animation2d):
         if len(name)>3: name = name[0:3]
       else:
         name = node['html']
+
+      # --- Text
 
       self.add(Animation2d.text, str(gname) + '_text',
         parent = i,
