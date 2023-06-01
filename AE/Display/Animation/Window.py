@@ -1,10 +1,11 @@
 import os
+
 from AE.Display.time import *
 from AE.Display.Animation.Information import *
 from AE.Display.Animation.Animation_2d import *
 
 from PyQt5.QtCore import pyqtSignal, QTimer
-from PyQt5.QtGui import QKeySequence
+from PyQt5.QtGui import QKeySequence, QImage
 from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout
 
 class Window(QWidget):
@@ -55,6 +56,7 @@ class Window(QWidget):
     if self.information is not None:
       self.layout.addWidget(self.information.view, 0, 0)
       self.events.connect(self.information.receive)
+      self.information.updated.connect(self.capture)
 
     # --- Style
 
@@ -113,6 +115,7 @@ class Window(QWidget):
     if isinstance(panel, Animation_2d):
       self.layout.addWidget(panel.view, row, col)
       self.events.connect(panel.receive)
+      # panel.updated.connect(self.capture)
     else:
       self.layout.addLayout(panel, row, col)
 
@@ -179,6 +182,9 @@ class Window(QWidget):
       # Open video file
       self.movieWriter = imageio.get_writer(self.movieFile, fps=self.moviefps)
 
+      # Capture first frame
+      self.capture()
+
     self.app.exec()
 
  # ========================================================================
@@ -195,6 +201,25 @@ class Window(QWidget):
 
     # Emit event
     self.events.emit({'type': 'update', 'time': time(self.step, self.step*self.dt)})
+
+  # ========================================================================
+  def capture(self):
+
+    if self.movieWriter is not None and not (self.step % self.keep_every):
+
+      # Get image
+      img = self.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
+
+      # Create numpy array
+      ptr = img.constBits()
+      ptr.setsize(img.height()*img.width()*3)
+      A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
+
+      # Add missing rows (to get a height multiple of 16)
+      A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
+      
+      # Append array to movie
+      self.movieWriter.append_data(A)
 
   # ========================================================================
   def play_pause(self, force=None):
@@ -252,7 +277,3 @@ class Window(QWidget):
       self.movieWriter.close()
 
     self.app.quit()
-
-  def receive(self, event):
-
-    print(event)

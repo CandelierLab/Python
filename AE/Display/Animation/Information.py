@@ -1,3 +1,5 @@
+import re
+
 from AE.Display.time import *
 from AE.Display.Animation.Animation_2d import *
 from AE.Display.Animation.Items_2d import *
@@ -41,3 +43,6 @@ class Information(Animation_2d):
 
     if self.disp_time:
       self.item['Time'].string = self.time_str(t) 
+
+    # Repaint & confirm
+    super().update(t)

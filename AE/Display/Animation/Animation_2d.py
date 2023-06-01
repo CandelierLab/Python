@@ -30,13 +30,10 @@ created without parent (``QWidget`` or :class:`Window`), the default
 :class:`Window` is automatically created.
 """
 
-import os
-import numpy as np
-import re
 import imageio
 
-from PyQt5.QtCore import Qt, QObject
-from PyQt5.QtGui import QPalette, QPainter, QPen, QImage
+from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtGui import QPalette, QPainter, QPen
 from PyQt5.QtWidgets import QApplication, QGraphicsScene, QGraphicsView, QGraphicsRectItem
 
 from AE.Display.Animation.Items_2d import *
@@ -126,6 +123,9 @@ class Animation_2d(QObject):
 
     Qtimer (``QTimer``): Timer managing the display updates.
   """
+
+  # Events
+  updated = pyqtSignal()
 
   # ========================================================================
   def __init__(self, size=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray):
@@ -278,22 +278,8 @@ class Animation_2d(QObject):
     # Repaint
     self.view.viewport().repaint()
 
-    # # Movie
-    # if self.movieWriter is not None and not (self.step % self.keep_every):
-
-    #   # Get image
-    #   img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
-
-    #   # Create numpy array
-    #   ptr = img.constBits()
-    #   ptr.setsize(img.height()*img.width()*3)
-    #   A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
-
-    #   # Add missing rows (to get a height multiple of 16)
-    #   A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
-      
-    #   # Append array to movie
-    #   self.movieWriter.append_data(A)
+    # Confirm update
+    self.updated.emit()
 
   # ========================================================================
   def receive(self, event):
@@ -302,10 +288,11 @@ class Animation_2d(QObject):
     """
 
     match event['type']:
-      case 'update':
-        self.update(event['time'])
 
-    pass
+      case 'update':
+
+        # Update dispay
+        self.update(event['time'])
 
   # ========================================================================
   def change(self, type, item):
