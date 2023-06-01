@@ -1,5 +1,6 @@
 import os
-import AE.Display.Animation.Animation_2d as Animation_2d
+from AE.Display.Animation.Information import *
+from AE.Display.Animation.Animation_2d import *
 
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout
@@ -16,7 +17,7 @@ class Window(QWidget):
     anim (:class:`Animation2d`): Animation to display.
   """
 
-  def __init__(self, title='Animation'):
+  def __init__(self, title='Animation', display_information=True):
     """
     Window constructor
 
@@ -41,6 +42,13 @@ class Window(QWidget):
     self.layout = QGridLayout()
     self.setLayout(self.layout)
 
+    # --- Information
+
+    self.information = Information() if display_information else None
+
+    if self.information is not None:
+      self.layout.addWidget(self.information.view, 0, 0)
+
     # --- Style
 
     # Modified qdarkstyle
@@ -55,8 +63,19 @@ class Window(QWidget):
     A panel can be a layout or an Animation2d object.
     """
 
-    self.layout.addLayout(panel.layout, row, col)
+    # --- Default row / column
 
+    if row is None:
+      pass
+    if col is None:
+      pass
+
+    # --- Append widget or layout
+
+    if isinstance(panel, Animation_2d):
+      self.layout.addWidget(panel.view, row, col)
+    else:
+      self.layout.addLayout(panel, row, col)
 
   def show(self):
     """
@@ -69,11 +88,6 @@ class Window(QWidget):
       size (float): Height of the ``QGraphicsView`` widget, defining the 
         height of the window.
     """
-
-    # --- Animation
-
-    # if self.animation is None:
-    #   self.animation = Animation2d(window=self)
 
     # --- Settings ---------------------------------------------------------
     

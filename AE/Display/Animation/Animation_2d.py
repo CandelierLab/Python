@@ -130,7 +130,7 @@ class Animation_2d(QObject):
   # Generic event signal
   event = pyqtSignal(dict)
 
-  def __init__(self, size=None, boundaries=None, disp_boundaries=True, disp_time=False, dt=None):
+  def __init__(self, size=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray, dt=None):
     """
     Animation constructor
 
@@ -181,11 +181,6 @@ class Animation_2d(QObject):
     self.item = {}
     self.composite = {}
 
-    # --- Layout
-
-    self.layout = QVBoxLayout()
-    self.layout.addWidget(self.view)
-
     # --- Display
 
     # Dark background
@@ -198,13 +193,13 @@ class Animation_2d(QObject):
     self.view.setRenderHints(QPainter.Antialiasing)
 
     # Optional display
-    self.colormap = Colormap()
     self.disp_boundaries = disp_boundaries
-    self.disp_time = disp_time
-    self.insight = {'vpos': self.boundaries['y'][1], 
-                    'vmin': self.boundaries['y'][0],
-                    'hpadding': self.boundaries['width']/50,
-                    'vpadding': self.boundaries['height']/50}
+
+    # Stack
+    self.stack = {'vpos': self.boundaries['y'][1], 
+                  'vmin': self.boundaries['y'][0],
+                  'hpadding': self.boundaries['width']/50,
+                  'vpadding': 0}
     
     # --- Animation
 
@@ -224,24 +219,15 @@ class Animation_2d(QObject):
     self.allow_backward = False
     self.allow_negative_time = False
 
-    self.play_forward = True    
+    self.play_forward = True
     
     # Scene boundaries
     if self.disp_boundaries:
       self.box = QGraphicsRectItem(0,0,
         self.factor*self.boundaries['width'],
         -self.factor*self.boundaries['height'])
-      self.box.setPen(QPen(Qt.lightGray, 2)) 
+      self.box.setPen(QPen(boundaries_color, 2))
       self.scene.addItem((self.box))
-
-    # Time display
-    if self.disp_time:
-      self.add(text, 'Time',
-        insight = True,
-        string = self.time_str(),
-        color = 'white',
-        fontsize = 12,
-      )
 
     # Output movie
     self.movieFile = None
@@ -258,17 +244,17 @@ class Animation_2d(QObject):
       item (:class:`item` *subclass*): The item to add.
     """
 
-    # Insights
-    if 'insight' in kwargs:
-      insight = kwargs['insight']
-      del kwargs['insight']
+    # Stack
+    if 'stack' in kwargs:
+      stack = kwargs['stack']
+      del kwargs['stack']
     else:
-      insight = False
+      stack = False
 
     height = kwargs['height'] if 'height' in kwargs else None
 
     if height=='fill':
-      height = self.insight['vpos']-self.boundaries['y'][0]
+      height = self.stack['vpos']-self.boundaries['y'][0]
       kwargs['height'] = height
       
     # Add items
@@ -286,24 +272,24 @@ class Animation_2d(QObject):
       if self.item[name].parent is None:
         self.scene.addItem(self.item[name])
     
-    # --- Insights
+    # --- Stack
 
-    if insight:
+    if stack:
 
-      x = self.boundaries['x'][1] + self.insight['hpadding']
-      y = self.insight['vpos']
+      x = self.stack['hpadding']
+      y = self.stack['vpos']
 
       if height is None:
-        self.insight['vpos'] -= self.item[name].height()
+        self.stack['vpos'] -= self.item[name].height()
       else:
-        self.insight['vpos'] -= height
+        self.stack['vpos'] -= height
         y -= height
 
       # Set position
       self.item[name].position = [x, y]
 
       # Bottom padding
-      self.insight['vpos'] -= self.insight['vpadding']
+      self.stack['vpos'] -= self.stack['vpadding']
 
   def setPadding(self, padding):
 
@@ -400,17 +386,7 @@ class Animation_2d(QObject):
       # Append array to movie
       self.movieWriter.append_data(A)
 
-  def time_str(self):
-    '''
-    Format time string for display
-    '''
-
-    s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(self.step, self.step*self.dt)
-
-    # Grey zeros
-    s = re.sub(r'( )([0]+)', r'\1<span style="color:grey;">\2</span>', s)
-
-    return s
+  
 
   def change(self, type, item):
     """
@@ -420,7 +396,7 @@ class Animation_2d(QObject):
     It does nothing and has to be reimplemented in subclasses.
 
     .. Note::
-      To catch motion the item has to be declared as ``movable``,
+      To catch motion an item has to be declared as ``movable``,
       which is not the default.
 
     args:

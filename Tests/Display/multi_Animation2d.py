@@ -9,9 +9,9 @@ os.system('clear')
 
 class Anim_1(Animation_2d):
 
-  def __init__(self, window=None):
+  def __init__(self):
 
-    super().__init__(window=window, disp_time=True, boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
+    super().__init__(boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
 
     self.padding = 0.01
 
@@ -75,9 +75,9 @@ def receive(event):
 
 class Anim_2(Animation_2d):
 
-  def __init__(self, window=None):
+  def __init__(self):
 
-    super().__init__(window=window, disp_time=True, boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
+    super().__init__(boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
 
     self.padding = 0.01
 
@@ -141,7 +141,7 @@ def receive(event):
 
 W = Window()
 
-W.add(Anim_1(), 0, 0)
-W.add(Anim_2(), 0, 1)
+W.add(Anim_1(), 0, 1)
+W.add(Anim_2(), 0, 2)
 
 W.show()
