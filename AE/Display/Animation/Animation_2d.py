@@ -35,9 +35,9 @@ import numpy as np
 import re
 import imageio
 
-from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QPoint, QPointF, QRectF
-from PyQt5.QtGui import QPalette, QColor, QPainter, QPen, QBrush, QPolygonF, QFont, QPainterPath, QLinearGradient, QTransform, QImage
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QGraphicsScene, QGraphicsView, QAbstractGraphicsShapeItem, QGraphicsItem, QGraphicsItemGroup, QGraphicsTextItem, QGraphicsLineItem, QGraphicsEllipseItem, QGraphicsPolygonItem, QGraphicsRectItem, QGraphicsPathItem
+from PyQt5.QtCore import Qt, QObject
+from PyQt5.QtGui import QPalette, QPainter, QPen, QImage
+from PyQt5.QtWidgets import QApplication, QGraphicsScene, QGraphicsView, QGraphicsRectItem
 
 from AE.Display.Animation.Items_2d import *
 from AE.Display.Animation.Composites_2d import *
@@ -127,10 +127,8 @@ class Animation_2d(QObject):
     Qtimer (``QTimer``): Timer managing the display updates.
   """
 
-  # Generic event signal
-  event = pyqtSignal(dict)
-
-  def __init__(self, size=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray, dt=None):
+  # ========================================================================
+  def __init__(self, size=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray):
     """
     Animation constructor
 
@@ -176,6 +174,15 @@ class Animation_2d(QObject):
     self.scene = QGraphicsScene()
     self.view = view(self.scene)
 
+    # Scene boundaries display
+    self.disp_boundaries = disp_boundaries
+    if self.disp_boundaries:
+      self.box = QGraphicsRectItem(0,0,
+        self.factor*self.boundaries['width'],
+        -self.factor*self.boundaries['height'])
+      self.box.setPen(QPen(boundaries_color, 2))
+      self.scene.addItem((self.box))
+
     # --- Items and composite elements
 
     self.item = {}
@@ -192,50 +199,13 @@ class Animation_2d(QObject):
     # Antialiasing
     self.view.setRenderHints(QPainter.Antialiasing)
 
-    # Optional display
-    self.disp_boundaries = disp_boundaries
-
     # Stack
     self.stack = {'vpos': self.boundaries['y'][1], 
                   'vmin': self.boundaries['y'][0],
                   'hpadding': self.boundaries['width']/50,
                   'vpadding': 0}
     
-    # --- Animation
-
-    # Framerate
-    self.fps = 25
-
-    # Time
-    self.step = 0
-    self.dt = dt if dt is not None else 1/self.fps
-
-    # Timer
-    self.timer = QTimer()
-    self.timer.timeout.connect(self.set_time)
-
-    # Play
-    self.autoplay = True
-    self.allow_backward = False
-    self.allow_negative_time = False
-
-    self.play_forward = True
-    
-    # Scene boundaries
-    if self.disp_boundaries:
-      self.box = QGraphicsRectItem(0,0,
-        self.factor*self.boundaries['width'],
-        -self.factor*self.boundaries['height'])
-      self.box.setPen(QPen(boundaries_color, 2))
-      self.scene.addItem((self.box))
-
-    # Output movie
-    self.movieFile = None
-    self.movieWriter = None
-    self.movieWidth = 1600     # Must be a multiple of 16
-    self.moviefps = 25
-    self.keep_every = 1
-
+  # ========================================================================
   def add(self, type, name, **kwargs):
     """
     Add an item to the scene.
@@ -291,67 +261,13 @@ class Animation_2d(QObject):
       # Bottom padding
       self.stack['vpos'] -= self.stack['vpadding']
 
+  # ========================================================================
   def setPadding(self, padding):
 
     self.view.padding = padding*self.factor
 
-  def show(self):
-    """
-    Display animation window
-
-    If the animation's parent is a :class:`Window` object, the 
-    :py:meth:`Window.show` method is called. Otherwise nothing is done.
-    """
-
-    # Timing options
-    # self.timer.setInterval(int(1000/self.fps))
-    self.timer.setInterval(int(1000*self.dt))
-    
-    # Movie
-    if self.movieFile is not None:
-
-      # Check directory
-      dname = os.path.dirname(self.movieFile)
-      if not os.path.isdir(dname):
-        os.makedirs(dname)
-
-      # Open video file
-      self.movieWriter = imageio.get_writer(self.movieFile, fps=self.moviefps)
-
-  def stop(self):
-    """
-    Stop the animation
-
-    Stops the timer and close the window, if any.
-    """
-
-    # Stop the timer
-    self.timer.stop()
-
-    # Emit event
-    self.event.emit({'type': 'stop'})
-
-    # Movie
-    if self.movieWriter is not None:
-      self.movieWriter.close()
-      
-  def set_time(self, step=None):
-
-    if step is None:
-      if self.play_forward:
-        self.step += 1
-      else:
-        self.step -= 1
-    else:
-      self.step = step
-
-    # Check negative times
-    if not self.allow_negative_time and self.step<0:
-      self.step = 0
-
-    self.update()
-
-  def update(self):
+  # ========================================================================
+  def update(self, t):
     """
     Update animation state
 
@@ -359,35 +275,39 @@ class Animation_2d(QObject):
     to implement the animation, *e.g.* moving elements or changing color.
     """
 
-    # Emit event
-    self.event.emit({'type': 'update', 'step': self.step})
-
-    # Timer display
-    if self.disp_time:
-      self.item['Time'].string = self.time_str()
-
     # Repaint
     self.view.viewport().repaint()
 
-    # Movie
-    if self.movieWriter is not None and not (self.step % self.keep_every):
+    # # Movie
+    # if self.movieWriter is not None and not (self.step % self.keep_every):
 
-      # Get image
-      img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
+    #   # Get image
+    #   img = self.view.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
 
-      # Create numpy array
-      ptr = img.constBits()
-      ptr.setsize(img.height()*img.width()*3)
-      A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
+    #   # Create numpy array
+    #   ptr = img.constBits()
+    #   ptr.setsize(img.height()*img.width()*3)
+    #   A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
 
-      # Add missing rows (to get a height multiple of 16)
-      A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
+    #   # Add missing rows (to get a height multiple of 16)
+    #   A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
       
-      # Append array to movie
-      self.movieWriter.append_data(A)
+    #   # Append array to movie
+    #   self.movieWriter.append_data(A)
 
-  
+  # ========================================================================
+  def receive(self, event):
+    """
+    Event reception
+    """
 
+    match event['type']:
+      case 'update':
+        self.update(event['time'])
+
+    pass
+
+  # ========================================================================
   def change(self, type, item):
     """
     Change notification
@@ -406,36 +326,3 @@ class Animation_2d(QObject):
 
     pass
 
-  def play_pause(self, force=None):
-
-    if self.timer.isActive():
-
-      # Stop qtimer
-      self.timer.stop()
-
-      # Emit event
-      self.event.emit({'type': 'pause'})
-
-    else:
-
-      # Start timer
-      self.timer.start()
-    
-      # Emit event
-      self.event.emit({'type': 'play'})
-
-  def increment(self):
-
-    self.play_forward = True
-
-    if not self.timer.isActive():
-      self.set_time()
-
-  def decrement(self):
-
-    if self.allow_backward:
-
-      self.play_forward = False
-
-      if not self.timer.isActive():
-        self.set_time()

@@ -45,31 +45,15 @@ class Anim_1(Animation_2d):
     self.allow_backward = True
     self.allow_negative_time = False
 
-    # Add listener
-    self.event.connect(receive)
-
-    # Display animation
-    self.show()
-
-  def update(self):
+  def update(self, t):
     
     # Update timer display
-    super().update()
+    super().update(t)
 
     # Update position
-    x = self.x0 + self.R*np.cos(self.step*self.dt)
-    y = self.y0 + self.R*np.sin(self.step*self.dt)
+    x = self.x0 + self.R*np.cos(t.time)
+    y = self.y0 + self.R*np.sin(t.time)
     self.item['C'].position = [x, y]
-
-# --- Event listener -------------------------------------------------------
-
-def receive(event):
-
-    match event['type']:
-      case 'update':
-        pass
-      case _:
-        print(event['type'])
 
 # === Second Animation ======================================================
 
@@ -111,31 +95,15 @@ class Anim_2(Animation_2d):
     self.allow_backward = True
     self.allow_negative_time = False
 
-    # Add listener
-    self.event.connect(receive)
-
-    # Display animation
-    self.show()
-
-  def update(self):
+  def update(self, t):
     
     # Update timer display
-    super().update()
+    super().update(t)
 
     # Update position
-    x = self.x0 + self.R*np.cos(self.step*self.dt)
-    y = self.y0 + self.R*np.sin(self.step*self.dt)
+    x = self.x0 + self.R*np.cos(t.time)
+    y = self.y0 + self.R*np.sin(t.time)
     self.item['C'].position = [x, y]
-
-# --- Event listener -------------------------------------------------------
-
-def receive(event):
-
-    match event['type']:
-      case 'update':
-        pass
-      case _:
-        print(event['type'])
 
 # === Main =================================================================
 
@@ -143,5 +111,7 @@ W = Window()
 
 W.add(Anim_1(), 0, 1)
 W.add(Anim_2(), 0, 2)
+
+# W.events.connect(W.receive)
 
 W.show()

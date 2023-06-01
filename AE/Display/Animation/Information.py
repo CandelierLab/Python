@@ -1,8 +1,10 @@
+from AE.Display.time import *
 from AE.Display.Animation.Animation_2d import *
 from AE.Display.Animation.Items_2d import *
 
 class Information(Animation_2d):
     
+  # ========================================================================
   def __init__(self, disp_time=True):
     
     # Parent contructor
@@ -12,23 +14,30 @@ class Information(Animation_2d):
 
     # Time string
     self.disp_time = disp_time
-    
+
     if self.disp_time:
       self.add(text, 'Time',
         stack = True,
-        string = self.time_str(0, 0.01),
+        string = self.time_str(time(0,0)),
         color = 'white',
         fontsize = 12,
       )
 
-  def time_str(self, step, dt):
+  # ========================================================================
+  def time_str(self, t):
     '''
     Format time string for display
     '''
 
-    s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(step, step*dt)
+    s = '<p>step {:06d}</p><font size=2> {:06.02f} sec</font>'.format(t.step, t.time)
 
     # Grey zeros
     s = re.sub(r'( )([0]+)', r'\1<span style="color:grey;">\2</span>', s)
 
     return s
+  
+  # ========================================================================
+  def update(self, t):
+
+    if self.disp_time:
+      self.item['Time'].string = self.time_str(t) 
