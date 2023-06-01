@@ -1,8 +1,8 @@
 import os
-import AE.Display.Animation2d as Animation2d
+import AE.Display.Animation.Animation_2d as Animation_2d
 
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QApplication, QWidget, QShortcut
+from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout
 
 class Window(QWidget):
   """
@@ -16,7 +16,7 @@ class Window(QWidget):
     anim (:class:`Animation2d`): Animation to display.
   """
 
-  def __init__(self, title='Animation', animation = None):
+  def __init__(self, title='Animation'):
     """
     Window constructor
 
@@ -36,16 +36,28 @@ class Window(QWidget):
     # (otherwise no signal can be caught)
     super().__init__()
 
+    # --- Main Layout
+
+    self.layout = QGridLayout()
+    self.setLayout(self.layout)
+
     # --- Style
 
     # Modified qdarkstyle
     with open(os.path.dirname(os.path.abspath(__file__))+'/Style/dark.css', 'r') as f:
       css = f.read()
       self.app.setStyleSheet(css)
-
-    # Animation
-    self.animation = animation
     
+  def add(self, panel, row=None, col=None):
+    """ 
+    Add a panel
+
+    A panel can be a layout or an Animation2d object.
+    """
+
+    self.layout.addLayout(panel.layout, row, col)
+
+
   def show(self):
     """
     Creates the animation window
@@ -60,48 +72,44 @@ class Window(QWidget):
 
     # --- Animation
 
-    if self.animation is None:
-      self.animation = Animation2d(window=self)
-
-    # --- Layout -----------------------------------------------------------
-
-    self.widget = QWidget()
-    self.widget.setLayout(self.animation.layout)
+    # if self.animation is None:
+    #   self.animation = Animation2d(window=self)
 
     # --- Settings ---------------------------------------------------------
     
     # Window title
-    self.widget.setWindowTitle(self.title)
+    self.setWindowTitle(self.title)
 
     # --- Shortcuts
 
     self.shortcut = {}
 
     # Quit
-    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self.widget)
+    self.shortcut['esc'] = QShortcut(QKeySequence('Esc'), self)
     self.shortcut['esc'].activated.connect(self.close)
 
     # Play/pause
-    self.shortcut['space'] = QShortcut(QKeySequence('Space'), self.widget)
-    self.shortcut['space'].activated.connect(self.animation.play_pause)
+    # self.shortcut['space'] = QShortcut(QKeySequence('Space'), self)
+    # self.shortcut['space'].activated.connect(self.animation.play_pause)
 
     # Decrement
-    self.shortcut['previous'] = QShortcut(QKeySequence.MoveToPreviousChar, self.widget)
-    self.shortcut['previous'].activated.connect(self.animation.decrement)
+    # self.shortcut['previous'] = QShortcut(QKeySequence.MoveToPreviousChar, self)
+    # self.shortcut['previous'].activated.connect(self.animation.decrement)
 
     # Increment
-    self.shortcut['next'] = QShortcut(QKeySequence.MoveToNextChar, self.widget)
-    self.shortcut['next'].activated.connect(self.animation.increment)
+    # self.shortcut['next'] = QShortcut(QKeySequence.MoveToNextChar, self)
+    # self.shortcut['next'].activated.connect(self.animation.increment)
 
     # --- Display animation ------------------------------------------------
 
-    self.widget.show()
-    if self.animation.autoplay:
-      self.animation.play_pause()
+    super().show()
+
+    # if self.animation.autoplay:
+    #   self.animation.play_pause()
     
     self.app.exec()
 
   def close(self):
 
-    self.animation.stop()
+    # self.animation.stop()
     self.app.quit()

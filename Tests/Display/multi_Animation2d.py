@@ -1,9 +1,13 @@
-from AE.Display.Window import *
-from AE.Display.Animation2d import *
+import os
+
+from AE.Display.Animation.Window import *
+from AE.Display.Animation.Animation_2d import *
+
+os.system('clear')
 
 # === First Animation ======================================================
 
-class Anim_1(Animation2d):
+class Anim_1(Animation_2d):
 
   def __init__(self, window=None):
 
@@ -69,7 +73,7 @@ def receive(event):
 
 # === Second Animation ======================================================
 
-class Anim_2(Animation2d):
+class Anim_2(Animation_2d):
 
   def __init__(self, window=None):
 
@@ -100,7 +104,7 @@ class Anim_2(Animation2d):
     self.add(circle, 'C',
       position = [self.x0 + self.R, self.y0],
       radius = self.r,
-      colors = ('red', None),
+      colors = ('green', None),
     )
 
     # Allow backward
@@ -136,7 +140,8 @@ def receive(event):
 # === Main =================================================================
 
 W = Window()
-W.add(Anim_1)
-# W.add(Anim_2)
+
+W.add(Anim_1(), 0, 0)
+W.add(Anim_2(), 0, 1)
 
 W.show()

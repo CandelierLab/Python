@@ -1,8 +1,8 @@
-from AE.Display.Animation2d import *
+from AE.Display.Animation.Animation_2d import *
 
 # --- 2D Animation ---------------------------------------------------------
 
-class Anim(Animation2d):
+class Anim(Animation_2d):
 
   def __init__(self):
 
