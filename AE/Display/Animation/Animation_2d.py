@@ -265,7 +265,7 @@ class Animation_2d(QObject):
     self.view.padding = padding*self.factor
 
   # ========================================================================
-  def update(self, t):
+  def update(self, t=None):
     """
     Update animation state
     """
