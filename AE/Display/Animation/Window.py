@@ -24,7 +24,7 @@ class Window(QWidget):
   events = pyqtSignal(dict)
 
   # ========================================================================
-  def __init__(self, title='Animation', display_information=True, dt=None):
+  def __init__(self, title='Animation', display_information=True, autoplay=True, dt=None):
     """
     Window constructor
 
@@ -89,7 +89,7 @@ class Window(QWidget):
     self.timer.timeout.connect(self.set_step)
 
     # Play
-    self.autoplay = True
+    self.autoplay = autoplay
     self.allow_backward = False
     self.allow_negative_time = False
 

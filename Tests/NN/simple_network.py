@@ -20,7 +20,6 @@ for i in range(15):
 
 Net.add_edge(3, 3, w=1)
 
-print(Net)
-
 # print(Net)
+
 Net.show()

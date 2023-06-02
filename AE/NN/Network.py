@@ -10,7 +10,10 @@ import numpy as np
 import networkx as nx
 
 from PyQt5.QtCore import Qt
-import AE.Display.Animation2d as Animation2d
+from AE.Display.Animation.Window import *
+from AE.Display.Animation.Animation_2d import *
+from AE.Display.Animation.Items_2d import *
+from AE.Display.Animation.Composites_2d import *
 
 # === Network ==============================================================
 
@@ -86,13 +89,13 @@ class Network():
 
   def show(self, isolate_output=True, size=None):
 
-    anim = Visu2d(self, isolate_output=isolate_output, size=size)
-    anim.window.title = 'Network'
-    anim.show()
+    W = Window('Simple network', display_information=False)
+    W.add(Visu2d(self, isolate_output=isolate_output, size=size))
+    W.show()
 
 # === Visualisation ========================================================
 
-class Visu2d(Animation2d.Animation2d):
+class Visu2d(Animation_2d):
   """
   2D network visualisation and animation tool
 
@@ -102,7 +105,7 @@ class Visu2d(Animation2d.Animation2d):
   values through time.
   """
 
-  def __init__(self, Net, isolate_output=True, dt=None, disp_time=False, size=None):
+  def __init__(self, Net, isolate_output=True, size=None):
     """
     Network 2D visualization constructor
 
@@ -119,7 +122,7 @@ class Visu2d(Animation2d.Animation2d):
     """
 
     # Parent constructor
-    super().__init__(dt=dt, disp_time=disp_time, disp_boundaries=False, size=size)
+    super().__init__(disp_boundaries=False, size=size)
 
     # Network
     self.Net = Net
@@ -220,7 +223,7 @@ class Visu2d(Animation2d.Animation2d):
 
       if name not in self.item and edge['i']!=edge['j']:
           
-        self.add(Animation2d.arrow, name,
+        self.add(arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
           locus = 0.5,
           string = 0.18
@@ -235,7 +238,7 @@ class Visu2d(Animation2d.Animation2d):
       # Name
       gname = 'node_' + str(node['name'])
 
-      self.add(Animation2d.group, i,
+      self.add(group, i,
         position = pos[i], 
         draggable = not (node['IN'] or node['OUT']))
 
@@ -248,14 +251,14 @@ class Visu2d(Animation2d.Animation2d):
 
         if name not in self.item and edge['i']==i and edge['j']==i:
           
-          self.add(Animation2d.circle, name,
+          self.add(circle, name,
             parent = i,
             position = (0, self.r),
             radius = self.r,
             colors = (None, '#ccc'),
           )
 
-          self.add(Animation2d.arrow, name + '_arrowhead',
+          self.add(arrow, name + '_arrowhead',
             parent = i,
             points = [(-0.005, 2*self.r), (-0.02, 2*self.r)],
             locus = 0.5,
@@ -266,7 +269,7 @@ class Visu2d(Animation2d.Animation2d):
 
       # Double circle for OUTPUT Nodes
       if node['OUT']:
-        self.add(Animation2d.circle, str(gname) + '_outercircle',
+        self.add(circle, str(gname) + '_outercircle',
           parent = i,
           position = (0,0),
           radius = self.r*1.2,
@@ -274,7 +277,7 @@ class Visu2d(Animation2d.Animation2d):
           thickness = 2
         )
 
-      self.add(Animation2d.circle, str(gname) + '_circle',
+      self.add(circle, str(gname) + '_circle',
         parent = i,
         position = (0,0),
         radius = self.r,
@@ -293,7 +296,7 @@ class Visu2d(Animation2d.Animation2d):
 
       # --- Text
 
-      self.add(Animation2d.text, str(gname) + '_text',
+      self.add(text, str(gname) + '_text',
         parent = i,
         position = (0,0),
         string = name,
@@ -303,8 +306,7 @@ class Visu2d(Animation2d.Animation2d):
         fontname = 'Serif'
       )
 
-    
-
+  # ========================================================================
   def change(self, type, item):
     """
     Drag callback
