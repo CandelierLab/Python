@@ -1,45 +1,13 @@
 """
-Simple tools for displaying 2D animations
-
-Animation2d
------------
-
-The :class:`Animation2d` wraps a  ``QGraphicsView`` and ``QGraphicsScene``
-as well as all necessary tools for display (scene limits, antialiasing, etc.)
-Groups of elements can be formed for easier manipulation, and user interaction 
-is possible (drag, click, etc.). It contains a timer triggering the 
-:py:meth:`Animation2d.update` method at a regular pace. In subclasses, this 
-allows to change elements' positions or features (color, size, etc.) to create
-animations.
-
-Items
---------
-
-The items are the elements displayed in the scene (*e.g.* circles, lines, ...).
-They derive both from the generic class :class:`item` and from their corresponding 
-``QGraphicsItem``. They are incorporaeted in the animation *via* 
-:py:meth:`Animation2d.add`.
-
-Simple animation window
------------------------
-
-The :class:`Window` class creates a simple window containing the 
-:py:meth:`Animation2d.Qview` widget. It manages the ``QApplication``, size 
-on screen, shortcuts and timer trig. If an :class:`Animation2d` object is
-created without parent (``QWidget`` or :class:`Window`), the default 
-:class:`Window` is automatically created.
-
+Colormap
 """
 
 from matplotlib import cm
-from matplotlib.colors import Normalize
 from PyQt5.QtGui import QColor
 
 class Colormap():
   
-  
-
-  def __init__(self, name='jet'):
+  def __init__(self, name='turbo', ncolors=64):
     """
     Colormap constructor
 
@@ -52,10 +20,10 @@ class Colormap():
 
     Args:
 
-      name (string): The name of the colormap. Default: 'jet'
+      name (string): The name of the colormap. Default: 'turbo'
     """
 
-    self.ncolors = 64
+    self.ncolors = ncolors
 
     # Range
     self.norm = None

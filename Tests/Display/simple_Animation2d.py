@@ -1,12 +1,17 @@
-from AE.Display.Animation2d import *
+import os
+
+from AE.Display.Animation.Window import *
+from AE.Display.Animation.Animation_2d import *
+
+os.system('clear')
 
 # --- 2D Animation ---------------------------------------------------------
 
-class Anim(Animation2d):
+class Anim(Animation_2d):
 
   def __init__(self):
 
-    super().__init__(disp_time=True, boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
+    super().__init__(boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
 
     self.padding=0.01
 
@@ -94,40 +99,25 @@ class Anim(Animation2d):
     # self.composite['A'].locus = 0.5
     # self.composite['A'].shape = 'disk'
 
-
-    # Allow backward
-    self.allow_backward = True
-    self.allow_negative_time = False
-
-    # Add listener
-    self.event.connect(receive)
-
-    # Save movie
-    # self.movieFile = 'test.mp4'
-
-    # Display animation
-    self.show()
-
-  def update(self):
+  def update(self, t):
     
     # Update timer display
-    super().update()
+    super().update(t)
 
     # Update position
-    x = self.x0 + self.R*np.cos(self.step*self.dt)
-    y = self.y0 + self.R*np.sin(self.step*self.dt)
+    x = self.x0 + self.R*np.cos(t.time)
+    y = self.y0 + self.R*np.sin(t.time)
     self.item['C'].position = [x, y]
-
-# --- Event listener -------------------------------------------------------
-
-def receive(event):
-
-    match event['type']:
-      case 'update':
-        pass
-      case _:
-        print(event['type'])
 
 # --- Main -----------------------------------------------------------------
 
-A = Anim()
+W = Window('Simple animation')
+W.add(Anim())
+
+# Allow backward animation
+W.allow_backward = True
+W.allow_negative_time = False
+
+# W.movieFile = '~/test.mp4'
+
+W.show()
