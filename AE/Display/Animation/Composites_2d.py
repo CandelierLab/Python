@@ -69,7 +69,7 @@ class arrow(composite):
       parent = self.name,
       position = (0,0),
       fontsize = 9,
-      center = (True, False),
+      center = (False, False),
       string = ''
     )
     # NB: arrowhead is created later on, when the 'shape' attribute is assigned.
@@ -200,11 +200,8 @@ class arrow(composite):
     # Line
     self.animation.item[self.line].points = [[0,0],[np.abs(self._z)-self._size/2,0]]
 
-    # Arrowhead 
-    self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
-
-    # Text
-    self.animation.item[self.text].position = [np.abs(self._z)*self._locus,0]
+    # Arrowhead and text positions
+    self.pos_ahat()
 
   # --- Locus --------------------------------------------------------------
 
@@ -216,11 +213,31 @@ class arrow(composite):
 
     self._locus = k
 
-    # Arrowhead 
-    self.animation.item[self.head].position = [np.abs(self._z)*self._locus,0]
+    # Arrowhead and text positions
+    self.pos_ahat()
 
-    # Text
-    self.animation.item[self.text].position = [np.abs(self._z)*self._locus,0]
+  def pos_ahat(self):
+    '''Set arrowhead and text positions'''
+
+    z = np.abs(self._z)
+    a = np.angle(self._z)
+
+    # Arrowhead
+    self.animation.item[self.head].position = [z*self._locus,0]
+
+    # Text (adapt position to arrow angle)
+    rect = self.animation.item[self.text].boundingRect()
+    
+    if np.abs(a)<np.pi/2:
+      self.animation.item[self.text].orientation = 0
+      dx = -rect.width()/4
+      dy = 0
+    else:
+      self.animation.item[self.text].orientation = np.pi
+      dx = 3*rect.width()/4
+      dy = -rect.height()
+
+    self.animation.item[self.text].position = [z*self._locus+dx/self.animation.factor, dy/self.animation.factor]
 
   # --- Thickness ----------------------------------------------------------
 

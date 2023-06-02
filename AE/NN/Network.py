@@ -225,8 +225,8 @@ class Visu2d(Animation_2d):
           
         self.add(arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
-          locus = 0.5,
-          string = 0.18
+          locus = 0.45,
+          string = '{:.02f}'.format(edge['w'])
         )
 
     # --- Nodes ------------------------------------------------------------
@@ -262,7 +262,7 @@ class Visu2d(Animation_2d):
             parent = i,
             points = [(-0.005, 2*self.r), (-0.02, 2*self.r)],
             locus = 0.5,
-            string = 'self'
+            string = '{:.02f}'.format(edge['w'])
           )
 
       # --- Circle
@@ -341,11 +341,9 @@ class Visu2d(Animation_2d):
             # Afferent nodes
             if edge['j']==k:        
               p1 = item.scene2xy(self.item[edge['i']].pos())
-              # p1 = item.scene2xy(self.item['node_{:d}'.format(edge['i'])].pos())
               self.composite[name].points = [p1, pos]
 
             # Efferent nodes
             if edge['i']==k:
               p2 = item.scene2xy(self.item[edge['j']].pos())
-              # p2 = item.scene2xy(self.item['node_{:d}'.format(edge['j'])].pos())
               self.composite[name].points = [pos, p2]

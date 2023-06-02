@@ -284,10 +284,19 @@ class Animation_2d(QObject):
 
     match event['type']:
 
+      case 'show':
+        
+        for name in self.composite:
+          self.composite[name].points = self.composite[name].points
+
       case 'update':
 
         # Update dispay
         self.update(event['time'])
+
+      case _:
+        pass
+        # print(event)
 
   # ========================================================================
   def change(self, type, item):

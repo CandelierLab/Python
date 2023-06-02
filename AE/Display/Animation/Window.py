@@ -1,4 +1,5 @@
 import os
+import imageio
 
 from AE.Display.time import *
 from AE.Display.Animation.Information import *
@@ -174,6 +175,7 @@ class Window(QWidget):
     # --- Display animation ------------------------------------------------
 
     super().show()
+    self.events.emit({'type': 'show'})
 
     # --- Sizing
 
