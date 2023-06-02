@@ -1,20 +1,29 @@
-from AE.Display.Animation2d import *
+import os
+
+from AE.Display.Animation.Window import *
+from AE.Display.Animation.Animation_2d import *
+from AE.Display.Colormap import *
+
+os.system('clear')
 
 # --- 2D Animation ---------------------------------------------------------
 
-class Anim(Animation2d):
+class Anim(Animation_2d):
 
   def __init__(self):
 
-    super().__init__(disp_time=True)
+    super().__init__()
 
     # --- Colorbar
 
+    self.colormap = Colormap()
     self.colormap.range = [-1,1]
 
     self.add(colorbar, 'Cb',
-      insight = True,
-      height = 'fill',
+      colormap = self.colormap,
+      position = [0.05, 0.1],
+      height = 0.8,
+      width = 0.01,
       nticks = 5
     )
 
@@ -47,16 +56,14 @@ class Anim(Animation2d):
       thickness = 5
     )
 
-    # Display animation
-    self.show()
-
-  def update(self):
+  # ========================================================================
+  def update(self, t):
     
     # Update timer display
-    super().update()
+    super().update(t)
 
-    x_ = np.cos(self.step*self.dt)
-    y_ = np.sin(self.step*self.dt)
+    x_ = np.cos(t.time)
+    y_ = np.sin(t.time)
 
     # Update position
     x = self.x0 + self.R*x_
@@ -69,4 +76,6 @@ class Anim(Animation2d):
 
 # --- Main -----------------------------------------------------------------
 
-A = Anim()
+W = Window('Colorbar example')
+W.add(Anim())
+W.show()

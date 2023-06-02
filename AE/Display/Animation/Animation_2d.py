@@ -30,8 +30,6 @@ created without parent (``QWidget`` or :class:`Window`), the default
 :class:`Window` is automatically created.
 """
 
-import imageio
-
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
 from PyQt5.QtGui import QPalette, QPainter, QPen
 from PyQt5.QtWidgets import QApplication, QGraphicsScene, QGraphicsView, QGraphicsRectItem
@@ -183,7 +181,7 @@ class Animation_2d(QObject):
       self.box.setPen(QPen(boundaries_color, 2))
       self.scene.addItem((self.box))
 
-    # --- Items and composite elements
+    # --- Display items
 
     self.item = {}
     self.composite = {}

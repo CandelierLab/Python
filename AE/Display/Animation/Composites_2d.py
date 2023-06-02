@@ -2,7 +2,8 @@ import numpy as np
 
 from PyQt5.QtGui import QLinearGradient
 
-from AE.Display.Animation.Colormap import *
+from AE.Display.Animation.Items_2d import *
+from AE.Display.Colormap import *
 
 # === COMPOSITE ELEMENTS ===================================================
 
@@ -59,7 +60,7 @@ class arrow(composite):
     self.text = self.name + '_text'
 
     # Items
-    self.animation.add(line,self.line,
+    self.animation.add(line, self.line,
       parent = self.name, 
       points = [[0,0],[0,0]]
     )
@@ -285,6 +286,7 @@ class colorbar(composite):
 
     # --- Arguments
 
+    self.cm = kwargs['colormap']
     self.width = kwargs['width'] if 'width' in kwargs else 0.025
     self.height = kwargs['height'] if 'height' in kwargs else 0.5
     self.nticks = kwargs['nticks'] if 'nticks' in kwargs else 2
@@ -298,16 +300,15 @@ class colorbar(composite):
       width = self.width,
       height = self.height,
       center = False,
-      colors = [None, None])
+      colors = [None, None]
+    )
 
     # --- Set gradient
-
-    cm = self.animation.colormap
 
     g = QLinearGradient(self.animation.item[self.rect].boundingRect().topLeft(),
       self.animation.item[self.rect].boundingRect().bottomLeft())
     
-    for z in np.linspace(0, 1, cm.ncolors):      
+    for z in np.linspace(0, 1, self.cm.ncolors):      
       g.setColorAt(z, self.animation.colormap.qcolor(z, scaled=True))
   
     self.animation.item[self.rect].setBrush(g)
@@ -316,12 +317,12 @@ class colorbar(composite):
 
     for z in np.linspace(0, 1, self.nticks):
 
-      v = cm.range[0] + z*(cm.range[1]-cm.range[0])
-      y = self.animation.item[self.name]._position[0] + z*self.height
+      v = self.cm.range[0] + z*(self.cm.range[1]-self.cm.range[0])
+      y = z*self.height
 
       self.animation.add(text, 'tick_0', parent = self.name,
         position = [self.width, y],
-        string = '<span style="color: ' + self.animation.colormap.htmlcolor(z, scaled=True) + ';">◄</span> <span style="color: #AAA;">{:.02f}</span>'.format(v),
+        string = '<span style="color: ' + self.cm.htmlcolor(z, scaled=True) + ';">◄</span> <span style="color: #AAA;">{:.02f}</span>'.format(v),
         color = 'white',
         fontsize = 10,
         center = (False, True))
