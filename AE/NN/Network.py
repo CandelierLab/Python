@@ -300,7 +300,7 @@ class Visu2d(Animation_2d):
         parent = i,
         position = (0,0),
         string = name,
-        color = 'white',
+        color = 'black',
         center = True,
         fontsize = self.fontsize,
         fontname = 'Serif'

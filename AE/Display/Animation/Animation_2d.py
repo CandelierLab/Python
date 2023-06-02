@@ -287,7 +287,8 @@ class Animation_2d(QObject):
       case 'show':
         
         for name in self.composite:
-          self.composite[name].points = self.composite[name].points
+          if isinstance(self.composite[name], arrow):
+            self.composite[name].points = self.composite[name].points
 
       case 'update':
 
