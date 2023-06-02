@@ -270,9 +270,6 @@ class Animation_2d(QObject):
   def update(self, t):
     """
     Update animation state
-
-    Update the animation time :py:attr:`Animation.t`. Subclass this method
-    to implement the animation, *e.g.* moving elements or changing color.
     """
 
     # Repaint

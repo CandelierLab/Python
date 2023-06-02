@@ -115,9 +115,10 @@ class Window(QWidget):
     # --- Default row / column
 
     if row is None:
-      pass
+      row = self.layout.rowCount()-1
+
     if col is None:
-      pass
+      col = self.layout.columnCount()
 
     # --- Append animation or layout
 
