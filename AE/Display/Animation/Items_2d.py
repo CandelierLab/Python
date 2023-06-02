@@ -612,7 +612,7 @@ class text(item, QGraphicsTextItem):
     self._string = None
     self._color = None
     self._fontname = 'Arial'
-    self._fontsize = 10
+    self._fontsize = 12
     self._center = (True, True)
     
     # --- Initialization

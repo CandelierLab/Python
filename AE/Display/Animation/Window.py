@@ -63,6 +63,11 @@ class Window(QWidget):
       self.information.updated.connect(self.capture)
       self._nAnim += 1
 
+    # --- Default size
+
+    self.width = None
+    self.height = None
+
     # --- Style
 
     # Modified qdarkstyle
@@ -168,6 +173,21 @@ class Window(QWidget):
     # --- Display animation ------------------------------------------------
 
     super().show()
+
+    # --- Sizing
+
+    # Default size
+    if self.height is None:
+      self.height = int(QApplication.desktop().screenGeometry().height()*0.6)
+
+    if self.width is None:
+      if self.information is None:
+        self.width = int(self.height*(self._nAnim))
+      else:
+        self.width = int(self.height*(self._nAnim-0.8))
+
+    # Set window size
+    self.resize(self.width, self.height)
 
     # --- Timing -----------------------------------------------------------
 

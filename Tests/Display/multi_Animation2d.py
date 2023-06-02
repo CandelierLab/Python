@@ -64,6 +64,6 @@ W.add(Anim('green'), 0, 2)
 W.allow_backward = True
 W.allow_negative_time = False
 
-W.movieFile = '/home/raphael/Vidéos/test.mp4'
+# W.movieFile = '/home/raphael/Vidéos/test.mp4'
 
 W.show()

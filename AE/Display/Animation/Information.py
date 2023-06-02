@@ -10,7 +10,7 @@ class Information(Animation_2d):
   def __init__(self, disp_time=True):
     
     # Parent contructor
-    super().__init__(boundaries=[[0, 0.15], [0, 1]], disp_boundaries=True, boundaries_color=Qt.black)
+    super().__init__(boundaries=[[0, 0.01], [0, 1]], disp_boundaries=True, boundaries_color=Qt.black)
 
     # --- Optional display
 
