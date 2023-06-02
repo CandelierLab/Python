@@ -36,6 +36,10 @@ class Window(QWidget):
 
     # Attributes
     self.title = title
+
+    # Misc private properties
+    self._nAnim = 0
+    self._movieCounter = 0
     
     # Qapplication
     self.app = QApplication([])
@@ -57,6 +61,7 @@ class Window(QWidget):
       self.layout.addWidget(self.information.view, 0, 0)
       self.events.connect(self.information.receive)
       self.information.updated.connect(self.capture)
+      self._nAnim += 1
 
     # --- Style
 
@@ -93,7 +98,6 @@ class Window(QWidget):
     self.movieWidth = 1600     # Must be a multiple of 16
     self.moviefps = 25
     self.keep_every = 1
-
     
   # ========================================================================
   def add(self, panel, row=None, col=None):
@@ -110,13 +114,17 @@ class Window(QWidget):
     if col is None:
       pass
 
-    # --- Append widget or layout
+    # --- Append animation or layout
 
     if isinstance(panel, Animation_2d):
+
       self.layout.addWidget(panel.view, row, col)
       self.events.connect(panel.receive)
-      # panel.updated.connect(self.capture)
+      panel.updated.connect(self.capture)
+      self._nAnim += 1
+
     else:
+
       self.layout.addLayout(panel, row, col)
 
   # ========================================================================
@@ -183,7 +191,7 @@ class Window(QWidget):
       self.movieWriter = imageio.get_writer(self.movieFile, fps=self.moviefps)
 
       # Capture first frame
-      self.capture()
+      self.capture(force=True)
 
     self.app.exec()
 
@@ -203,23 +211,30 @@ class Window(QWidget):
     self.events.emit({'type': 'update', 'time': time(self.step, self.step*self.dt)})
 
   # ========================================================================
-  def capture(self):
+  def capture(self, force=False):
 
     if self.movieWriter is not None and not (self.step % self.keep_every):
 
-      # Get image
-      img = self.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
+      self._movieCounter += 1
 
-      # Create numpy array
-      ptr = img.constBits()
-      ptr.setsize(img.height()*img.width()*3)
-      A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
+      if force or self._movieCounter == self._nAnim:
 
-      # Add missing rows (to get a height multiple of 16)
-      A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
-      
-      # Append array to movie
-      self.movieWriter.append_data(A)
+        # Reset counter
+        self._movieCounter = 0
+
+        # Get image
+        img = self.grab().toImage().scaledToWidth(self.movieWidth).convertToFormat(QImage.Format.Format_RGB888)
+
+        # Create numpy array
+        ptr = img.constBits()
+        ptr.setsize(img.height()*img.width()*3)
+        A = np.frombuffer(ptr, np.uint8).reshape((img.height(), img.width(), 3))
+
+        # Add missing rows (to get a height multiple of 16)
+        A = np.concatenate((A, np.zeros((16-img.height()%16, img.width(), 3), dtype=np.uint8)), 0)
+        
+        # Append array to movie
+        self.movieWriter.append_data(A)
 
   # ========================================================================
   def play_pause(self, force=None):

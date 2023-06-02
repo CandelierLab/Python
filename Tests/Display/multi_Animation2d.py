@@ -58,7 +58,7 @@ W = Window(display_information=True)
 W.title = 'Multiple animation'
 
 W.add(Anim('red'), 0, 1)
-# W.add(Anim('green'), 0, 2)
+W.add(Anim('green'), 0, 2)
 
 # Allow backward animation
 W.allow_backward = True
