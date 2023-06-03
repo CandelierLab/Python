@@ -126,7 +126,7 @@ class Animation_2d(QObject):
   updated = pyqtSignal()
 
   # ========================================================================
-  def __init__(self, size=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray):
+  def __init__(self, viewHeight=None, boundaries=None, disp_boundaries=True, boundaries_color=Qt.lightGray):
     """
     Animation constructor
 
@@ -135,7 +135,7 @@ class Animation_2d(QObject):
 
     Args:
 
-      size (float): Height of the ``QGraphicsView``.
+      viewHeight (float): Height of the ``QGraphicsView``.
 
       boundaries ([[float,float],[float,float]]): Limits of the scene to display.
         The first element sets the *x*-limits and the second the *y*-limits. 
@@ -153,7 +153,7 @@ class Animation_2d(QObject):
 
     # --- Size settings
 
-    self.size = size if size is not None else QApplication.desktop().screenGeometry().height()*0.6
+    self.viewHeight = viewHeight if viewHeight is not None else QApplication.desktop().screenGeometry().height()*0.6
     
      # --- Scene & view
 
@@ -166,7 +166,7 @@ class Animation_2d(QObject):
     self.boundaries['height'] = self.boundaries['y'][1]-self.boundaries['y'][0]
 
     # Scale factor
-    self.factor = self.size/self.boundaries['height']
+    self.factor = self.viewHeight/self.boundaries['height']
 
     # Scene
     self.scene = QGraphicsScene()
@@ -200,7 +200,6 @@ class Animation_2d(QObject):
     # Stack
     self.stack = {'vpos': self.boundaries['y'][1], 
                   'vmin': self.boundaries['y'][0],
-                  'hpadding': self.boundaries['width']/50,
                   'vpadding': 0}
     
   # ========================================================================
@@ -244,7 +243,7 @@ class Animation_2d(QObject):
 
     if stack:
 
-      x = self.stack['hpadding']
+      x = 0
       y = self.stack['vpos']
 
       if height is None:

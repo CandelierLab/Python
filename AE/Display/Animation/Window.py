@@ -187,7 +187,7 @@ class Window(QWidget):
       if self.information is None:
         self.width = int(self.height*(self._nAnim))
       else:
-        self.width = int(self.height*(self._nAnim-0.8))
+        self.width = int(self.height*(self._nAnim-0.75))
 
     # Set window size
     self.resize(self.width, self.height)

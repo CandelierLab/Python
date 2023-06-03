@@ -87,10 +87,10 @@ class Network():
 
     return ''
 
-  def show(self, isolate_output=True, size=None):
+  def show(self, isolate_output=True, viewHeight=None):
 
     W = Window('Simple network', display_information=False)
-    W.add(Visu2d(self, isolate_output=isolate_output, size=size))
+    W.add(Visu2d(self, isolate_output=isolate_output, viewHeight=viewHeight))
     W.show()
 
 # === Visualisation ========================================================
@@ -105,7 +105,7 @@ class Visu2d(Animation_2d):
   values through time.
   """
 
-  def __init__(self, Net, isolate_output=True, size=None):
+  def __init__(self, Net, isolate_output=True, viewHeight=None):
     """
     Network 2D visualization constructor
 
@@ -122,7 +122,7 @@ class Visu2d(Animation_2d):
     """
 
     # Parent constructor
-    super().__init__(disp_boundaries=False, size=size)
+    super().__init__(disp_boundaries=False, viewHeight=viewHeight)
 
     # Network
     self.Net = Net
@@ -208,8 +208,8 @@ class Visu2d(Animation_2d):
 
     # --- Scene settings ---------------------------------------------------
 
-    self.r = 0.04
-    self.fontsize = int(np.floor(self.r*self.size/4.5*2))
+    self.r = 0.03
+    self.fontsize = int(np.floor(self.r*self.viewHeight/4.5*2))
 
     # self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     # self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
@@ -281,7 +281,7 @@ class Visu2d(Animation_2d):
         parent = i,
         position = (0,0),
         radius = self.r,
-        colors = ('#555', '#aaa'),
+        colors = ('#555', None),
         thickness = 2,
         linestyle = ':' if node['IN'] else None
       )

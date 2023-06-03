@@ -11,14 +11,14 @@ class Anim(Animation_2d):
 
   def __init__(self):
 
-    super().__init__(boundaries=[[-0.5, 1.5],[-0.5, 1.5]])
+    super().__init__()
 
     self.padding=0.01
 
     self.x0 = 0.5
     self.y0 = 0.5
     self.R = 0.25
-    self.r = 0.02
+    self.r = 0.01
 
     self.add(ellipse, 'E0',
       position = [self.x0, self.y0],
