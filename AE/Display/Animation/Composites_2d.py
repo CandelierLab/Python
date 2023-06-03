@@ -328,7 +328,7 @@ class colorbar(composite):
       self.animation.item[self.rect].boundingRect().bottomLeft())
     
     for z in np.linspace(0, 1, self.cm.ncolors):      
-      g.setColorAt(z, self.animation.colormap.qcolor(z, scaled=True))
+      g.setColorAt(z, self.cm.qcolor(z, scaled=True))
   
     self.animation.item[self.rect].setBrush(g)
 

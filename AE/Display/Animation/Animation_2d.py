@@ -200,7 +200,7 @@ class Animation_2d(QObject):
     # Stack
     self.stack = {'vpos': self.boundaries['y'][1], 
                   'vmin': self.boundaries['y'][0],
-                  'vpadding': 0}
+                  'vpadding': 0.02}
     
   # ========================================================================
   def add(self, type, name, **kwargs):
