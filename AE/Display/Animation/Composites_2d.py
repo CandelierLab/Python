@@ -50,7 +50,9 @@ class arrow(composite):
   def __init__(self, animation, name, **kwargs):
     """
     Arrow element constructor
-    """  
+    """ 
+
+    self.fontsize = kwargs['fontsize'] if 'fontsize' in kwargs else 9
 
     super().__init__(animation, name, **kwargs)
 
@@ -68,7 +70,7 @@ class arrow(composite):
     self.animation.add(text, self.text,
       parent = self.name,
       position = (0,0),
-      fontsize = 9,
+      fontsize = self.fontsize,
       center = (False, False),
       string = ''
     )

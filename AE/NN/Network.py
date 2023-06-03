@@ -62,6 +62,16 @@ class Network():
     self.IN = []
     self.OUT = []
 
+    # Display settings
+    self.nodeRadius = 0.03
+    self.nodeFontSize = None
+    self.edgeFontSize = 9
+    self.nodeColor = '#555'
+    self.nodeTextColor = '#000'
+    self.nodeStroke = None
+    self.IOnodeStroke = '#ccc'
+    self.edgeColor = '#ccc'
+
     # Misc
     self.verbose = verbose
 
@@ -208,8 +218,8 @@ class Visu2d(Animation_2d):
 
     # --- Scene settings ---------------------------------------------------
 
-    self.r = 0.03
-    self.fontsize = int(np.floor(self.r*self.viewHeight/4.5*2))
+    self.r = Net.nodeRadius
+    self.nodeFontSize = Net.nodeFontSize if Net.nodeFontSize is not None else int(np.floor(self.r*self.viewHeight/2))
 
     # self.sceneLimits['x'] = [xym[0]-self.r, xyM[0]+self.r]
     # self.sceneLimits['y'] = [xym[1]-self.r, xyM[1]+self.r]
@@ -226,7 +236,8 @@ class Visu2d(Animation_2d):
         self.add(arrow, name,
           points = [pos[edge['i']], pos[edge['j']]],
           locus = 0.45,
-          string = '{:.02f}'.format(edge['w'])
+          string = '{:.02f}'.format(edge['w']),
+          fontsize = Net.edgeFontSize
         )
 
     # --- Nodes ------------------------------------------------------------
@@ -255,35 +266,37 @@ class Visu2d(Animation_2d):
             parent = i,
             position = (0, self.r),
             radius = self.r,
-            colors = (None, '#ccc'),
+            colors = (None, Net.edgeColor),
           )
 
           self.add(arrow, name + '_arrowhead',
             parent = i,
             points = [(-0.005, 2*self.r), (-0.02, 2*self.r)],
             locus = 0.5,
-            string = '{:.02f}'.format(edge['w'])
+            string = '{:.02f}'.format(edge['w']),
+            fontsize = Net.edgeFontSize,
+            color = Net.edgeColor
           )
 
       # --- Circle
 
-      # Double circle for OUTPUT Nodes
-      if node['OUT']:
+      # Double circle for INPUT/OUTPUT Nodes
+      if node['IN'] or node['OUT']:
         self.add(circle, str(gname) + '_outercircle',
           parent = i,
           position = (0,0),
           radius = self.r*1.2,
-          colors = ('black', '#ccc'),
-          thickness = 2
+          colors = (None, Net.IOnodeStroke),
+          thickness = 2,
+          linestyle = ':' if node['IN'] else None
         )
 
       self.add(circle, str(gname) + '_circle',
         parent = i,
         position = (0,0),
         radius = self.r,
-        colors = ('#555', None),
+        colors = (Net.nodeColor, Net.nodeStroke),
         thickness = 2,
-        linestyle = ':' if node['IN'] else None
       )
 
       # --- Name
@@ -300,9 +313,9 @@ class Visu2d(Animation_2d):
         parent = i,
         position = (0,0),
         string = name,
-        color = 'black',
+        color = Net.nodeTextColor,
         center = True,
-        fontsize = self.fontsize,
+        fontsize = self.nodeFontSize,
         fontname = 'Serif'
       )
 

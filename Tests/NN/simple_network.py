@@ -17,4 +17,6 @@ for i in range(15):
 
 Net.add_edge(3, 3, w=1)
 
+Net.nodeColor = 'orange'
+
 Net.show()
