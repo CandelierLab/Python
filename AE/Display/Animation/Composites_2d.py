@@ -309,6 +309,7 @@ class colorbar(composite):
     self.width = kwargs['width'] if 'width' in kwargs else 0.025
     self.height = kwargs['height'] if 'height' in kwargs else 0.5
     self.nticks = kwargs['nticks'] if 'nticks' in kwargs else 2
+    self.precision = kwargs['precision'] if 'precision' in kwargs else 2
 
     # --- Items
 
@@ -341,7 +342,7 @@ class colorbar(composite):
 
       self.animation.add(text, 'tick_0', parent = self.name,
         position = [self.width, y],
-        string = '<span style="color: ' + self.cm.htmlcolor(z, scaled=True) + ';">◄</span> <span style="color: #AAA;">{:.02f}</span>'.format(v),
+        string = '<span style="color: ' + self.cm.htmlcolor(z, scaled=True) + ';">◄</span> <span style="color: #AAA;">{:.0{:d}f}</span>'.format(v, self.precision),
         color = 'white',
         fontsize = 10,
         center = (False, True))

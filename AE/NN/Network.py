@@ -66,7 +66,7 @@ class Network():
     self.nodeRadius = 0.03
     self.nodeFontSize = None
     self.edgeFontSize = 9
-    self.nodeColor = '#555'
+    self.nodeColor = '#fff'
     self.nodeTextColor = '#000'
     self.nodeStroke = None
     self.IOnodeStroke = '#ccc'
