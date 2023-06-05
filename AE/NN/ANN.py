@@ -1,5 +1,5 @@
-from collections import defaultdict
 import numpy as np
+
 from AE.NN.Network import Network
 
 # === ACTIVATION FUNCTIONS =================================================
@@ -52,6 +52,13 @@ def activate(afun, x):
       '''
 
       y = np.tanh(x)
+
+    case 'rectified_tanh':
+      '''
+      Rectified tanh function, as used in the neat-python package.
+      '''
+
+      y = np.tanh(2.5*x)
 
     case _:
       raise AttributeError("Unknown activation type '{:s}'.".format(afun))
