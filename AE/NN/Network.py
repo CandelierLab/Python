@@ -64,7 +64,7 @@ class Network():
 
     # Display settings
     self.nodeRadius = 0.03
-    self.nodeFontSize = None
+    self.nodeFontSize = 12
     self.edgeFontSize = 9
     self.nodeColor = '#fff'
     self.nodeTextColor = '#000'

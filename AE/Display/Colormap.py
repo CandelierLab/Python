@@ -7,7 +7,7 @@ from PyQt5.QtGui import QColor
 
 class Colormap():
   
-  def __init__(self, name='turbo', ncolors=64):
+  def __init__(self, name='turbo', range=[0,1], ncolors=64):
     """
     Colormap constructor
 
@@ -27,7 +27,7 @@ class Colormap():
 
     # Range
     self.norm = None
-    self.range = [0,1]
+    self.range = range
 
     # Colormap
     self.cmap = None
