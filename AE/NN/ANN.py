@@ -175,7 +175,6 @@ class ANN(Network):
 
     self._W = np.zeros((self.nNd, self.nBk))
     for e in self.edge:
-      # self._W[e['i'], e['j']-self.nIn] = e['w']
       self._W[e['i'], e['j']-sum([i<e['j'] for i in self.IN])] = e['w']
         
     # --- Biases
