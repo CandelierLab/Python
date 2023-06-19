@@ -209,7 +209,8 @@ class ANN(Network):
     if self.propagation_mode=='synchronous':
 
       # Initialize
-      if not self._isInitialized: self.initialize()
+      if not self._isInitialized:
+        self.initialize()
 
       # Update input
       self._value[self.IN] = input
