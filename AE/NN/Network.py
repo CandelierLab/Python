@@ -182,7 +182,7 @@ class Visu2d(Animation_2d):
       G.add_nodes_from(notIN)
 
       # Fixed nodes
-      I_fixed = self.Net.IN
+      I_fixed = self.Net.IN.copy()
 
       # Optimal distance between nodes
       k = 1/np.sqrt(len(notIN))
@@ -190,6 +190,7 @@ class Visu2d(Animation_2d):
     # --- Corners (for bounding))
     
     I_corners = len(self.Net.node) + np.arange(4)
+    
     G.add_node(I_corners[0], pos=[0,0])
     G.add_node(I_corners[1], pos=[0,1])
     G.add_node(I_corners[2], pos=[1,0])
@@ -241,7 +242,7 @@ class Visu2d(Animation_2d):
         )
 
     # --- Nodes ------------------------------------------------------------
-
+    
     for i, node in enumerate(self.Net.node):
       
       # --- Group
