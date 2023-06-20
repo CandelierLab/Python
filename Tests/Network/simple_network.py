@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from AE.NN.ANN import ANN
+from AE.Network.ANN import ANN
 
 os.system('clear')
 

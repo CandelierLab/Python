@@ -1,6 +1,6 @@
 import numpy as np
 
-from AE.NN.Network import Network
+from AE.Network.Network import Network
 
 # === ACTIVATION FUNCTIONS =================================================
 
