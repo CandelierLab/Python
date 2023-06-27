@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
+import AE.Network.Network
+
 def compare(NetA, NetB, weight_constraint=True, nIter=100):
   '''
   Comparison of two networks.
@@ -82,16 +84,29 @@ def compare(NetA, NetB, weight_constraint=True, nIter=100):
 
   return(S_nodes, S_edges)
 
-def matching(NetA, NetB, C_edges=None, C_nodes=None):
+def matching(NetA, NetB, threshold=None, **kwargs):
 
   # Get similarity measures
-  S_nodes = compare(NetA, NetB, C_edges=C_edges, C_nodes=C_nodes)[0]
+  Sim = compare(NetA, NetB, **kwargs)[0]
+
+  # Threshold
+  if threshold is not None:
+    Sim[Sim<threshold] = -np.inf
 
   # Hungarian algorithm (Jonker-Volgenant)
-  I, J = linear_sum_assignment(S_nodes, True)
+  I, J = linear_sum_assignment(Sim, True)
 
   # Output
   M = [(I[k], J[k]) for k in range(len(I))]
 
   return M
 
+# === MatchNet class ======================================================
+
+class NetMatch(AE.Network.Network.Network):
+
+  def __init__(self, verbose=False):
+
+    super().__init__(verbose)
+
+    
