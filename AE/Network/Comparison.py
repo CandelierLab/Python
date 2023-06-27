@@ -41,19 +41,23 @@ def compare(NetA, NetB, weight_constraint=True, nIter=100):
 
   # --- Weight constraint
 
-  # Edge weights
-  W = np.zeros((mA, mB))
-  for i, a in enumerate(NetA.edge):
-    for j, b in enumerate(NetB.edge):
-      W[i,j] = a['w'] - b['w']
+  if weight_constraint:
 
-  sigma2 = np.var(W)
-  if sigma2>0:
-    W = np.exp(-W**2/2/sigma2)
+    # Edge weights
+    W = np.zeros((mA, mB))
+    for i, a in enumerate(NetA.edge):
+      for j, b in enumerate(NetB.edge):
+        W[i,j] = a['w'] - b['w']
+
+    sigma2 = np.var(W)
+    if sigma2>0:
+      W = np.exp(-W**2/2/sigma2)
+      yc = W.reshape(mA*mB)
+    else:
+      yc = np.ones(mA*mB)
+
   else:
-    W = np.ones((mA, mB))
-
-  yc = W.reshape(mA*mB)
+    yc = np.ones(mA*mB)
 
   # --- Initialization
 
