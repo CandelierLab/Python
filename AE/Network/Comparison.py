@@ -9,7 +9,7 @@ has to be subclassed to be useful.
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-def compare(NetA, NetB, C_nodes=None, C_edges=None):
+def compare(NetA, NetB, C_nodes=None, C_edges=None, nIter=10):
   '''
   Comparison of two networks.
 
@@ -64,7 +64,7 @@ def compare(NetA, NetB, C_nodes=None, C_edges=None):
   # Structure matrix
   G = np.kron(As.T, Bs.T) + np.kron(At.T, Bt.T)
 
-  for i in range(10):
+  for i in range(nIter):
 
     y_ = G @ x
     x_ = G.T @ y
