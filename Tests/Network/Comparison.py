@@ -41,8 +41,8 @@ NetB.add_node(2)
 NetB.add_node(2, OUT=True)
 NetB.add_edge(0, 1, w=1)
 NetB.add_edge(0, 2, w=1)
-NetB.add_edge(1, 3, w=1)
-NetB.add_edge(2, 4, w=1)
+NetB.add_edge(1, 3, w=0.99)
+NetB.add_edge(2, 4, w=0.98)
 
 # NetB.show()
 # sys.exit()
@@ -62,8 +62,14 @@ C[2,4] = 1
 
 # === Computation ==========================================================
 
-# S_nodes, S_edges = compare(NetA, NetB, C_edges=None, C_nodes=C)
+S_nodes, S_edges = compare(NetA, NetB, nIter=100)
 
-M = matching(NetA, NetB, C_edges=F, C_nodes=C)
+S_nodes = np.round(S_nodes*1e3)*1e-3
+S_edges = np.round(S_edges*1e3)*1e-3
 
-print(M)
+print('\n', S_nodes)
+print('\n', S_edges)
+
+# M = matching(NetA, NetB, C_edges=F, C_nodes=C)
+
+# print(M)

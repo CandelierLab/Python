@@ -1,22 +1,13 @@
-"""
-Generic neural network tools
-
-The class :class:`.Network` is a generic class for Neural Networks of the 
-:py:mod:`AE.NN` package. It does not perform any processing though, so it
-has to be subclassed to be useful.
-"""
-
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-def compare(NetA, NetB, C_nodes=None, C_edges=None, nIter=10):
+def compare(NetA, NetB, weight_constraint=True, nIter=100):
   '''
   Comparison of two networks.
 
-  The algorithm is similar to [1] but with the addition of inner constraints
-  on nodes (C_nodes) and edges (C_edges). Typically C_edges is the weighted
-  adjacency matrix and C_nodes is the correlation matrix. By default these 
-  matrices are filled with ones.
+  The algorithm is identical to [1] but with the addition of a constraint
+  of edge weight similarity. Set weight_constraint=False to recover the 
+  original algorithm.
 
   [1] L.A. Zager and G.C. Verghese, "Graph similarity scoring and matching",
       Applied Mathematics Letters 21 (2008) 86–94, doi: 10.1016/j.aml.2007.01.006
@@ -48,13 +39,21 @@ def compare(NetA, NetB, C_nodes=None, C_edges=None, nIter=10):
     Bs[e['i'], k] = 1
     Bt[e['j'], k] = 1
 
-  # --- Constraint vectors
+  # --- Weight constraint
 
-  # Nodes
-  xc = np.ones(nA*nB) if C_nodes is None else C_nodes.reshape(nA*nB)
+  # Edge weights
+  W = np.zeros((mA, mB))
+  for i, a in enumerate(NetA.edge):
+    for j, b in enumerate(NetB.edge):
+      W[i,j] = a['w'] - b['w']
 
-  # Edges
-  yc = np.ones(mA*mB) if C_edges is None else C_edges.reshape(mA*mB)
+  sigma2 = np.var(W)
+  if sigma2>0:
+    W = np.exp(-W**2/2/sigma2)
+  else:
+    W = np.ones((mA, mB))
+
+  yc = W.reshape(mA*mB)
 
   # --- Initialization
 
@@ -66,12 +65,8 @@ def compare(NetA, NetB, C_nodes=None, C_edges=None, nIter=10):
 
   for i in range(nIter):
 
-    y_ = G @ x
+    y_ = (G @ x) * yc
     x_ = G.T @ y
-
-    # Contraints
-    x_ = x_ * xc
-    y_ = y_ * yc
 
     # Normalization
     x = x_/np.sqrt(np.sum(x_**2))
