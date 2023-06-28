@@ -59,6 +59,6 @@ NetB.add_edge(2, 4, w=0)
 
 M = matching(NetA, NetB)
 
-print(M)
+M.print()
 
 # NetA.print()

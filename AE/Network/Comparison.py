@@ -1,3 +1,4 @@
+import pprint
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
@@ -133,3 +134,8 @@ class MatchNet():
     # Unmatched edges
     self.ueA = [x for x in range(len(self.NetA.edge)) if x not in self.me[:,0]]
     self.ueB = [x for x in range(len(self.NetB.edge)) if x not in self.me[:,1]]
+
+  def print(self):
+
+    pp = pprint.PrettyPrinter(depth=4)
+    pp.pprint(self.__dict__)
