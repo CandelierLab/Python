@@ -99,14 +99,37 @@ def matching(NetA, NetB, threshold=None, **kwargs):
   # Output
   M = [(I[k], J[k]) for k in range(len(I))]
 
-  return M
+  return MatchNet(NetA, NetB, M)
 
 # === MatchNet class ======================================================
 
-class NetMatch(AE.Network.Network.Network):
+class MatchNet():
 
-  def __init__(self, verbose=False):
+  def __init__(self, NetA, NetB, M):
 
-    super().__init__(verbose)
+    #  Nets
+    self.NetA = NetA
+    self.NetB = NetB
 
-    
+    # Matched nodes
+    self.mn = np.array(M)
+
+    # Unmatched nodes
+    self.unA = [x for x in range(len(self.NetA.node)) if x not in self.mn[:,0]]
+    self.unB = [x for x in range(len(self.NetB.node)) if x not in self.mn[:,1]]
+
+    # Matched edges
+    me = []
+    eB = np.array([[e['i'], e['j']] for e in self.NetB.edge])
+    for u, e in enumerate(self.NetA.edge):
+      i = self.mn[self.mn[:,0]==e['i'], 1]
+      j = self.mn[self.mn[:,0]==e['j'], 1]
+      if i.size and j.size:
+        w = np.where((eB == (i[0], j[0])).all(axis=1))[0]
+        if w.size: me.append((u, w[0]))
+        
+    self.me = np.array(me)
+
+    # Unmatched edges
+    self.ueA = [x for x in range(len(self.NetA.edge)) if x not in self.me[:,0]]
+    self.ueB = [x for x in range(len(self.NetB.edge)) if x not in self.me[:,1]]

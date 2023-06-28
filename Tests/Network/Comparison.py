@@ -41,24 +41,11 @@ NetB.add_node(2)
 NetB.add_node(2, OUT=True)
 NetB.add_edge(0, 1, w=1)
 NetB.add_edge(0, 2, w=1)
-NetB.add_edge(1, 3, w=0.4)
-NetB.add_edge(2, 4, w=0.98)
+NetB.add_edge(1, 3, w=0.6)
+NetB.add_edge(2, 4, w=0)
 
 # NetB.show()
 # sys.exit()
-
-# === Contraints ===========================================================
-
-# Edges
-F = np.zeros((len(NetA.edge), len(NetB.edge)))
-for i, eA in enumerate(NetA.edge):
-  for j, eB in enumerate(NetB.edge):
-    F[i,j] = np.exp(-(eA['w'] - eB['w'])**2)
-
-# Nodes
-C = np.ones((len(NetA.node), len(NetB.node)))
-
-C[2,4] = 1
 
 # === Computation ==========================================================
 
@@ -74,4 +61,4 @@ M = matching(NetA, NetB)
 
 print(M)
 
-NetA.print()
+# NetA.print()
