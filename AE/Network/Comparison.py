@@ -108,16 +108,19 @@ class MatchNet():
 
   def __init__(self, NetA, NetB, M):
 
-    #  Nets
+    #  --- Nets
+
     self.NetA = NetA
     self.NetB = NetB
+
+    # --- Nodes and edges
 
     # Matched nodes
     self.mn = np.array(M)
 
     # Unmatched nodes
-    self.unA = [x for x in range(len(self.NetA.node)) if x not in self.mn[:,0]]
-    self.unB = [x for x in range(len(self.NetB.node)) if x not in self.mn[:,1]]
+    self.unA = np.array([x for x in range(len(self.NetA.node)) if x not in self.mn[:,0]])
+    self.unB = np.array([x for x in range(len(self.NetB.node)) if x not in self.mn[:,1]])
 
     # Matched edges
     me = []
@@ -132,10 +135,42 @@ class MatchNet():
     self.me = np.array(me)
 
     # Unmatched edges
-    self.ueA = [x for x in range(len(self.NetA.edge)) if x not in self.me[:,0]]
-    self.ueB = [x for x in range(len(self.NetB.edge)) if x not in self.me[:,1]]
+    self.ueA = np.array([x for x in range(len(self.NetA.edge)) if x not in self.me[:,0]])
+    self.ueB = np.array([x for x in range(len(self.NetB.edge)) if x not in self.me[:,1]])
+
+    # --- Ratios
+
+    # Ratio of matched nodes
+    self.rmn = self.mn.size/(self.mn.size + self.unA.size + self.unB.size)
+
+    # Ratio of matched edges
+    self.rme = self.me.size/(self.me.size + self.ueA.size + self.ueB.size)
+
+    # --- Edge weight distances
+
+    # Average matched edge weights distance
+    wA = np.array([self.NetA.edge[i]['w'] for i in self.me[:,0]])
+    wB = np.array([self.NetB.edge[j]['w'] for j in self.me[:,1]])
+    # self.amewd = np.mean((np.abs(wA-wB)))
+    self.amewd = np.mean((wA-wB)**2)
+
+    # Average unmatched edge weights
+    wA = np.array([self.NetA.edge[i]['w'] for i in self.unA])
+    wB = np.array([self.NetB.edge[j]['w'] for j in self.unB])
+    if wA.size and wB.size:
+      self.auew = np.mean(np.abs(np.concatenate((wA, wB))))
+    else:
+      self.auew = None
 
   def print(self):
 
     pp = pprint.PrettyPrinter(depth=4)
     pp.pprint(self.__dict__)
+
+    print('Matched node proportion: {:.2f}'.format(100*self.rmn))
+    print('Matched egde proportion: {:.2f}'.format(100*self.rme))
+
+    
+
+    print('Average matched edge weight distance: {:.02f}'.format(amewd))
+    print('Average unmatched edge weight: {:.02f}'.format(auew))
