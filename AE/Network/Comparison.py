@@ -157,7 +157,7 @@ class MatchNet():
     # Average unmatched edge weights
     wA = np.array([self.NetA.edge[i]['w'] for i in self.unA])
     wB = np.array([self.NetB.edge[j]['w'] for j in self.unB])
-    if wA.size and wB.size:
+    if wA.size or wB.size:
       self.auew = np.mean(np.abs(np.concatenate((wA, wB))))
     else:
       self.auew = None
