@@ -171,4 +171,5 @@ class MatchNet():
     print('Matched egde proportion: {:.2f}'.format(100*self.rme))
 
     print('Average matched edge weight distance: {:.02f}'.format(self.amewd))
-    print('Average unmatched edge weight: {:.02f}'.format(self.auew))
+    if self.auew is not None:
+      print('Average unmatched edge weight: {:.02f}'.format(self.auew))
