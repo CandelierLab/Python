@@ -5,3 +5,4 @@ A python toolbox for research in Artificial Evolution
 
 conda install numpy matplotlib pyqt imageio[ffmpeg]
 conda install -c conda-forge imageio
+pip install pdoc
