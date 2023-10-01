@@ -118,6 +118,6 @@ W.add(Anim())
 W.allow_backward = True
 W.allow_negative_time = False
 
-# W.movieFile = '~/test.mp4'
+# W.movieFile = 'test.mp4'
 
 W.show()

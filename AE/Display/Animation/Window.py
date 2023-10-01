@@ -1,5 +1,11 @@
 import os
-import imageio
+import sys
+
+try:
+  import imageio
+except:
+  # The try-except structure is for pdoc, which may have trouble to find imageio
+  pass
 
 from AE.Display.time import *
 from AE.Display.Animation.Information import *
@@ -258,6 +264,7 @@ class Window(QWidget):
         
         # Append array to movie
         self.movieWriter.append_data(A)
+
 
   # ========================================================================
   def play_pause(self, force=None):
