@@ -1,5 +1,4 @@
 import os
-import sys
 
 try:
   import imageio
@@ -17,29 +16,48 @@ from PyQt5.QtWidgets import QApplication, QWidget, QShortcut, QGridLayout
 
 class Window(QWidget):
   """
-  Animation-specific window
+  Animation-specific window.
 
-  Creates a new window containing an animation.
+  Subclass of Qwidget. Creates a new window containing an animation.
   
   Attributes:
-    title (str): Title of the window.
-    app (``QApplication``): Underlying ``QApplication``.
-    anim (:class:`Animation2d`): Animation to display.
+    title (string): Title of the window.
+    app (QApplication): Underlying QApplication.
+    anim (`Animation2d`): Animation to display.
+    layout (QGridLayout): The main layout.
+    information (`Information`): The object controlling the extra information displayed.
+    width (?): width of the window (in ?)
+    height (?): height of the window (in ?)
+    fpt (int): The windows' fps. Default: 25.
+    step (int):
+    dt (float):
+    timer (QTime)
+    allow_backward (bool):
+  
   """
 
   # Generic event signal
   events = pyqtSignal(dict)
+  ''' A pyqtSignal object to manage external events.'''
 
   # ========================================================================
   def __init__(self, title='Animation', display_information=True, autoplay=True, dt=None):
     """
-    Window constructor
+    Window constructor.
 
-    Defines the ``QApplication``, window title and animation to display.
+    In particular, it initializes the QApplication `app` and the animation to display `anim`.
+    
+    The dark style is automatically applied if the corresponding stylesheet is found.
 
     Args:
-      title (str): Title of the window. Default is 'Animation'.
+      title (string): Window title. Default: 'Animation'.
+      display_information (bool): Determines if the extra information have to be displayed. Default: True.
+      autoplay (bool): Indicating if autoplay is on or off. Default: True.
+      dt (frames): time increment between two frames (in seconds). Default: None.
     """
+
+    # Qapplication
+    self.app = QApplication([])
 
     # Attributes
     self.title = title
@@ -48,11 +66,7 @@ class Window(QWidget):
     self._nAnim = 0
     self._movieCounter = 0
     
-    # Qapplication
-    self.app = QApplication([])
-
-    # Call widget parent's constructor
-    # (otherwise no signal can be caught)
+    # Call widget parent's constructor (otherwise no signal can be caught)
     super().__init__()
 
     # --- Main Layout

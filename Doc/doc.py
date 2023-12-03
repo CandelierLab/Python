@@ -1,6 +1,8 @@
 import os
 import shutil
 
+os.system('clear')
+
 # === Parameters ===========================================================
 
 outDir = 'Doc/html'
@@ -13,8 +15,8 @@ erase = True
 
 cmd = 'pdoc --math'
 
-for root, subdirs, files in os.walk('AE'):
-  print(root)
+# for root, subdirs, files in os.walk('AE'):
+#   print(root)
 
 
 cmd += ' AE -o ' + outDir
@@ -27,5 +29,5 @@ if erase and os.path.exists(outDir):
 
 print(cmd)
 
-# os.system(cmd)
+os.system(cmd)
 
