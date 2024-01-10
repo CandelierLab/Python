@@ -1,5 +1,7 @@
 import os
 
+import imageio
+  
 try:
   import imageio
 except:
@@ -76,13 +78,17 @@ class Window(QWidget):
 
     # --- Information
 
-    self.information = Information() if display_information else None
+    if display_information:
 
-    if self.information is not None:
+      self.information = Information()
+    
       self.layout.addWidget(self.information.view, 0, 0)
       self.events.connect(self.information.receive)
       self.information.updated.connect(self.capture)
       self._nAnim += 1
+
+    else:
+      self.information = None
 
     # --- Default size
 
