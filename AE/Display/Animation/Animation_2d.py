@@ -189,10 +189,10 @@ class Animation_2d(QObject):
     # --- Display
 
     # Dark background
-    self.view.setBackgroundBrush(Qt.black)
-    pal = self.view.palette()
-    pal.setColor(QPalette.Window, Qt.black)
-    self.view.setPalette(pal)
+    # self.view.setBackgroundBrush(Qt.black)
+    # pal = self.view.palette()
+    # pal.setColor(QPalette.Window, Qt.black)
+    # self.view.setPalette(pal)
 
     # Antialiasing
     self.view.setRenderHints(QPainter.Antialiasing)

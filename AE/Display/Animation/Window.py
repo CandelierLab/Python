@@ -43,7 +43,7 @@ class Window(QWidget):
   ''' A pyqtSignal object to manage external events.'''
 
   # ========================================================================
-  def __init__(self, title='Animation', display_information=True, autoplay=True, dt=None):
+  def __init__(self, title='Animation', display_information=True, autoplay=True, dt=None, style='dark'):
     """
     Window constructor.
 
@@ -97,10 +97,13 @@ class Window(QWidget):
 
     # --- Style
 
+    self.style = style 
+
     # Modified qdarkstyle
-    with open(os.path.dirname(os.path.abspath(__file__))+'/Style/dark.css', 'r') as f:
-      css = f.read()
-      self.app.setStyleSheet(css)
+    if self.style is 'dark':
+      with open(os.path.dirname(os.path.abspath(__file__))+'/Style/dark.css', 'r') as f:
+        css = f.read()
+        self.app.setStyleSheet(css)
 
     # --- Timing
 
