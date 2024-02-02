@@ -16,7 +16,10 @@ erase = True
 cmd = 'pdoc --math AE '
 
 for root, subdirs, files in os.walk('AE'):
-  print(root)
+
+  print('---------------------')
+  print(root, subdirs, files)
+
 
 
 cmd += 'AE/Display -o ' + outDir
