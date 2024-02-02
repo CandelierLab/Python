@@ -13,16 +13,16 @@ erase = True
 
 # --- Command preparation --------------------------------------------------
 
-cmd = 'pdoc --math AE '
+# May be required to suppress warnings:
+# export PDOC_ALLOW_EXEC=1
+
+cmd = 'pdoc --math '
 
 for root, subdirs, files in os.walk('AE'):
+  if '__pycache__' not in root:
+    cmd += root + ' '
 
-  print('---------------------')
-  print(root, subdirs, files)
-
-
-
-cmd += 'AE/Display -o ' + outDir
+cmd += '-o ' + outDir
 
 # --- Execution ------------------------------------------------------------
 
