@@ -13,13 +13,13 @@ erase = True
 
 # --- Command preparation --------------------------------------------------
 
-cmd = 'pdoc --math'
+cmd = 'pdoc --math AE '
 
-# for root, subdirs, files in os.walk('AE'):
-#   print(root)
+for root, subdirs, files in os.walk('AE'):
+  print(root)
 
 
-cmd += ' AE -o ' + outDir
+cmd += 'AE/Display -o ' + outDir
 
 # --- Execution ------------------------------------------------------------
 
