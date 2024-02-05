@@ -1,0 +1,14 @@
+
+*** Test programs
+
+Test programs are used for testing. They are not described in the documentation.
+
+*** Examples
+
+Examples are different from tests: it's just an architecture that allows pdoc to find the markdown files in the mirrored Doc/Files/Examples folder.
+
+So, every example to be inserted in the documentation should have two files:
+- An Examples/.../example.py that simply contains a pointer to the markdown file
+- A markdown file Doc/Files/MD/Examples/.../example.md that actually contins the example description.
+
+Examples are then refered to as `Examples.[...].example`.

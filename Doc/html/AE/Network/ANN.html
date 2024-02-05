@@ -625,32 +625,39 @@
 <p>Base class for all the Neural Networks of the <code>AE.NN</code> package.
 This class does not perform any processing and is intended to be subclassed.</p>
 
-<p>Subclasses should have the following methods:</p>
+<h6 id="subclasses-should-have-the-following-methods">Subclasses should have the following methods:</h6>
 
-<ul>
-<li><code><a href="#ANN.add_node">add_node()</a></code>: Adding nodes</li>
-<li><code>add_link()</code>: Adding links</li>
-<li><code><a href="#ANN.process">process()</a></code>: Processing inputs to generate outputs.</li>
-</ul>
+<blockquote>
+  <ul>
+  <li><code><a href="#ANN.add_node">add_node()</a></code>: Adding nodes</li>
+  <li><code>add_link()</code>: Adding links</li>
+  <li><code><a href="#ANN.process">process()</a></code>: Processing inputs to generate outputs.</li>
+  </ul>
+</blockquote>
 
 <p>It is also recommended to have an <code><a href="#ANN.initialize">initialize()</a></code> method to compile the 
 network and improve ease of coding and speed of exection.</p>
 
-<p>Nodes should have the fields:</p>
+<h6 id="nodes-should-have-the-fields">Nodes should have the fields:</h6>
+
+<blockquote>
+  <ul>
+  <li><code><a href="#ANN.IN">IN</a></code></li>
+  <li><code><a href="#ANN.OUT">OUT</a></code></li>
+  <li><code>name</code></li>
+  </ul>
+</blockquote>
+
+<h6 id="attributes">Attributes:</h6>
 
 <ul>
-<li><code><a href="#ANN.IN">IN</a></code></li>
-<li><code><a href="#ANN.OUT">OUT</a></code></li>
-<li><code>name</code></li>
+<li><strong>Node ([dict]):</strong>  All the nodes, including input, hidden and output nodes.</li>
+<li><strong>W (np.Array):</strong>  Weights matrix. Each element \( w_{ij} \) contains the weight of the 
+link \( i \rightarrow j \).</li>
+<li><strong>IN ([int]):</strong>  Indices of the input nodes.</li>
+<li><strong>OUT ([int]):</strong>  Indices of the output nodes.</li>
+<li><strong>verbose (<em>boolean</em>):</strong>  If True, informative messages are displayed.</li>
 </ul>
-
-<p>Attributes:
-  Node ([dict]): All the nodes, including input, hidden and output nodes.
-  W (np.Array): Weights matrix. Each element \( w_{ij} \) contains the weight of the 
-    link \( i \rightarrow j \).
-  IN ([int]): Indices of the input nodes.
-  OUT ([int]): Indices of the output nodes.
-  verbose (<em>boolean</em>): If True, informative messages are displayed.</p>
 </div>
 
 
@@ -695,8 +702,11 @@ network and improve ease of coding and speed of exection.</p>
 
             <div class="docstring"><p>Generic network constructor</p>
 
-<p>Args:
-  verbose (boolean): If True, informative messages are displayed.</p>
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>verbose (boolean):</strong>  If True, informative messages are displayed.</li>
+</ul>
 </div>
 
 

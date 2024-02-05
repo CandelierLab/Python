@@ -1,20 +1,15 @@
-"""
-Colormaps tools
-"""
-
 from matplotlib import cm
 from PyQt5.QtGui import QColor
 
 class Colormap():
   """
-  A class to manage colormaps
-  It is mainly used to convert scaler values to colors.
+  A class to manage colormaps in animations. It is mainly used to convert scalar values to colors (QColor)or html color string.
+
+  Internally, it is an interface with Matplotlib's colormaps.
   """
   
   def __init__(self, name='turbo', range=[0,1], ncolors=64):
     """
-    `Colormap` constructor
-
     Defines the basic attributes of a colormap, namely the number of colors 
     `ncolors` and value range `range`.
     
@@ -22,20 +17,21 @@ class Colormap():
     later on with the `set` method.
 
     Args:
-      name (string): The name of the colormap. All the names from Matplotlib 
-        are accepted. Default: 'turbo'
-      range (list): The range of the colormap. Default: [0,1]
+      name (str): The name of the colormap. All the names from Matplotlib are accepted. Default: 'turbo'
+      range (list): The range of the colormap. Default: [0,1] 
       ncolors (int): The number of colors in the colormap. Default: 64
     """
 
     self.ncolors = ncolors
+    '''Number of colors'''
 
-    # Range
-    self.norm = None
     self.range = range
+    '''Scalar range for color mapping'''
 
     # Colormap
     self.cmap = None
+    '''The matplotlib colormap'''
+
     self.set(name)
 
   def set(self, name):
@@ -55,7 +51,7 @@ class Colormap():
 
     Args:
       value (float): A value in `range` that determines the desired color.
-        If `value` is not `range`, the closest value in the range is used.
+        If `value` is not in `range`, the closest value in the range is used.
 
     Returns:
       Color (QColor): The QColor object corresponding to `value`in the colormap. 
@@ -80,7 +76,7 @@ class Colormap():
 
     Args:
       value (float): A value in `range` that determines the desired color.
-        If `value` is not `range`, the closest value in the range is used.
+        If `value` is not in `range`, the closest value in the range is used.
 
     Returns:
       Color (string): A html string corresponding to `value`in the colormap.

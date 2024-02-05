@@ -7,13 +7,11 @@ class time():
 
   def __init__(self, step, time):
     """
-    `time` constructor
-
-    Defines a time aobject that contains both a stepwise and continuous representation.
+    Defines a time object that contains both a stepwise and continuous representation.
 
     Args:
       step (int): The current time step
-      time (float): The current time.
+      time (float): The current time (seconds)
     """
 
     self.step = step

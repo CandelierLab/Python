@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="pdoc 14.4.0"/>
-    <title>Animation.Information API documentation</title>
+    <title>AE.Display.Animation.Information API documentation</title>
 
     <style>/*! * Bootstrap Reboot v5.0.0 (https://getbootstrap.com/) * Copyright 2011-2021 The Bootstrap Authors * Copyright 2011-2021 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}hr{margin:1rem 0;color:inherit;background-color:currentColor;border:0;opacity:.25}hr:not([size]){height:1px}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}h5{font-size:1.25rem}h6{font-size:1rem}p{margin-top:0;margin-bottom:1rem}abbr[data-bs-original-title],abbr[title]{-webkit-text-decoration:underline dotted;text-decoration:underline dotted;cursor:help;-webkit-text-decoration-skip-ink:none;text-decoration-skip-ink:none}address{margin-bottom:1rem;font-style:normal;line-height:inherit}ol,ul{padding-left:2rem}dl,ol,ul{margin-top:0;margin-bottom:1rem}ol ol,ol ul,ul ol,ul ul{margin-bottom:0}dt{font-weight:700}dd{margin-bottom:.5rem;margin-left:0}blockquote{margin:0 0 1rem}b,strong{font-weight:bolder}small{font-size:.875em}mark{padding:.2em;background-color:#fcf8e3}sub,sup{position:relative;font-size:.75em;line-height:0;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}a{color:#0d6efd;text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em;direction:ltr;unicode-bidi:bidi-override}pre{display:block;margin-top:0;margin-bottom:1rem;overflow:auto;font-size:.875em}pre code{font-size:inherit;color:inherit;word-break:normal}code{font-size:.875em;color:#d63384;word-wrap:break-word}a>code{color:inherit}kbd{padding:.2rem .4rem;font-size:.875em;color:#fff;background-color:#212529;border-radius:.2rem}kbd kbd{padding:0;font-size:1em;font-weight:700}figure{margin:0 0 1rem}img,svg{vertical-align:middle}table{caption-side:bottom;border-collapse:collapse}caption{padding-top:.5rem;padding-bottom:.5rem;color:#6c757d;text-align:left}th{text-align:inherit;text-align:-webkit-match-parent}tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:0}label{display:inline-block}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button,select{text-transform:none}[role=button]{cursor:pointer}select{word-wrap:normal}select:disabled{opacity:1}[list]::-webkit-calendar-picker-indicator{display:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}::-moz-focus-inner{padding:0;border-style:none}textarea{resize:vertical}fieldset{min-width:0;padding:0;margin:0;border:0}legend{float:left;width:100%;padding:0;margin-bottom:.5rem;font-size:calc(1.275rem + .3vw);line-height:inherit}@media (min-width:1200px){legend{font-size:1.5rem}}legend+*{clear:left}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:textfield}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::file-selector-button{font:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}output{display:inline-block}iframe{border:0}summary{display:list-item;cursor:pointer}progress{vertical-align:baseline}[hidden]{display:none!important}</style>
     <style>/*! syntax-highlighting.css */pre{line-height:125%;}span.linenos{color:inherit; background-color:transparent; padding-left:5px; padding-right:20px;}.pdoc-code .hll{background-color:#ffffcc}.pdoc-code{background:#f8f8f8;}.pdoc-code .c{color:#3D7B7B; font-style:italic}.pdoc-code .err{border:1px solid #FF0000}.pdoc-code .k{color:#008000; font-weight:bold}.pdoc-code .o{color:#666666}.pdoc-code .ch{color:#3D7B7B; font-style:italic}.pdoc-code .cm{color:#3D7B7B; font-style:italic}.pdoc-code .cp{color:#9C6500}.pdoc-code .cpf{color:#3D7B7B; font-style:italic}.pdoc-code .c1{color:#3D7B7B; font-style:italic}.pdoc-code .cs{color:#3D7B7B; font-style:italic}.pdoc-code .gd{color:#A00000}.pdoc-code .ge{font-style:italic}.pdoc-code .gr{color:#E40000}.pdoc-code .gh{color:#000080; font-weight:bold}.pdoc-code .gi{color:#008400}.pdoc-code .go{color:#717171}.pdoc-code .gp{color:#000080; font-weight:bold}.pdoc-code .gs{font-weight:bold}.pdoc-code .gu{color:#800080; font-weight:bold}.pdoc-code .gt{color:#0044DD}.pdoc-code .kc{color:#008000; font-weight:bold}.pdoc-code .kd{color:#008000; font-weight:bold}.pdoc-code .kn{color:#008000; font-weight:bold}.pdoc-code .kp{color:#008000}.pdoc-code .kr{color:#008000; font-weight:bold}.pdoc-code .kt{color:#B00040}.pdoc-code .m{color:#666666}.pdoc-code .s{color:#BA2121}.pdoc-code .na{color:#687822}.pdoc-code .nb{color:#008000}.pdoc-code .nc{color:#0000FF; font-weight:bold}.pdoc-code .no{color:#880000}.pdoc-code .nd{color:#AA22FF}.pdoc-code .ni{color:#717171; font-weight:bold}.pdoc-code .ne{color:#CB3F38; font-weight:bold}.pdoc-code .nf{color:#0000FF}.pdoc-code .nl{color:#767600}.pdoc-code .nn{color:#0000FF; font-weight:bold}.pdoc-code .nt{color:#008000; font-weight:bold}.pdoc-code .nv{color:#19177C}.pdoc-code .ow{color:#AA22FF; font-weight:bold}.pdoc-code .w{color:#bbbbbb}.pdoc-code .mb{color:#666666}.pdoc-code .mf{color:#666666}.pdoc-code .mh{color:#666666}.pdoc-code .mi{color:#666666}.pdoc-code .mo{color:#666666}.pdoc-code .sa{color:#BA2121}.pdoc-code .sb{color:#BA2121}.pdoc-code .sc{color:#BA2121}.pdoc-code .dl{color:#BA2121}.pdoc-code .sd{color:#BA2121; font-style:italic}.pdoc-code .s2{color:#BA2121}.pdoc-code .se{color:#AA5D1F; font-weight:bold}.pdoc-code .sh{color:#BA2121}.pdoc-code .si{color:#A45A77; font-weight:bold}.pdoc-code .sx{color:#008000}.pdoc-code .sr{color:#A45A77}.pdoc-code .s1{color:#BA2121}.pdoc-code .ss{color:#19177C}.pdoc-code .bp{color:#008000}.pdoc-code .fm{color:#0000FF}.pdoc-code .vc{color:#19177C}.pdoc-code .vg{color:#19177C}.pdoc-code .vi{color:#19177C}.pdoc-code .vm{color:#19177C}.pdoc-code .il{color:#666666}</style>
@@ -42,7 +42,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
   <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-</svg>                &nbsp;Animation</a>
+</svg>                &nbsp;AE.Display.Animation</a>
 
 
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
@@ -57,9 +57,6 @@
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#Information.__init__">Information</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Information.disp_time">disp_time</a>
                         </li>
                         <li>
                                 <a class="function" href="#Information.time_str">time_str</a>
@@ -84,7 +81,7 @@
     <main class="pdoc">
             <section class="module-info">
                     <h1 class="modulename">
-<a href="./../Animation.html">Animation</a><wbr>.Information    </h1>
+<a href="./../../../AE.html">AE</a><wbr>.<a href="./../../Display.html">Display</a><wbr>.<a href="./../Animation.html">Animation</a><wbr>.Information    </h1>
 
                 
                         <input id="mod-Information-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -98,47 +95,64 @@
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">AE.Display.Animation.Items_2d</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="k">class</span> <span class="nc">Information</span><span class="p">(</span><span class="n">Animation_2d</span><span class="p">):</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="c1"># Parent contructor</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="c1"># --- Optional display</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="c1"># Time string</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>      <span class="p">)</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">  Class defining the information panel.</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">   </span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">  It is derived from `AE.Display.Animation.Animation_2d` so it can contain any `AE.Display.Animation.Items_2d` object, though it has been principally introduced for `AE.Display.Animation.Items_2d.text` objects.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">  </span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">  The time display (seconds and steps) is automatically added to the information panel by default, with a `AE.Display.Animation.Items_2d.text` item named `Time`.</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">  &#39;&#39;&#39;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    Constructor of the Information panel.</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">    </span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    Args:</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">      `disp_time` (`bool`): Boolean indicating if time should be displayed. Default: `True`.</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="c1"># Parent contructor</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">    Format time string for display</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="c1"># --- Optional display</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="c1"># Time string</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;@private&#39;&#39;&#39;</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="c1"># Grey zeros</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">return</span> <span class="n">s</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>  
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="c1"># Repaint &amp; confirm</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>      <span class="p">)</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    Internal method to format time strings for display.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="c1"># Grey zeros</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="k">return</span> <span class="n">s</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>  
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">    Overload of `AE.Display.Animation.Animation_2d.update` to update the time display automatically.</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="c1"># Repaint &amp; confirm</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -148,111 +162,79 @@
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">Information</span><wbr>(<span class="base">AE.Display.Animation.Animation_2d.Animation_2d</span>):
+    <span class="name">Information</span><wbr>(<span class="base"><a href="Animation_2d.html#Animation_2d">AE.Display.Animation.Animation_2d.Animation_2d</a></span>):
 
                 <label class="view-source-button" for="Information-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Information"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Information-8"><a href="#Information-8"><span class="linenos"> 8</span></a><span class="k">class</span> <span class="nc">Information</span><span class="p">(</span><span class="n">Animation_2d</span><span class="p">):</span>
-</span><span id="Information-9"><a href="#Information-9"><span class="linenos"> 9</span></a>    
-</span><span id="Information-10"><a href="#Information-10"><span class="linenos">10</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="Information-11"><a href="#Information-11"><span class="linenos">11</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span><span id="Information-12"><a href="#Information-12"><span class="linenos">12</span></a>    
-</span><span id="Information-13"><a href="#Information-13"><span class="linenos">13</span></a>    <span class="c1"># Parent contructor</span>
-</span><span id="Information-14"><a href="#Information-14"><span class="linenos">14</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
-</span><span id="Information-15"><a href="#Information-15"><span class="linenos">15</span></a>
-</span><span id="Information-16"><a href="#Information-16"><span class="linenos">16</span></a>    <span class="c1"># --- Optional display</span>
-</span><span id="Information-17"><a href="#Information-17"><span class="linenos">17</span></a>
-</span><span id="Information-18"><a href="#Information-18"><span class="linenos">18</span></a>    <span class="c1"># Time string</span>
-</span><span id="Information-19"><a href="#Information-19"><span class="linenos">19</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
-</span><span id="Information-20"><a href="#Information-20"><span class="linenos">20</span></a>
-</span><span id="Information-21"><a href="#Information-21"><span class="linenos">21</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="Information-22"><a href="#Information-22"><span class="linenos">22</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
-</span><span id="Information-23"><a href="#Information-23"><span class="linenos">23</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="Information-24"><a href="#Information-24"><span class="linenos">24</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
-</span><span id="Information-25"><a href="#Information-25"><span class="linenos">25</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-</span><span id="Information-26"><a href="#Information-26"><span class="linenos">26</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
-</span><span id="Information-27"><a href="#Information-27"><span class="linenos">27</span></a>      <span class="p">)</span>
+</span><span id="Information-9"><a href="#Information-9"><span class="linenos"> 9</span></a><span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information-10"><a href="#Information-10"><span class="linenos">10</span></a><span class="sd">  Class defining the information panel.</span>
+</span><span id="Information-11"><a href="#Information-11"><span class="linenos">11</span></a><span class="sd">   </span>
+</span><span id="Information-12"><a href="#Information-12"><span class="linenos">12</span></a><span class="sd">  It is derived from `AE.Display.Animation.Animation_2d` so it can contain any `AE.Display.Animation.Items_2d` object, though it has been principally introduced for `AE.Display.Animation.Items_2d.text` objects.</span>
+</span><span id="Information-13"><a href="#Information-13"><span class="linenos">13</span></a><span class="sd">  </span>
+</span><span id="Information-14"><a href="#Information-14"><span class="linenos">14</span></a><span class="sd">  The time display (seconds and steps) is automatically added to the information panel by default, with a `AE.Display.Animation.Items_2d.text` item named `Time`.</span>
+</span><span id="Information-15"><a href="#Information-15"><span class="linenos">15</span></a><span class="sd">  &#39;&#39;&#39;</span>
+</span><span id="Information-16"><a href="#Information-16"><span class="linenos">16</span></a>    
+</span><span id="Information-17"><a href="#Information-17"><span class="linenos">17</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="Information-18"><a href="#Information-18"><span class="linenos">18</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="Information-19"><a href="#Information-19"><span class="linenos">19</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information-20"><a href="#Information-20"><span class="linenos">20</span></a><span class="sd">    Constructor of the Information panel.</span>
+</span><span id="Information-21"><a href="#Information-21"><span class="linenos">21</span></a><span class="sd">    </span>
+</span><span id="Information-22"><a href="#Information-22"><span class="linenos">22</span></a><span class="sd">    Args:</span>
+</span><span id="Information-23"><a href="#Information-23"><span class="linenos">23</span></a><span class="sd">      `disp_time` (`bool`): Boolean indicating if time should be displayed. Default: `True`.</span>
+</span><span id="Information-24"><a href="#Information-24"><span class="linenos">24</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information-25"><a href="#Information-25"><span class="linenos">25</span></a>    
+</span><span id="Information-26"><a href="#Information-26"><span class="linenos">26</span></a>    <span class="c1"># Parent contructor</span>
+</span><span id="Information-27"><a href="#Information-27"><span class="linenos">27</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
 </span><span id="Information-28"><a href="#Information-28"><span class="linenos">28</span></a>
-</span><span id="Information-29"><a href="#Information-29"><span class="linenos">29</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="Information-30"><a href="#Information-30"><span class="linenos">30</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="Information-31"><a href="#Information-31"><span class="linenos">31</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Information-32"><a href="#Information-32"><span class="linenos">32</span></a><span class="sd">    Format time string for display</span>
-</span><span id="Information-33"><a href="#Information-33"><span class="linenos">33</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information-29"><a href="#Information-29"><span class="linenos">29</span></a>    <span class="c1"># --- Optional display</span>
+</span><span id="Information-30"><a href="#Information-30"><span class="linenos">30</span></a>
+</span><span id="Information-31"><a href="#Information-31"><span class="linenos">31</span></a>    <span class="c1"># Time string</span>
+</span><span id="Information-32"><a href="#Information-32"><span class="linenos">32</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
+</span><span id="Information-33"><a href="#Information-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;@private&#39;&#39;&#39;</span>
 </span><span id="Information-34"><a href="#Information-34"><span class="linenos">34</span></a>
-</span><span id="Information-35"><a href="#Information-35"><span class="linenos">35</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-</span><span id="Information-36"><a href="#Information-36"><span class="linenos">36</span></a>
-</span><span id="Information-37"><a href="#Information-37"><span class="linenos">37</span></a>    <span class="c1"># Grey zeros</span>
-</span><span id="Information-38"><a href="#Information-38"><span class="linenos">38</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-</span><span id="Information-39"><a href="#Information-39"><span class="linenos">39</span></a>
-</span><span id="Information-40"><a href="#Information-40"><span class="linenos">40</span></a>    <span class="k">return</span> <span class="n">s</span>
-</span><span id="Information-41"><a href="#Information-41"><span class="linenos">41</span></a>  
-</span><span id="Information-42"><a href="#Information-42"><span class="linenos">42</span></a>  <span class="c1"># ========================================================================</span>
-</span><span id="Information-43"><a href="#Information-43"><span class="linenos">43</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="Information-44"><a href="#Information-44"><span class="linenos">44</span></a>
-</span><span id="Information-45"><a href="#Information-45"><span class="linenos">45</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="Information-46"><a href="#Information-46"><span class="linenos">46</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
-</span><span id="Information-47"><a href="#Information-47"><span class="linenos">47</span></a>
-</span><span id="Information-48"><a href="#Information-48"><span class="linenos">48</span></a>    <span class="c1"># Repaint &amp; confirm</span>
-</span><span id="Information-49"><a href="#Information-49"><span class="linenos">49</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span id="Information-35"><a href="#Information-35"><span class="linenos">35</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="Information-36"><a href="#Information-36"><span class="linenos">36</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+</span><span id="Information-37"><a href="#Information-37"><span class="linenos">37</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="Information-38"><a href="#Information-38"><span class="linenos">38</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
+</span><span id="Information-39"><a href="#Information-39"><span class="linenos">39</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+</span><span id="Information-40"><a href="#Information-40"><span class="linenos">40</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+</span><span id="Information-41"><a href="#Information-41"><span class="linenos">41</span></a>      <span class="p">)</span>
+</span><span id="Information-42"><a href="#Information-42"><span class="linenos">42</span></a>
+</span><span id="Information-43"><a href="#Information-43"><span class="linenos">43</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="Information-44"><a href="#Information-44"><span class="linenos">44</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="Information-45"><a href="#Information-45"><span class="linenos">45</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information-46"><a href="#Information-46"><span class="linenos">46</span></a><span class="sd">    Internal method to format time strings for display.</span>
+</span><span id="Information-47"><a href="#Information-47"><span class="linenos">47</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information-48"><a href="#Information-48"><span class="linenos">48</span></a>
+</span><span id="Information-49"><a href="#Information-49"><span class="linenos">49</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+</span><span id="Information-50"><a href="#Information-50"><span class="linenos">50</span></a>
+</span><span id="Information-51"><a href="#Information-51"><span class="linenos">51</span></a>    <span class="c1"># Grey zeros</span>
+</span><span id="Information-52"><a href="#Information-52"><span class="linenos">52</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</span><span id="Information-53"><a href="#Information-53"><span class="linenos">53</span></a>
+</span><span id="Information-54"><a href="#Information-54"><span class="linenos">54</span></a>    <span class="k">return</span> <span class="n">s</span>
+</span><span id="Information-55"><a href="#Information-55"><span class="linenos">55</span></a>  
+</span><span id="Information-56"><a href="#Information-56"><span class="linenos">56</span></a>  <span class="c1"># ========================================================================</span>
+</span><span id="Information-57"><a href="#Information-57"><span class="linenos">57</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="Information-58"><a href="#Information-58"><span class="linenos">58</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information-59"><a href="#Information-59"><span class="linenos">59</span></a><span class="sd">    Overload of `AE.Display.Animation.Animation_2d.update` to update the time display automatically.</span>
+</span><span id="Information-60"><a href="#Information-60"><span class="linenos">60</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information-61"><a href="#Information-61"><span class="linenos">61</span></a>
+</span><span id="Information-62"><a href="#Information-62"><span class="linenos">62</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="Information-63"><a href="#Information-63"><span class="linenos">63</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
+</span><span id="Information-64"><a href="#Information-64"><span class="linenos">64</span></a>
+</span><span id="Information-65"><a href="#Information-65"><span class="linenos">65</span></a>    <span class="c1"># Repaint &amp; confirm</span>
+</span><span id="Information-66"><a href="#Information-66"><span class="linenos">66</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>2D Animation</p>
+            <div class="docstring"><p>Class defining the information panel.</p>
 
-<p>Base class for two-dimensional animations.</p>
+<p>It is derived from <code><a href="Animation_2d.html">AE.Display.Animation.Animation_2d</a></code> so it can contain any <code><a href="Items_2d.html">AE.Display.Animation.Items_2d</a></code> object, though it has been principally introduced for <code><a href="Items_2d.html#text">AE.Display.Animation.Items_2d.text</a></code> objects.</p>
 
-<p>The <code>Animation2d.Qview</code> attribute is a <code>QGraphicsView</code> and can thus
-be used directly as a QWidget in any Qt application. For rapid display, the
-companion class <code>Window</code> allows to easily create a new window for
-the animation.</p>
-
-<div class="pdoc-alert pdoc-alert-note">
-
-<h6 id="two-times-are-at-play-in-an-animation-the-display-time-whose">Two times are at play in an animation: the <em>display</em> time, whose</h6>
-
-<p>increments are approximately the inverse of the <code>Animation2d.fps</code>
-attribute, and the <em>animation</em> time, which is a virtual quantity unrelated 
-to the actual time. This way, slow motion or fast-forward animations can
-be displayed. The <code>Animation2d.dt</code> attibute controls the increment
-of animation time between two display updates.</p>
-
-</div>
-
-<p>Attributes:</p>
-
-<p>item ({<code><a href="#Information.item">item</a></code> <em>subclass</em>}): All items in the scene.</p>
-
-<p>boundaries ({'x', 'y', 'width', 'height'}): Limits of the scene.</p>
-
-<p>margin (float): Margin around the scene (pix).</p>
-
-<p>timeHeight (float): Position of the time display relative to the top of the
-    scene (pix).</p>
-
-<p>fps (float): Display framerate (1/s). Default is 25.</p>
-
-<p>t (float): Current animation time (s).</p>
-
-<p>dt (float): Animation time increment (s) between two updates.</p>
-
-<p>disp_time (bool): If true, the animation time is overlaid to the animation.</p>
-
-<p>disp_boundaries (bool): If true, a thin grey rectanle is overlaid to 
-    indicate the boundaries.</p>
-
-<p>parent (<code>QWidget</code> or <code>Window</code>): If not None (default), a simple
-    window containing the animation is created.</p>
-
-<p>Qscene (<code>QGraphicsScene</code>): <code>QGraphicsScene</code> containing the elements.</p>
-
-<p>Qview (<code>QGraphicsView</code>): <code>QGraphicsView</code> widget representing the scene.</p>
-
-<p>timer (<code>QElapsedTimer</code>): Timer storing the display time since the 
-    animation start.</p>
-
-<p>Qtimer (<code>QTimer</code>): Timer managing the display updates.</p>
+<p>The time display (seconds and steps) is automatically added to the information panel by default, with a <code><a href="Items_2d.html#text">AE.Display.Animation.Items_2d.text</a></code> item named <code>Time</code>.</p>
 </div>
 
 
@@ -266,58 +248,42 @@ of animation time between two display updates.</p>
 
     </div>
     <a class="headerlink" href="#Information.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.__init__-11"><a href="#Information.__init__-11"><span class="linenos">11</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span><span id="Information.__init__-12"><a href="#Information.__init__-12"><span class="linenos">12</span></a>    
-</span><span id="Information.__init__-13"><a href="#Information.__init__-13"><span class="linenos">13</span></a>    <span class="c1"># Parent contructor</span>
-</span><span id="Information.__init__-14"><a href="#Information.__init__-14"><span class="linenos">14</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
-</span><span id="Information.__init__-15"><a href="#Information.__init__-15"><span class="linenos">15</span></a>
-</span><span id="Information.__init__-16"><a href="#Information.__init__-16"><span class="linenos">16</span></a>    <span class="c1"># --- Optional display</span>
-</span><span id="Information.__init__-17"><a href="#Information.__init__-17"><span class="linenos">17</span></a>
-</span><span id="Information.__init__-18"><a href="#Information.__init__-18"><span class="linenos">18</span></a>    <span class="c1"># Time string</span>
-</span><span id="Information.__init__-19"><a href="#Information.__init__-19"><span class="linenos">19</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
-</span><span id="Information.__init__-20"><a href="#Information.__init__-20"><span class="linenos">20</span></a>
-</span><span id="Information.__init__-21"><a href="#Information.__init__-21"><span class="linenos">21</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="Information.__init__-22"><a href="#Information.__init__-22"><span class="linenos">22</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
-</span><span id="Information.__init__-23"><a href="#Information.__init__-23"><span class="linenos">23</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="Information.__init__-24"><a href="#Information.__init__-24"><span class="linenos">24</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
-</span><span id="Information.__init__-25"><a href="#Information.__init__-25"><span class="linenos">25</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-</span><span id="Information.__init__-26"><a href="#Information.__init__-26"><span class="linenos">26</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
-</span><span id="Information.__init__-27"><a href="#Information.__init__-27"><span class="linenos">27</span></a>      <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.__init__-18"><a href="#Information.__init__-18"><span class="linenos">18</span></a>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disp_time</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="Information.__init__-19"><a href="#Information.__init__-19"><span class="linenos">19</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information.__init__-20"><a href="#Information.__init__-20"><span class="linenos">20</span></a><span class="sd">    Constructor of the Information panel.</span>
+</span><span id="Information.__init__-21"><a href="#Information.__init__-21"><span class="linenos">21</span></a><span class="sd">    </span>
+</span><span id="Information.__init__-22"><a href="#Information.__init__-22"><span class="linenos">22</span></a><span class="sd">    Args:</span>
+</span><span id="Information.__init__-23"><a href="#Information.__init__-23"><span class="linenos">23</span></a><span class="sd">      `disp_time` (`bool`): Boolean indicating if time should be displayed. Default: `True`.</span>
+</span><span id="Information.__init__-24"><a href="#Information.__init__-24"><span class="linenos">24</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information.__init__-25"><a href="#Information.__init__-25"><span class="linenos">25</span></a>    
+</span><span id="Information.__init__-26"><a href="#Information.__init__-26"><span class="linenos">26</span></a>    <span class="c1"># Parent contructor</span>
+</span><span id="Information.__init__-27"><a href="#Information.__init__-27"><span class="linenos">27</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">boundaries</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">disp_boundaries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">boundaries_color</span><span class="o">=</span><span class="n">Qt</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
+</span><span id="Information.__init__-28"><a href="#Information.__init__-28"><span class="linenos">28</span></a>
+</span><span id="Information.__init__-29"><a href="#Information.__init__-29"><span class="linenos">29</span></a>    <span class="c1"># --- Optional display</span>
+</span><span id="Information.__init__-30"><a href="#Information.__init__-30"><span class="linenos">30</span></a>
+</span><span id="Information.__init__-31"><a href="#Information.__init__-31"><span class="linenos">31</span></a>    <span class="c1"># Time string</span>
+</span><span id="Information.__init__-32"><a href="#Information.__init__-32"><span class="linenos">32</span></a>    <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span> <span class="o">=</span> <span class="n">disp_time</span>
+</span><span id="Information.__init__-33"><a href="#Information.__init__-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;@private&#39;&#39;&#39;</span>
+</span><span id="Information.__init__-34"><a href="#Information.__init__-34"><span class="linenos">34</span></a>
+</span><span id="Information.__init__-35"><a href="#Information.__init__-35"><span class="linenos">35</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="Information.__init__-36"><a href="#Information.__init__-36"><span class="linenos">36</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+</span><span id="Information.__init__-37"><a href="#Information.__init__-37"><span class="linenos">37</span></a>        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="Information.__init__-38"><a href="#Information.__init__-38"><span class="linenos">38</span></a>        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span>
+</span><span id="Information.__init__-39"><a href="#Information.__init__-39"><span class="linenos">39</span></a>        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+</span><span id="Information.__init__-40"><a href="#Information.__init__-40"><span class="linenos">40</span></a>        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+</span><span id="Information.__init__-41"><a href="#Information.__init__-41"><span class="linenos">41</span></a>      <span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Animation constructor</p>
+            <div class="docstring"><p>Constructor of the Information panel.</p>
 
-<p>Defines all the attributes of the animation, especially the <code>QGraphicsScene</code>
-and <code>QGraphicsView</code> necessary for rendering.</p>
+<h6 id="arguments">Arguments:</h6>
 
-<p>Args:</p>
-
-<p>viewHeight (float): Height of the <code>QGraphicsView</code>.</p>
-
-<p>boundaries ([[float,float],[float,float]]): Limits of the scene to display.
-    The first element sets the <em>x</em>-limits and the second the <em>y</em>-limits. 
-    Default is [[0,1],[0,1]].</p>
-
-<p>disp_boundaries (bool): If true, a thin grey rectanle is overlaid to 
-    indicate the boundaries.</p>
-
-<p>disp_time (bool): If true, the animation time is overlaid to the animation.</p>
-
-<p>dt (float): Animation time increment (s) between two updates. Default: 0.04.</p>
+<ul>
+<li><strong><code>disp_time</code> (<code>bool</code>):</strong>  Boolean indicating if time should be displayed. Default: <code>True</code>.</li>
+</ul>
 </div>
 
-
-                            </div>
-                            <div id="Information.disp_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">disp_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Information.disp_time"></a>
-    
-    
 
                             </div>
                             <div id="Information.time_str" class="classattr">
@@ -331,21 +297,21 @@ and <code>QGraphicsView</code> necessary for rendering.</p>
 
     </div>
     <a class="headerlink" href="#Information.time_str"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.time_str-30"><a href="#Information.time_str-30"><span class="linenos">30</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="Information.time_str-31"><a href="#Information.time_str-31"><span class="linenos">31</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Information.time_str-32"><a href="#Information.time_str-32"><span class="linenos">32</span></a><span class="sd">    Format time string for display</span>
-</span><span id="Information.time_str-33"><a href="#Information.time_str-33"><span class="linenos">33</span></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="Information.time_str-34"><a href="#Information.time_str-34"><span class="linenos">34</span></a>
-</span><span id="Information.time_str-35"><a href="#Information.time_str-35"><span class="linenos">35</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-</span><span id="Information.time_str-36"><a href="#Information.time_str-36"><span class="linenos">36</span></a>
-</span><span id="Information.time_str-37"><a href="#Information.time_str-37"><span class="linenos">37</span></a>    <span class="c1"># Grey zeros</span>
-</span><span id="Information.time_str-38"><a href="#Information.time_str-38"><span class="linenos">38</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-</span><span id="Information.time_str-39"><a href="#Information.time_str-39"><span class="linenos">39</span></a>
-</span><span id="Information.time_str-40"><a href="#Information.time_str-40"><span class="linenos">40</span></a>    <span class="k">return</span> <span class="n">s</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.time_str-44"><a href="#Information.time_str-44"><span class="linenos">44</span></a>  <span class="k">def</span> <span class="nf">time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="Information.time_str-45"><a href="#Information.time_str-45"><span class="linenos">45</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information.time_str-46"><a href="#Information.time_str-46"><span class="linenos">46</span></a><span class="sd">    Internal method to format time strings for display.</span>
+</span><span id="Information.time_str-47"><a href="#Information.time_str-47"><span class="linenos">47</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information.time_str-48"><a href="#Information.time_str-48"><span class="linenos">48</span></a>
+</span><span id="Information.time_str-49"><a href="#Information.time_str-49"><span class="linenos">49</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;step </span><span class="si">{:06d}</span><span class="s1">&lt;/p&gt;&lt;font size=2&gt; </span><span class="si">{:06.02f}</span><span class="s1"> sec&lt;/font&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+</span><span id="Information.time_str-50"><a href="#Information.time_str-50"><span class="linenos">50</span></a>
+</span><span id="Information.time_str-51"><a href="#Information.time_str-51"><span class="linenos">51</span></a>    <span class="c1"># Grey zeros</span>
+</span><span id="Information.time_str-52"><a href="#Information.time_str-52"><span class="linenos">52</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;( )([0]+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&lt;span style=&quot;color:grey;&quot;&gt;\2&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</span><span id="Information.time_str-53"><a href="#Information.time_str-53"><span class="linenos">53</span></a>
+</span><span id="Information.time_str-54"><a href="#Information.time_str-54"><span class="linenos">54</span></a>    <span class="k">return</span> <span class="n">s</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Format time string for display</p>
+            <div class="docstring"><p>Internal method to format time strings for display.</p>
 </div>
 
 
@@ -361,17 +327,20 @@ and <code>QGraphicsView</code> necessary for rendering.</p>
 
     </div>
     <a class="headerlink" href="#Information.update"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.update-43"><a href="#Information.update-43"><span class="linenos">43</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-</span><span id="Information.update-44"><a href="#Information.update-44"><span class="linenos">44</span></a>
-</span><span id="Information.update-45"><a href="#Information.update-45"><span class="linenos">45</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
-</span><span id="Information.update-46"><a href="#Information.update-46"><span class="linenos">46</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
-</span><span id="Information.update-47"><a href="#Information.update-47"><span class="linenos">47</span></a>
-</span><span id="Information.update-48"><a href="#Information.update-48"><span class="linenos">48</span></a>    <span class="c1"># Repaint &amp; confirm</span>
-</span><span id="Information.update-49"><a href="#Information.update-49"><span class="linenos">49</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Information.update-57"><a href="#Information.update-57"><span class="linenos">57</span></a>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+</span><span id="Information.update-58"><a href="#Information.update-58"><span class="linenos">58</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Information.update-59"><a href="#Information.update-59"><span class="linenos">59</span></a><span class="sd">    Overload of `AE.Display.Animation.Animation_2d.update` to update the time display automatically.</span>
+</span><span id="Information.update-60"><a href="#Information.update-60"><span class="linenos">60</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Information.update-61"><a href="#Information.update-61"><span class="linenos">61</span></a>
+</span><span id="Information.update-62"><a href="#Information.update-62"><span class="linenos">62</span></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disp_time</span><span class="p">:</span>
+</span><span id="Information.update-63"><a href="#Information.update-63"><span class="linenos">63</span></a>      <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
+</span><span id="Information.update-64"><a href="#Information.update-64"><span class="linenos">64</span></a>
+</span><span id="Information.update-65"><a href="#Information.update-65"><span class="linenos">65</span></a>    <span class="c1"># Repaint &amp; confirm</span>
+</span><span id="Information.update-66"><a href="#Information.update-66"><span class="linenos">66</span></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Update animation state</p>
+            <div class="docstring"><p>Overload of <code>AE.Display.Animation.Animation_2d.update</code> to update the time display automatically.</p>
 </div>
 
 
@@ -379,21 +348,21 @@ and <code>QGraphicsView</code> necessary for rendering.</p>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>AE.Display.Animation.Animation_2d.Animation_2d</dt>
-                                <dd id="Information.updated" class="function">updated</dd>
-                <dd id="Information.viewHeight" class="variable">viewHeight</dd>
-                <dd id="Information.boundaries" class="variable">boundaries</dd>
-                <dd id="Information.factor" class="variable">factor</dd>
-                <dd id="Information.scene" class="variable">scene</dd>
-                <dd id="Information.view" class="variable">view</dd>
-                <dd id="Information.disp_boundaries" class="variable">disp_boundaries</dd>
-                <dd id="Information.item" class="variable">item</dd>
-                <dd id="Information.composite" class="variable">composite</dd>
-                <dd id="Information.stack" class="variable">stack</dd>
-                <dd id="Information.add" class="function">add</dd>
-                <dd id="Information.setPadding" class="function">setPadding</dd>
-                <dd id="Information.receive" class="function">receive</dd>
-                <dd id="Information.change" class="function">change</dd>
+                                    <div><dt><a href="Animation_2d.html#Animation_2d">AE.Display.Animation.Animation_2d.Animation_2d</a></dt>
+                                <dd id="Information.updated" class="function"><a href="Animation_2d.html#Animation_2d.updated">updated</a></dd>
+                <dd id="Information.viewHeight" class="variable"><a href="Animation_2d.html#Animation_2d.viewHeight">viewHeight</a></dd>
+                <dd id="Information.boundaries" class="variable"><a href="Animation_2d.html#Animation_2d.boundaries">boundaries</a></dd>
+                <dd id="Information.factor" class="variable"><a href="Animation_2d.html#Animation_2d.factor">factor</a></dd>
+                <dd id="Information.scene" class="variable"><a href="Animation_2d.html#Animation_2d.scene">scene</a></dd>
+                <dd id="Information.view" class="variable"><a href="Animation_2d.html#Animation_2d.view">view</a></dd>
+                <dd id="Information.disp_boundaries" class="variable"><a href="Animation_2d.html#Animation_2d.disp_boundaries">disp_boundaries</a></dd>
+                <dd id="Information.item" class="variable"><a href="Animation_2d.html#Animation_2d.item">item</a></dd>
+                <dd id="Information.composite" class="variable"><a href="Animation_2d.html#Animation_2d.composite">composite</a></dd>
+                <dd id="Information.stack" class="variable"><a href="Animation_2d.html#Animation_2d.stack">stack</a></dd>
+                <dd id="Information.add" class="function"><a href="Animation_2d.html#Animation_2d.add">add</a></dd>
+                <dd id="Information.setPadding" class="function"><a href="Animation_2d.html#Animation_2d.setPadding">setPadding</a></dd>
+                <dd id="Information.receive" class="function"><a href="Animation_2d.html#Animation_2d.receive">receive</a></dd>
+                <dd id="Information.change" class="function"><a href="Animation_2d.html#Animation_2d.change">change</a></dd>
 
             </div>
             <div><dt>PyQt5.QtCore.QObject</dt>
@@ -497,7 +466,7 @@ and <code>QGraphicsView</code> necessary for rendering.</p>
                 script.async = true;
                 script.onload = () => resolve(window.pdocSearch);
                 script.onerror = (e) => reject(e);
-                script.src = "../search.js";
+                script.src = "../../../search.js";
                 document.getElementsByTagName("head")[0].appendChild(script);
             });
         } catch (e) {
@@ -539,7 +508,7 @@ and <code>QGraphicsView</code> necessary for rendering.</p>
             }
             for (let result of results.slice(0, 10)) {
                 let doc = result.doc;
-                let url = `../${doc.modulename.replaceAll(".", "/")}.html`;
+                let url = `../../../${doc.modulename.replaceAll(".", "/")}.html`;
                 if (doc.qualname) {
                     url += `#${doc.qualname}`;
                 }
