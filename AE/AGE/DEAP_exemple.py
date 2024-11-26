@@ -48,14 +48,11 @@ toolbox.register("mutate", mutate_age_genome)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
 
-def evolve(n_pop = 100, n_gens = 200, max_fitness = 70, verbose = False):    # evolution stops if this fitness is reached
 
-
+def initialise_pop(n_pop = 100, n_gens = 200):
 
     pop = toolbox.population(n=n_pop)
 
-    # Initialize time before first fitness computation
-    tref = time.time()
 
     # Initialize fitness
     fitnesses = list(map(toolbox.evaluate, pop))
@@ -65,6 +62,13 @@ def evolve(n_pop = 100, n_gens = 200, max_fitness = 70, verbose = False):    # e
     fits = [ind.fitness.values[0] for ind in pop]
     all_fits = [copy(fits)] + n_gens * [[]]
     generation = 0
+
+    return pop, fits, all_fits, generation
+
+
+def evolve(pop, fits, all_fits, generation = 0, n_gens = 200, max_fitness = 70, verbose = False):    # evolution stops if this fitness is reached
+    #TODO : Initialize time before first fitness computation
+    tref = time.time()
 
     # Begin the evolution
     while max(fits) < max_fitness and generation < n_gens:
@@ -120,7 +124,7 @@ def evolve(n_pop = 100, n_gens = 200, max_fitness = 70, verbose = False):    # e
     print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
 
 
-    plt.scatter(np.ravel([range(generation)] * n_pop), np.ravel(np_all_fits.T), marker = '+')
+    plt.scatter(np.ravel([range(generation)] * len(pop)), np.ravel(np_all_fits.T), marker = '+')
     plt.plot(range(generation), np.max(np_all_fits, axis = 1))
 
     plt.ylabel('Fitness')

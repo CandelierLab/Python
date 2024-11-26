@@ -25,10 +25,13 @@ translate = lambda tk : tokens[tk]
 genetic_alphabet_str = string.ascii_uppercase
 numerical_value_reference = rng.choice(genetic_alphabet, size = 10)
 # returns a character
-random_letter = lambda : rng.choice(genetic_alphabet)
+# random_letter = lambda : rng.choice(genetic_alphabet)
+def random_letter():
+    return rng.choice(genetic_alphabet)
 # returns an array of characters
-random_sequence = lambda n : rng.choice(genetic_alphabet, size = n)
-
+# random_sequence = lambda n : rng.choice(genetic_alphabet, size = n)
+def random_sequence(n):
+    return rng.choice(genetic_alphabet, size = n)
 # Translate back a device from extracted to full sequence 
 
 def reinsert_device(device_listform):
