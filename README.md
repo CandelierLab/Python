@@ -7,3 +7,8 @@ A python toolbox for research in Artificial Evolution
 conda install numpy scipy matplotlib pyqt networkx
 pip install imageio[ffmpeg] pdoc
 ```
+## AGE submodule requirements
+
+```
+conda install deap
+```
