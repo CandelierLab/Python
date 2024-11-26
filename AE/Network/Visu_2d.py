@@ -13,6 +13,7 @@ from AE.Display.Animation.Animation_2d import *
 from AE.Display.Animation.Items_2d import *
 from AE.Display.Animation.Composites_2d import *
 
+
 class Visu2d(Animation_2d):
   """
   2D network visualisation and animation tool
@@ -40,7 +41,7 @@ class Visu2d(Animation_2d):
     """
 
     # Parent constructor
-    super().__init__(disp_boundaries=False, viewHeight=viewHeight)
+    Animation_2d().__init__(disp_boundaries=False, viewHeight=viewHeight)
 
     # Network
     self.Net = Net
