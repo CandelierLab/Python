@@ -53,6 +53,15 @@ def activate(afun, x):
 
       y = np.tanh(x)
 
+    case 'negative_tanh':
+      '''
+      Hyperbolic tangent with opposite output
+      To implement inhibitor neurons
+      '''
+
+      y = -np.tanh(x)
+
+
     case 'rectified_tanh':
       '''
       Rectified tanh function, as used in the neat-python package.
@@ -61,7 +70,7 @@ def activate(afun, x):
       y = np.tanh(2.5*x)
 
     case _:
-      raise AttributeError("Unknown activation type '{:s}'.".format(afun))
+      raise AttributeError(f"Unknown activation type '{afun}'.")#"Unknown activation type '{:s}'.".format(afun))
 
   return y    
 
@@ -175,8 +184,16 @@ class ANN(Network):
 
     self._W = np.zeros((self.nNd, self.nBk))
     for e in self.edge:
-      self._W[e['i'], e['j']-sum([i<e['j'] for i in self.IN])] = e['w']
-        
+      try:
+        self._W[e['i'], e['j']-sum([i<e['j'] for i in self.IN])] = e['w']
+      except:
+        print(self.nNd, self.nIn, self.nBk)
+        print(self._W)
+        print(self.edge)
+        print(self.IN)
+
+
+        raise      
     # --- Biases
 
     self._bias = np.array([self.node[i]['bias'] for i in self.BULK])
