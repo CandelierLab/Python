@@ -42,6 +42,8 @@ def score_alignement_with_history(seq1, seq2, gap = -3, history = alignement_his
 
     seq1, seq2 = order_sequences(seq1, seq2)
 
+    seq1, seq2 = tuple(seq1), tuple(seq2)
+ 
     if (seq1, seq2) in history.keys(): 
         result = history[(seq1, seq2)]['result']
         history[(seq1, seq2)]['count'] += 1
@@ -89,5 +91,3 @@ def score_alignement(seq1, seq2, gap = -3):
 
     return alignment, (SW_nmatrix[(*alignment[0],)])
 
-print(
-score_alignement(list(range(5)), list(range(2, 7))))
