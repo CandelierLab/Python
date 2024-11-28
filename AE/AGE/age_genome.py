@@ -689,13 +689,6 @@ class acrobot_genome(genome):
         return net_adj_M, network_structure
 
 
-def add_edges(net, adjacency, n_in, n_out = 0):
-    for i, adj_line in enumerate(adjacency):
-        for j, weigth in enumerate(adj_line):
-            if weigth > 0:
-                net.add_edge(i, j + n_in, weigth)
-
-    return net
 
 def fitness(net_AM, net_struct):
 
@@ -721,21 +714,6 @@ def fitness(net_AM, net_struct):
     return result
 
 
-
-def build_net(adjacency, structure):
-    net = ann.ANN(default_activation='tanh')
-    n_in = 0
-    for node in structure:
-        if node == 'NEUM':
-            act = lambda x : -x
-        elif node == 'IN':
-            n_in += 1
-            act = None
-        else:
-            act = None
-        net.add_node(1, node == 'IN', node == 'OUT', 0, act)
-    
-    return add_edges(net, adjacency.T , n_in)
 
 
 standard_mutate_rate = np.array([.001, .001, .001, 
