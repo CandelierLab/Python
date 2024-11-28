@@ -8,7 +8,7 @@ from time import time as time
 from AE.AGE.string_alignement import score_alignement, rng    # check string_alignment for rng seeding (maybe create a separate file for it ?)
 import matplotlib.pyplot as plt
 
-from AE.AGE.string_alignement import score_alignement_with_history as score_alignement
+from AE.AGE.string_alignement import score_alignement_with_history_and_silencing as score_alignement
 
 
 from AE.Network import ANN as ann
