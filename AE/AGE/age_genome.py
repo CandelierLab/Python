@@ -23,7 +23,9 @@ stik_token = (18, 19, 8, 10)
 tokens = {term_token : 'TERM', parm_token : 'PARM', neum_token : 'NEUM', neup_token : 'NEUP', stik_token : 'STIK'}
 translate = lambda tk : tokens[tk]
 genetic_alphabet_str = string.ascii_uppercase
-numerical_value_reference = rng.choice(genetic_alphabet, size = 10)
+numerical_value_reference = rng.choice(genetic_alphabet, size = 25)  # size is half of max sequence length (taken as gut feeling); compromise between large range of score values and computation time
+
+
 # returns a character
 # random_letter = lambda : rng.choice(genetic_alphabet)
 def random_letter():
@@ -100,7 +102,7 @@ class genome():
         self.device_gen = devices_generator
         self.DIM = device_interaction_map 
         self.device_tokens = devices_generator.device_tokens
-        self.term_sequence_max_size = 10
+        self.term_sequence_max_size = 50
         self.tk_size = token_size
         self.token_collection = {term_token, parm_token} | self.device_tokens
         self.chromosomes = list([random_sequence(rng.integers(chrom_min_init, chrom_max_init))
@@ -136,8 +138,13 @@ class genome():
     def nuc_insert(self, p_mut_insert = .01): #p_mut_insert per nucleotide pair 
         
         # using np.array(chr_len) to use -1 on it
-        
-        to_insert = rng.binomial(np.array(self.chr_len)-1, p_mut_insert)
+        try:
+            to_insert = rng.binomial(np.array(self.chr_len)-1, p_mut_insert)
+        except:
+            print(self.chr_len)
+            print(p_mut_insert)
+            print(self.chromosomes)
+            raise
         places_to_insert = [rng.integers(1, self.chr_len[i] - 1, size = to_insert[i]) 
                             for i in range(len(self.chr_len))]
         
@@ -393,13 +400,14 @@ class genome():
     def extract_devices(self, k_chr):
         c = tuple(self.chromosomes[k_chr])
         devices = []
+        current_terms = None
+        current_parms = None
         last_tk_end = 0+ self.tk_size
         in_device = False
         max_index_for_current_conding_sequence = len(c)
         # max_last_device_index = len(c)
 
         # in case chromosome is empty:
-        current = None
         required = True
 
         
@@ -426,7 +434,8 @@ class genome():
                 max_index_for_current_conding_sequence = i + self.term_sequence_max_size
                 required = self.device_gen.devices_collection[c[i:i+self.tk_size]].requirement
                 maximal = self.device_gen.devices_collection[c[i:i+self.tk_size]].max_optional
-                current = [0,0]
+                current_terms = []
+                current_parms = []
                 last_tk_end = i + self.tk_size
 
 
@@ -436,13 +445,13 @@ class genome():
                 # it is a term token
                 if self.device_gen.term_token == c[i:i+self.tk_size]:
                     # print(f'end of term token @ {i}')
-                    devices[-1].append((self.device_gen.term_token, c[last_tk_end:i]))
-                    current[0] += 1
+                    current_terms.append((self.device_gen.term_token, c[last_tk_end:i]))
                     # we finished the current device
-                    if current == required:
+                    if [len(current_terms), len(current_parms)] == required:
+                        devices[-1] += (current_terms + current_parms)
                         in_device = False
                     # the current device is ill-formed, thus invalid
-                    elif current[0] > maximal[0]:
+                    elif len(current_terms) > maximal[0]:
                         in_device = False
                         devices.pop(-1)
                     # the current device is unfinished, thus the next sequence is coding
@@ -452,13 +461,13 @@ class genome():
                 # it is a parm token
                 elif self.device_gen.parm_token == c[i:i+self.tk_size]:
                     # print(f'end of parm token @ {i}')
-                    devices[-1].append((self.device_gen.parm_token, c[last_tk_end:i]))
-                    current[1] += 1
+                    current_parms.append((self.device_gen.parm_token, c[last_tk_end:i]))
                     # we finished the current device
-                    if current == required:
+                    if [len(current_terms), len(current_parms)] == required:
+                        devices[-1] += (current_terms + current_parms)
                         in_device = False
                     # the current device is ill-formed, thus invalid
-                    elif current[1] > maximal[1]:
+                    elif len(current_parms) > maximal[1]:
                         in_device = False
                         devices.pop(-1)
                     # the current device is unfinished, thus the next sequence is coding
@@ -472,12 +481,12 @@ class genome():
         # - there was at least one device found (current is not None)
         # - last device found was invalid (current != required)
         # - last device was not catched (not in_device)
-        if current is not None and in_device and  current != required:
+        if ([(current_terms), (current_parms)] != [None, None]) and (in_device and  ([len(current_terms), len(current_parms)] != required)):
             devices.pop(-1)
 
         assert np.array([self.device_gen.devices_collection[d[0][0]].requirement 
                          == np.array([[t[0] == term_token, t[0] == parm_token] for t in d]
-                                     ).sum(axis = 0) for d in devices]).all(), f'{devices}, {c}'
+                                     ).sum(axis = 0) for d in devices]).all(), f'{devices}, {np.array(c)}'
         
         
 
