@@ -244,10 +244,8 @@ class ANN(Network):
 
   def step(self):
     
-    # # Weighted sum and bias
-    # self._value[self.BULK] = np.matmul(self._value, self._W) + self._bias
-    # Weighted sum
-    self._value[self.BULK] = np.matmul(self._value, self._W)
+    # Weighted sum, bias and response
+    self._value[self.BULK] = self._response * (np.matmul(self._value, self._W) + self._bias)
 
     ''' 
     Note:
@@ -260,7 +258,3 @@ class ANN(Network):
     # Activation
     for g in self._activation_group:
       self._value[self._activation_group[g]] = activate(g, self._value[self._activation_group[g]])
-
-    # Response and bias
-
-    self._value[self.BULK] = self._response[self.BULK] * self._value[self.BULK] + self._bias[self.BULK]
