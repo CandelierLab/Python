@@ -65,8 +65,26 @@ gap = -3
 def naive_scoring(n, sc_list = score_list): # score based on distance
     return sc_list[n]
 
+def numpy_compliant_naive_scoring(n, sc_list = np.array(score_list)):
+    return sc_list[n]
+
 def lookup_matrix_scoring(c1, c2):
     return score_matrix[c1, c2]
+
+# padding should never be a possible character !
+
+def scoring_multi_align(characters, c_ref, padding = np.nan):
+    scores = np.zeros_like(characters)
+    distance = np.zeros_like(characters)
+    padding_mask = (characters == padding)
+    distance[np.logical_not(padding_mask)] = characters[np.logical_not(padding_mask)] - c_ref
+    scores[np.logical_not(padding_mask)] = numpy_compliant_naive_scoring(distance)
+
+    scores[padding_mask] -= np.inf
+
+    return scores
+
+
 
 alignement_history = dict()
 
@@ -128,8 +146,9 @@ def score_alignement_with_history_and_silencing(seq1, seq2, gap = -3, history = 
 
 
 def score_alignement(seq1, seq2, gap = -3):
-
+    # nmatrix for value of current alignement 
     SW_nmatrix = np.zeros((len(seq1)+1, len(seq2)+1))
+    # pmatrix for origin of current alignement (last step on path)
     SW_pmatrix = np.zeros((len(seq1)+1, len(seq2)+1, 2), dtype = int)
     for i in range(len(seq1)):
         for j in range(len(seq2)):
@@ -165,3 +184,48 @@ def score_alignement(seq1, seq2, gap = -3):
 
     return alignment, (SW_nmatrix[(*alignment[0],)])
 
+def score_n_alignment_to_ref(seqs_to_align, seq_ref, gap = -3, padding = np.nan):
+# Seqs to align is a Nd array (N >= 2) where items are characters; 'padding' parameter is used to align all sequences to the same length
+# This algorithm will not return alignments, only scores
+    # Turn seqs_to_align into a list of the nth character in each sequence
+    chars_to_align = seqs_to_align.T
+
+    SW_nmatrix = np.zeros((chars_to_align.shape[0] +1, len(seq_ref)+1, *chars_to_align.shape[1:]))
+    SW_pmatrix = np.zeros((chars_to_align.shape[0] +1, len(seq_ref)+1, *chars_to_align.shape[1:], 2), dtype = int)
+
+    diag_p = np.zeros(2)
+    top_p = np.array([0, 1])
+    left_p = np.array([1, 0])
+
+
+    for i in range(chars_to_align.shape[0]):
+        for j in range(len(seq_ref)):
+            top = SW_nmatrix[i, j + 1] + gap
+            left = SW_nmatrix[i+1, j] + gap
+            diag = SW_nmatrix[i, j] + scoring_multi_align(chars_to_align[i], seq_ref[j], padding = padding)
+
+            diag_is_greater = np.logical_and(diag >= top, diag >= left)
+            top_is_greater = np.logical_and(top > diag, top >= left)
+            left_is_greater = np.logical_and(np.logical_not(diag_is_greater), np.logical_not(top_is_greater))
+
+            SW_nmatrix[i+1, j+1] = diag * diag_is_greater + top * top_is_greater + left * left_is_greater
+            SW_pmatrix[i+1, j+1] = np.array([i, j]) + diag_p * diag_is_greater + top_p * top_is_greater + left_p * left_is_greater
+
+    score = np.max(SW_nmatrix, axis = (0, 1))
+
+    # Depends on np.argmax(axis = (axes,)) working the same way as np.max(axis = (axes,)) to go fast; 
+    # as for now alignement per se is useless, i'll wait on the resolution of https://github.com/numpy/numpy/issues/25623
+
+    # start = np.array(np.unravel_index(np.argmax(SW_nmatrix), SW_nmatrix.shape[:2]), dtype = int)
+    # alignment = [start]
+    # current = start + 0
+    # Done = False * np.zeros_like()
+    # while not Done.all():
+        # if SW_nmatrix[(*current,)] == 0:
+            # break
+        # else:
+            # current = SW_pmatrix[(*current,)]
+            # alignment.append(current)
+
+
+    return None, score   # keep the same signature as if alignement was computed !

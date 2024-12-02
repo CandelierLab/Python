@@ -5,10 +5,11 @@ import numpy as np
 from functools import partial
 from copy import deepcopy, copy
 from time import time as time
-from AE.AGE.string_alignement import score_alignement, rng    # check string_alignment for rng seeding (maybe create a separate file for it ?)
+from AE.AGE.string_alignement import rng    # check string_alignment for rng seeding (maybe create a separate file for it ?)
 import matplotlib.pyplot as plt
 
-from AE.AGE.string_alignement import score_alignement_with_history_and_silencing as score_alignement
+from AE.AGE.string_alignement import score_alignement_with_history_and_silencing as score_alignement, score_n_alignment_to_ref as multi_score_alignement
+
 
 
 from AE.Network import ANN as ann
