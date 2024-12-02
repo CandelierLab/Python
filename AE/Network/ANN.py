@@ -105,7 +105,7 @@ class ANN(Network):
     self._value = None
     self._activation_group = None
 
-  def add_node(self, n=1, IN=False, OUT=False, bias=0., activation=None, initial_value=0., name=None, html=None):
+  def add_node(self, n=1, IN=False, OUT=False, bias=0., activation=None, initial_value=0., name=None, html=None, response = 1.0):
 
     # --- Checks
 
@@ -142,7 +142,7 @@ class ANN(Network):
       if OUT:
         self.OUT.append(len(self.node))
 
-      self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'activation':activation, 
+      self.node.append({'IN':IN, 'OUT':OUT, 'bias':bias, 'response':response, 'activation':activation, 
         'initial_value':initial_value, 'name': len(self.node) if name is None else name,
         'html': html})
 
@@ -198,6 +198,11 @@ class ANN(Network):
 
     self._bias = np.array([self.node[i]['bias'] for i in self.BULK])
 
+    # --- Responses
+
+    self._response = np.array([self.node[i]['response'] for i in self.BULK])
+
+
     # --- Activation groups
 
     self._activation_group = {}
@@ -239,8 +244,10 @@ class ANN(Network):
 
   def step(self):
     
-    # Weighted sum and bias
-    self._value[self.BULK] = np.matmul(self._value, self._W) + self._bias
+    # # Weighted sum and bias
+    # self._value[self.BULK] = np.matmul(self._value, self._W) + self._bias
+    # Weighted sum
+    self._value[self.BULK] = np.matmul(self._value, self._W)
 
     ''' 
     Note:
@@ -253,3 +260,7 @@ class ANN(Network):
     # Activation
     for g in self._activation_group:
       self._value[self._activation_group[g]] = activate(g, self._value[self._activation_group[g]])
+
+    # Response and bias
+
+    self._value[self.BULK] = self._response[self.BULK] * self._value[self.BULK] + self._bias[self.BULK]
