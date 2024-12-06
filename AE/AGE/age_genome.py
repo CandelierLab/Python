@@ -5,6 +5,7 @@ import numpy as np
 from functools import partial
 from copy import deepcopy, copy
 from time import time as time
+from itertools import islice
 from AE.AGE.string_alignement import rng    # check string_alignment for rng seeding (maybe create a separate file for it ?)
 import matplotlib.pyplot as plt
 
@@ -84,7 +85,7 @@ class devices_generator():
         self.parm_token = parm_token
         self.device_tokens = set([device.token for device in devices_iterable])
 
-        self.ssg = partial(random_sequence, n = 5) #small_sequence_generator
+        self.ssg = partial(random_sequence, n = len(numerical_value_reference)) #small_sequence_generator
     def generate(self, which = None):
         if which is None:
             return rng.choice(tuple(self.devices_collection.values())).generate_sequence(self.term_token, self.parm_token, self.ssg)
@@ -113,12 +114,17 @@ class genome():
     # that one is going to be called a lot, so let's write it down properly
     def update(self):
         self.update_len()
+        if (self.chr_len == 0).any():
+            to_delete = [k for k in range(len(self.chromosomes)) if self.chr_len[k] == 0]
+            for k in to_delete[::-1]:
+                del self.chromosomes[k]
 
     def update_len(self):
-        self.chr_len = [len(chrom) for chrom in self.chromosomes]
+        self.chr_len = np.array([len(chrom) for chrom in self.chromosomes])
 
     def __str__(self):
-        return ','.join([str(np.array(chrom)) for chrom in self.chromosomes])
+        return f'{self.chr_len}'
+        # return ','.join([str(np.array(chrom)) for chrom in self.chromosomes])
 
     def add_device_token(self, new_token):
             self.device_tokens |= set((new_token,)) 
@@ -356,6 +362,7 @@ class genome():
         for k in range(len(self.chr_len))[::-1]:
             if whether_to_change[k]:
                     self.chromosomes.pop(k)
+        self.update()
     # has to be random rolled at the population level
     # TODO when local/global scoring is handled, as it heavly depends upon it
     def chrom_cross(self, other_genome, lm = 20):
@@ -382,6 +389,36 @@ class genome():
     # TODO when device extraction has been managed
     def genome_trim(self, p_gt = .001):
         pass
+    # TODO : finsh
+        # --- Detect coding indexes        
+        # V1 : coding sequences as "device token + max length of device" are protected
+        coding_slices = [[]] * len(self.chromosomes)
+        for k, chrom in enumerate(self.chromosomes):
+            chrom_iterator = range(len(chrom))
+            for i in chrom_iterator:
+                if tuple(chrom[i:i+self.tk_size]) in self.device_tokens:
+                    start_protected_here = i + 0
+                    device_concerned = self.device_gen.devices_collection[tuple(chrom[i:i+self.tk_size])]
+                    max_size = (self.term_sequence_max_size + self.tk_size) * (sum(device_concerned.max_optional)) + self.tk_size
+                    end_protected_there = i + max_size
+                    coding_slices[k] += ([start_protected_here, end_protected_there])
+                    # skip those lines
+                    try:
+                        (next(islice(chrom_iterator, max_size, max_size+1)))
+                    except StopIteration:
+                        break
+        
+        # --- Delete noncoding indexes
+        # V1 : absolutely no padding
+        for k, chrom in enumerate(self.chromosomes):
+            for j in range(0, len(coding_slices[k]), 2):
+                if j == 0:
+                    del (self.chromosomes[k][0:coding_slices[k][j]])
+                else:
+                    del (self.chromosomes[k][coding_slices[k][j-1]:coding_slices[k][j]])
+
+
+
 
     def mutate(self, p_array = np.zeros(12, dtype = float) + .00001):
         self.update()
@@ -392,6 +429,11 @@ class genome():
                         self.genome_dup, self.genome_trim]
         
         assert len(mutate_funcs) == len(p_array), f'{len(mutate_funcs)} != {len(p_array)}'
+        if len(self.chromosomes) == 0:
+            return None
+        
+        for k in range(len(self.chromosomes)):
+            assert len(self.chromosomes[k]) > 0
 
         for i, f in enumerate(mutate_funcs):
             f(p_array[i])
@@ -406,7 +448,7 @@ class genome():
         last_tk_end = 0+ self.tk_size
         in_device = False
         max_index_for_current_conding_sequence = len(c)
-        # max_last_device_index = len(c)
+        self.max_term_size = 0
 
         # in case chromosome is empty:
         required = True
@@ -447,6 +489,9 @@ class genome():
                 if self.device_gen.term_token == c[i:i+self.tk_size]:
                     # print(f'end of term token @ {i}')
                     current_terms.append((self.device_gen.term_token, c[last_tk_end:i]))
+                    # Logging max sequence size for later purposes
+                    if self.max_term_size < (i - last_tk_end + 1):
+                        self.max_term_size = (i - last_tk_end + 1)
                     # we finished the current device
                     if [len(current_terms), len(current_parms)] == required:
                         devices[-1] += (current_terms + current_parms)
@@ -463,6 +508,9 @@ class genome():
                 elif self.device_gen.parm_token == c[i:i+self.tk_size]:
                     # print(f'end of parm token @ {i}')
                     current_parms.append((self.device_gen.parm_token, c[last_tk_end:i]))
+                    # Logging max sequence size for later purposes
+                    if self.max_term_size < (i - last_tk_end + 1):
+                        self.max_term_size = (i - last_tk_end + 1)
                     # we finished the current device
                     if [len(current_terms), len(current_parms)] == required:
                         devices[-1] += (current_terms + current_parms)
