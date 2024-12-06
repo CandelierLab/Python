@@ -25,6 +25,8 @@ def exact_matching(s1, s2, size = 2):
 
 # get lengths of True sequences in an array
 def length_of_True(arr):
+    if len(arr) == 0:
+        return [0]
     sw = (arr[:-1] ^ arr[1:])  # derivate the bools
     isw = np.arange(len(sw))[sw] # where do we change from true to false
     if arr[0]:
@@ -75,11 +77,24 @@ def lookup_matrix_scoring(c1, c2):
 
 def scoring_multi_align(characters, c_ref, padding = np.nan):
     scores = np.zeros_like(characters)
-    distance = np.zeros_like(characters)
-    padding_mask = (characters == padding)
+    distance = np.zeros_like(characters, dtype = int)
+    if padding is np.nan:
+        try:
+            padding_mask = np.isnan(characters)
+        except:
+            print(characters, characters.dtype)
+    else:
+        padding_mask = (characters == padding)
     distance[np.logical_not(padding_mask)] = characters[np.logical_not(padding_mask)] - c_ref
-    scores[np.logical_not(padding_mask)] = numpy_compliant_naive_scoring(distance)
-
+    try:
+        scores[np.logical_not(padding_mask)] = numpy_compliant_naive_scoring(distance[np.logical_not(padding_mask)])
+    except:
+        print(distance)
+        print(padding_mask)
+        print(characters[np.logical_not(padding_mask)])
+        print(c_ref)
+        
+        raise
     scores[padding_mask] -= np.inf
 
     return scores
@@ -191,13 +206,14 @@ def score_n_alignment_to_ref(seqs_to_align, seq_ref, gap = -3, padding = np.nan)
     chars_to_align = seqs_to_align.T
 
     SW_nmatrix = np.zeros((chars_to_align.shape[0] +1, len(seq_ref)+1, *chars_to_align.shape[1:]))
-    SW_pmatrix = np.zeros((chars_to_align.shape[0] +1, len(seq_ref)+1, *chars_to_align.shape[1:], 2), dtype = int)
+    # SW_pmatrix = np.zeros((chars_to_align.shape[0] +1, len(seq_ref)+1, *chars_to_align.shape[1:], 2), dtype = int)
 
-    diag_p = np.zeros(2)
-    top_p = np.array([0, 1])
-    left_p = np.array([1, 0])
+    # diag_p = np.zeros(2)
+    # top_p = np.array([0, 1])
+    # left_p = np.array([1, 0])
 
-
+    # To make sure we don't get a thousand runtime warnings when np.nan gets multiplied
+    np.seterr(invalid = 'ignore')
     for i in range(chars_to_align.shape[0]):
         for j in range(len(seq_ref)):
             top = SW_nmatrix[i, j + 1] + gap
@@ -209,9 +225,12 @@ def score_n_alignment_to_ref(seqs_to_align, seq_ref, gap = -3, padding = np.nan)
             left_is_greater = np.logical_and(np.logical_not(diag_is_greater), np.logical_not(top_is_greater))
 
             SW_nmatrix[i+1, j+1] = diag * diag_is_greater + top * top_is_greater + left * left_is_greater
-            SW_pmatrix[i+1, j+1] = np.array([i, j]) + diag_p * diag_is_greater + top_p * top_is_greater + left_p * left_is_greater
+            # SW_pmatrix[i+1, j+1] = np.array([i, j]) + diag_p * diag_is_greater + top_p * top_is_greater + left_p * left_is_greater
 
-    score = np.max(SW_nmatrix, axis = (0, 1))
+    np.nan_to_num(SW_nmatrix, False)
+    score = np.max(SW_nmatrix, axis = (0, 1)).T  # undoing the first step with .T
+    # Resetting it for warnings elsewhere in the code
+    np.seterr(invalid = 'print')
 
     # Depends on np.argmax(axis = (axes,)) working the same way as np.max(axis = (axes,)) to go fast; 
     # as for now alignement per se is useless, i'll wait on the resolution of https://github.com/numpy/numpy/issues/25623
