@@ -109,6 +109,10 @@ class genome():
         self.token_collection = {term_token, parm_token} | self.device_tokens
         self.chromosomes = list([random_sequence(rng.integers(chrom_min_init, chrom_max_init))
                             for i in range(chrom_number_init)])
+        
+        # Initializing useful updating-based attributes
+        self.max_term_size = 0
+        self.devices_index = [[] * chrom_number_init]
         self.update_len()
 
     # that one is going to be called a lot, so let's write it down properly
@@ -379,7 +383,7 @@ class genome():
             else:
                 for k, aif in enumerate(append_if_false):
                     if aif:
-                        self.chromosomes[k][len(self.chromosomes):] = deepcopy(self.chromosomes[k])
+                        self.chromosomes[len(self.chromosomes):] = deepcopy([self.chromosomes[k]])
                     else:
                         self.chromosomes[k][len(self.chromosomes[k]):] = deepcopy(self.chromosomes[k])
 
@@ -388,34 +392,23 @@ class genome():
     # Relies on genome decoding and device extraction
     # TODO when device extraction has been managed
     def genome_trim(self, p_gt = .001):
-        pass
     # TODO : finsh
         # --- Detect coding indexes        
-        # V1 : coding sequences as "device token + max length of device" are protected
-        coding_slices = [[]] * len(self.chromosomes)
-        for k, chrom in enumerate(self.chromosomes):
-            chrom_iterator = range(len(chrom))
-            for i in chrom_iterator:
-                if tuple(chrom[i:i+self.tk_size]) in self.device_tokens:
-                    start_protected_here = i + 0
-                    device_concerned = self.device_gen.devices_collection[tuple(chrom[i:i+self.tk_size])]
-                    max_size = (self.term_sequence_max_size + self.tk_size) * (sum(device_concerned.max_optional)) + self.tk_size
-                    end_protected_there = i + max_size
-                    coding_slices[k] += ([start_protected_here, end_protected_there])
-                    # skip those lines
-                    try:
-                        (next(islice(chrom_iterator, max_size, max_size+1)))
-                    except StopIteration:
-                        break
+        # Handled by self.extract_devices
         
         # --- Delete noncoding indexes
-        # V1 : absolutely no padding
+        # Padding --> one coding sequence ?
         for k, chrom in enumerate(self.chromosomes):
-            for j in range(0, len(coding_slices[k]), 2):
+            local_devices_index = np.array(self.devices_index[k])
+            # Add padding
+            local_devices_index[::2] -= self.term_sequence_max_size
+            local_devices_index[1::2]+= self.term_sequence_max_size
+            local_devices_index = np.clip(local_devices_index, 0, len(chrom)-1)
+            for j in range(0, len(self.devices_index[k]), -2):
                 if j == 0:
-                    del (self.chromosomes[k][0:coding_slices[k][j]])
+                    del (chrom[0:self.devices_index[k][j]])
                 else:
-                    del (self.chromosomes[k][coding_slices[k][j-1]:coding_slices[k][j]])
+                    del (chrom[self.devices_index[k][j-1]:self.devices_index[k][j]])
 
 
 
@@ -435,20 +428,20 @@ class genome():
         for k in range(len(self.chromosomes)):
             assert len(self.chromosomes[k]) > 0
 
-        for i, f in enumerate(mutate_funcs):
+        for i, f in enumerate(mutate_funcs[::-1]):  # have genome_trim first so device_index is still valid
             f(p_array[i])
 
 
 
     def extract_devices(self, k_chr):
         c = tuple(self.chromosomes[k_chr])
+        self.devices_index[k_chr] = []
         devices = []
         current_terms = None
         current_parms = None
         last_tk_end = 0+ self.tk_size
         in_device = False
         max_index_for_current_conding_sequence = len(c)
-        self.max_term_size = 0
 
         # in case chromosome is empty:
         required = True
@@ -473,6 +466,7 @@ class genome():
 
                 # print(f'new device token @ {i}')
                 devices.append([(c[i:i+self.tk_size], None)])
+                self.devices_index[k_chr].append(i)
                 in_device = True
                 max_index_for_current_conding_sequence = i + self.term_sequence_max_size
                 required = self.device_gen.devices_collection[c[i:i+self.tk_size]].requirement
@@ -496,10 +490,12 @@ class genome():
                     if [len(current_terms), len(current_parms)] == required:
                         devices[-1] += (current_terms + current_parms)
                         in_device = False
+                        self.devices_index[k_chr].append(i+self.tk_size)
                     # the current device is ill-formed, thus invalid
                     elif len(current_terms) > maximal[0]:
                         in_device = False
                         devices.pop(-1)
+                        self.devices_index[k_chr].pop(-1)
                     # the current device is unfinished, thus the next sequence is coding
                     else:
                         max_index_for_current_conding_sequence = i + self.term_sequence_max_size + self.tk_size
@@ -515,10 +511,12 @@ class genome():
                     if [len(current_terms), len(current_parms)] == required:
                         devices[-1] += (current_terms + current_parms)
                         in_device = False
+                        self.devices_index[k_chr].append(i+self.tk_size)
                     # the current device is ill-formed, thus invalid
                     elif len(current_parms) > maximal[1]:
                         in_device = False
                         devices.pop(-1)
+                        self.devices_index[k_chr].pop(-1)
                     # the current device is unfinished, thus the next sequence is coding
                     else:
                         max_index_for_current_conding_sequence = i + self.term_sequence_max_size + self.tk_size
@@ -532,6 +530,7 @@ class genome():
         # - last device was not catched (not in_device)
         if ([(current_terms), (current_parms)] != [None, None]) and (in_device and  ([len(current_terms), len(current_parms)] != required)):
             devices.pop(-1)
+            self.devices_index[k_chr].pop(-1)
 
         assert np.array([self.device_gen.devices_collection[d[0][0]].requirement 
                          == np.array([[t[0] == term_token, t[0] == parm_token] for t in d]
