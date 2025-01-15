@@ -9,10 +9,14 @@ has to be subclassed to be useful.
 import numpy as np
 import networkx as nx
 
-from AE.Display.Animation.Animation_2d import *
-from AE.Display.Animation.Items_2d import *
-from AE.Display.Animation.Composites_2d import *
+import project
+from Animation.Animation_2d import *
+from Animation.Items_2d import *
+from Animation.Composites_2d import *
 
+# from AE.Display.Animation.Animation_2d import *
+# from AE.Display.Animation.Items_2d import *
+# from AE.Display.Animation.Composites_2d import *
 
 class Visu2d(Animation_2d):
   """
@@ -24,7 +28,7 @@ class Visu2d(Animation_2d):
   values through time.
   """
 
-  def __init__(self, Net, isolate_output=True, viewHeight=None):
+  def __init__(self, Net, W, isolate_output=True, viewHeight=None):
     """
     Network 2D visualization constructor
 
@@ -41,7 +45,7 @@ class Visu2d(Animation_2d):
     """
 
     # Parent constructor
-    Animation_2d().__init__(disp_boundaries=False, viewHeight=viewHeight)
+    Animation_2d.__init__(self, W, disp_boundaries=False, viewHeight=viewHeight)
 
     # Network
     self.Net = Net
@@ -270,3 +274,4 @@ class Visu2d(Animation_2d):
             if edge['i']==k:
               p2 = item.scene2xy(self.item[edge['j']].pos())
               self.composite[name].points = [pos, p2]
+
