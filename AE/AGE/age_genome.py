@@ -9,8 +9,8 @@ from itertools import islice
 from AE.AGE.string_alignement import rng    # check string_alignment for rng seeding (maybe create a separate file for it ?)
 import matplotlib.pyplot as plt
 
-from AE.AGE.string_alignement import score_alignement_with_history_and_silencing as score_alignement, score_n_alignment_to_ref as multi_score_alignement
-
+from AE.AGE.string_alignement import score_alignement_with_history_and_silencing as score_alignement, score_n_alignment_to_ref as multi_score_alignement, alignement_history
+from AE.AGE.string_alignement import many_exact_matching_with_nan_padding as many_exact_score
 
 
 from AE.Network import ANN as ann
@@ -25,7 +25,7 @@ stik_token = (18, 19, 8, 10)
 tokens = {term_token : 'TERM', parm_token : 'PARM', neum_token : 'NEUM', neup_token : 'NEUP', stik_token : 'STIK'}
 translate = lambda tk : tokens[tk]
 genetic_alphabet_str = string.ascii_uppercase
-numerical_value_reference = rng.choice(genetic_alphabet, size = 25)  # size is half of max sequence length (taken as gut feeling); compromise between large range of score values and computation time
+numerical_value_reference = rng.choice(genetic_alphabet, size = 30)  # size is half of max sequence length (taken as gut feeling); compromise between large range of score values and computation time
 
 
 # returns a character
@@ -79,13 +79,14 @@ class device():
 
 # A list of devices which is able to return random new devices
 class devices_generator():
-    def __init__(self, devices_iterable, term_token = term_token, parm_token = parm_token):
+    def __init__(self, devices_iterable, term_token = term_token, parm_token = parm_token, 
+                 ssg_n = len(numerical_value_reference)):
         self.devices_collection = {d.token : d for d in devices_iterable}
         self.term_token = term_token
         self.parm_token = parm_token
         self.device_tokens = set([device.token for device in devices_iterable])
 
-        self.ssg = partial(random_sequence, n = len(numerical_value_reference)) #small_sequence_generator
+        self.ssg = partial(random_sequence, n = ssg_n) #small_sequence_generator
     def generate(self, which = None):
         if which is None:
             return rng.choice(tuple(self.devices_collection.values())).generate_sequence(self.term_token, self.parm_token, self.ssg)
@@ -93,6 +94,7 @@ class devices_generator():
 
 
 # A genome knows its genetic code; it is able to mutate and extract a device list from its chromosomes
+# It can build its device list into a few network types, depending on its terminal adjacency map
 
 class genome():
     def __init__(self, g_alphabet = genetic_alphabet, token_size = 4, term_token = term_token, parm_token = parm_token,
@@ -107,27 +109,28 @@ class genome():
         self.term_sequence_max_size = 50
         self.tk_size = token_size
         self.token_collection = {term_token, parm_token} | self.device_tokens
-        self.chromosomes = list([random_sequence(rng.integers(chrom_min_init, chrom_max_init))
-                            for i in range(chrom_number_init)])
+        self.chromosomes = [list(random_sequence(rng.integers(chrom_min_init, chrom_max_init)))
+                            for i in range(chrom_number_init)]
         
         # Initializing useful updating-based attributes
         self.max_term_size = 0
         self.devices_index = [[] * chrom_number_init]
-        self.update_len()
 
     # that one is going to be called a lot, so let's write it down properly
     def update(self):
-        self.update_len()
-        if (self.chr_len == 0).any():
-            to_delete = [k for k in range(len(self.chromosomes)) if self.chr_len[k] == 0]
-            for k in to_delete[::-1]:
+        for k in range(len(self.chromosomes)-1, -1,  -1):
+            if len(self.chromosomes[k]) == 0:
                 del self.chromosomes[k]
 
-    def update_len(self):
-        self.chr_len = np.array([len(chrom) for chrom in self.chromosomes])
+        if len(self.devices_index) != len(self.chromosomes):
+            self.devices_index = [[]] * len(self.chromosomes)
+
+        # if len(self.chromosomes) > 0 and isinstance(self.chromosomes[0][0], np.float64):
+            # raise NotImplementedError
+
 
     def __str__(self):
-        return f'{self.chr_len}'
+        return f'{[len(chrom) for chrom in self.chromosomes]}'
         # return ','.join([str(np.array(chrom)) for chrom in self.chromosomes])
 
     def add_device_token(self, new_token):
@@ -138,7 +141,11 @@ class genome():
     # aka the sequence silencing the interaction
     def complement_sequence(self, sq):
         half_alphabet_size = int(len(genetic_alphabet)/2)
-        sq_comp = [self.ga[(char) - half_alphabet_size] for char in sq]
+        try:
+            sq_comp = [self.ga[(char) - half_alphabet_size] for char in sq]
+        except:
+            print(sq)
+            raise
         return sq_comp
 
     # === Manage Mutations ================================================================================================
@@ -146,33 +153,24 @@ class genome():
     # --- Single Nucleotide ------------------------------------------------------------
     # as noted in the thesis (p. 113 note 15), it is more efficient to roll for amount of mutations -> position of mutations rather than 'is there mutation' for each nucleotide
 
-    def nuc_insert(self, p_mut_insert = .01): #p_mut_insert per nucleotide pair 
+    def nuc_insert(self, p_mut_insert = .01): #p_mut_insert per nucleotide 
         
-        # using np.array(chr_len) to use -1 on it
-        try:
-            to_insert = rng.binomial(np.array(self.chr_len)-1, p_mut_insert)
-        except:
-            print(self.chr_len)
-            print(p_mut_insert)
-            print(self.chromosomes)
-            raise
-        places_to_insert = [rng.integers(1, self.chr_len[i] - 1, size = to_insert[i]) 
-                            for i in range(len(self.chr_len))]
-        
+        to_insert = rng.binomial(np.array([len(c) for c in self.chromosomes])-1, p_mut_insert)
+        places_to_insert = [rng.integers(1, len(self.chromosomes[i]) - 1, size = to_insert[i]) 
+                            for i in range(len(self.chromosomes))]
+
         for k in range(len(self.chromosomes)):
             if places_to_insert[k] is not None:
                 for place in places_to_insert[k]:
                     self.chromosomes[k].insert(place, random_letter())
-                    # new_nuc = random_letter()
-                    # # print(self.chromosomes[k])
-                    # self.chromosomes[k] = insert_string(self.chromosomes[k], place, new_nuc)
-                    # places_to_insert[k][places_to_insert[k] > place] += 1
         self.update()
 
+        return places_to_insert
+
     def nuc_del(self, p_nd = .01):#p_mut_del per nucleotide 
-        to_del = rng.binomial(self.chr_len, p_nd)
+        to_del = rng.binomial([len(chrom) for chrom in self.chromosomes], p_nd)
         
-        places_to_del = [rng.choice(self.chr_len[i], size = to_del[i], replace = False) for i in range(len(self.chr_len))]
+        places_to_del = [rng.choice(len(self.chromosomes[i]), size = to_del[i], replace = False) for i in range(len(self.chromosomes))]
 
         # counter - sorting so del does not mess up the order
         places_to_del = [np.sort(p)[::-1] for p in places_to_del]
@@ -181,22 +179,16 @@ class genome():
         for k in range(len(self.chromosomes)):
             if places_to_del[k] is not None:
                 for place in places_to_del[k]:
-                    try:
-                        self.chromosomes[k].pop(place)
-                    except IndexError:
-                        print(self)
-                        print(places_to_del)
-                        print(len(self.chromosomes[k]))
-                        print(place)
+                    self.chromosomes[k].pop(place)
 
-                        raise
-                    # self.chromosomes[k] = f'{self.chromosomes[k][:place]}{self.chromosomes[k][place+1:]}'
-                    # places_to_del[k][places_to_del[k] > place] += 1
         self.update()
 
+        return places_to_del
+
     def nuc_sub(self, p_ns = .01):
-        to_sub = rng.binomial(self.chr_len, p_ns)
-        places_to_sub = [rng.integers(0, self.chr_len[i], size = to_sub[i]) for i in range(len(self.chr_len))]
+        # print(p_ns)
+        to_sub = rng.binomial([len(chrom) for chrom in self.chromosomes], p_ns)
+        places_to_sub = [rng.integers(0, len(self.chromosomes[i]), size = to_sub[i]) for i in range(len(self.chromosomes))]
 
         for k in range(len(self.chromosomes)):
             if places_to_sub[k] is not None:
@@ -213,13 +205,15 @@ class genome():
 
         self.update()
 
+        return places_to_sub
+
     def single_nucleotide_mutate(self, p_mut = [.1]): #compilation of the three mutations above
-        to_change = rng.binomial(np.array([self.chr_len]*3).T - np.array([1,0,0]), p_mut)
+        to_change = rng.binomial(np.array([len(chrom) for chrom in self.chromosomes]*3).T - np.array([1,0,0]), p_mut)
         # to make sure no one tries to access out of the list, order of operations will be substitute - insert - delete
-        places_to_sub = [rng.integers(0, self.chr_len[i], size = to_change[i][1]) for i in range(len(self.chr_len))]
-        places_to_del = [rng.integers(0, self.chr_len[i], size = to_change[i][2]) for i in range(len(self.chr_len))]
-        places_to_ins = [rng.integers(1, self.chr_len[i] - 1, size = to_change[i][0]) 
-                            for i in range(len(self.chr_len))]
+        places_to_sub = [rng.integers(0, len(self.chromosomes[i]), size = to_change[i][1]) for i in range(len(self.chromosomes))]
+        places_to_del = [rng.integers(0, len(self.chromosomes[i]), size = to_change[i][2]) for i in range(len(self.chromosomes))]
+        places_to_ins = [rng.integers(1, len(self.chromosomes[i]) - 1, size = to_change[i][0]) 
+                            for i in range(len(self.chromosomes))]
 
         for k in range(len(self.chromosomes)):
             if (places_to_sub[k]) is not None:
@@ -250,17 +244,18 @@ class genome():
         except TypeError:   # k_chrom is not iterable
             if k_chrom is None:
                 for i, n in enumerate(n_frag):
-                    numbers = rng.integers(0, self.chr_len[i], 2*n)
+                    numbers = rng.integers(0, len(self.chromosomes[i]), 2*n)
                     fragments = np.array([numbers]).reshape((1, n, 2))
                     fragments.sort(axis = -1)
             else:
                 try:
-                    numbers = rng.integers(0, self.chr_len[k_chrom], 2*n_frag)
+                    numbers = rng.integers(0, len(self.chromosomes[k_chrom]), 2*n_frag)
                     fragments = numbers.reshape((n_frag, 2))
                     fragments.sort(axis = 1)
                 except IndexError: # k_chrom is not an int / n_frag is a list
                         fragments = np.array([numbers]).reshape((1, n, 2))
                         fragments.sort(axis = -1)
+
         return fragments
 
     def frag_dup(self, p_f2 = .01):
@@ -276,7 +271,7 @@ class genome():
             chrom_to_go = rng.integers(0, len(self.chromosomes) - 1, len(fragments_strings))
         # operations are considered as sequential and not simultaneous (if p_f2 is not too high there should be little to no overlap anyway)
         for i, new_frag in enumerate(fragments_strings):
-            where_to_insert = rng.integers(1, self.chr_len[chrom_to_go[i]] - 1)
+            where_to_insert = rng.integers(1, len(self.chromosomes[chrom_to_go[i]]) - 1)
             self.chromosomes[chrom_to_go[i]][where_to_insert:where_to_insert] = list(new_frag)
 
         self.update()
@@ -287,7 +282,6 @@ class genome():
         fragments = self.choose_fragments(whether_to_change)
         # pick them up
         fragments_strings = ([self.chromosomes[k][start:end]  for k, chr_f in enumerate(fragments) for start, end in chr_f])
-        fragments_strings = ([self.chromosomes[k][start:end]  for k, chr_f in enumerate(fragments) for start, end in chr_f])
         # assign them to random locations on random chromosomes   (doing those draws separately)
         if len(self.chromosomes) == 1:
             chrom_to_go = np.zeros(len(fragments_strings), dtype = int)
@@ -295,7 +289,7 @@ class genome():
             chrom_to_go = rng.integers(0, len(self.chromosomes) - 1, len(fragments_strings))
         # operations are considered as sequential and not simultaneous (if p_f2 is not too high there should be little to no overlap anyway)
         for i, new_frag in enumerate(fragments_strings):
-            where_to_insert = rng.integers(1, self.chr_len[chrom_to_go[i]] - 1)
+            where_to_insert = rng.integers(1, len(self.chromosomes[chrom_to_go[i]]) - 1)
             self.chromosomes[chrom_to_go[i]][where_to_insert:where_to_insert] = list(self.complement_sequence(new_frag))
 
         self.update()
@@ -317,7 +311,7 @@ class genome():
                 self.chromosomes[k][slice(*f)] = []
 
         for i, new_frag in enumerate(fragments_strings):
-            where_to_insert = rng.integers(1, self.chr_len[chrom_to_go[i]] - 1)
+            where_to_insert = rng.integers(1, len(self.chromosomes[chrom_to_go[i]]) - 1)
             self.chromosomes[chrom_to_go[i]][where_to_insert:where_to_insert] = list(new_frag)
 
         self.update()
@@ -333,7 +327,7 @@ class genome():
 
     def mutate_device_insertion(self, p_di = .01):
         whether_to_change = rng.choice([0, 1],p = [1-p_di, p_di], size = len(self.chromosomes)) #number of chr is low so we draw for each
-        for k in range(len(self.chr_len)):
+        for k in range(len(self.chromosomes)):
             if whether_to_change[k]:
                 new_device = self.device_gen.generate()
                 
@@ -354,18 +348,21 @@ class genome():
 
     def chrom_dup(self, p_c2 = .001):
         whether_to_change = rng.choice([0, 1],p = [1-p_c2, p_c2], size = (len(self.chromosomes), 2))
-        for k in range(len(self.chr_len)):
+        for k in range(len(self.chromosomes)):
             if whether_to_change[k,0]:
+                # print('duplicated !')
                 if whether_to_change[k,1]:  # appends
                     self.chromosomes[k][len(self.chromosomes[k]):] = deepcopy(self.chromosomes[k])
                 else:    # creates new chrom
                     self.chromosomes.append(deepcopy(self.chromosomes[k]))
+                    self.devices_index += []
         self.update()
     def chrom_del(self, p_cd = .001):
         whether_to_change = rng.choice([0, 1],p = [1-p_cd, p_cd], size = len(self.chromosomes))
-        for k in range(len(self.chr_len))[::-1]:
+        for k in range(len(self.chromosomes))[::-1]:
             if whether_to_change[k]:
                     self.chromosomes.pop(k)
+                    del self.devices_index[-1]
         self.update()
     # has to be random rolled at the population level
     # TODO when local/global scoring is handled, as it heavly depends upon it
@@ -377,13 +374,14 @@ class genome():
 
     def genome_dup(self, p_g2 = .001):
         if rng.random() < p_g2:
-            append_if_false = rng.choice([0, 1], size = len(self.chr_len))
+            append_if_false = rng.choice([0, 1], size = len(self.chromosomes))
             if append_if_false.all():
                 self.chromosomes[len(self.chromosomes):] = deepcopy(self.chromosomes)
             else:
                 for k, aif in enumerate(append_if_false):
                     if aif:
                         self.chromosomes[len(self.chromosomes):] = deepcopy([self.chromosomes[k]])
+                        self.devices_index += []
                     else:
                         self.chromosomes[k][len(self.chromosomes[k]):] = deepcopy(self.chromosomes[k])
 
@@ -411,9 +409,12 @@ class genome():
                     del (chrom[self.devices_index[k][j-1]:self.devices_index[k][j]])
 
 
+        self.update()
 
 
-    def mutate(self, p_array = np.zeros(12, dtype = float) + .00001):
+
+
+    def mutate(self, p_array):# = np.zeros(12, dtype = float) + .00001):
         self.update()
         mutate_funcs = [self.nuc_insert, self.nuc_del, self.nuc_sub, 
                         self.frag_dup ,self.frag_comp_dup, self.frag_transp, self.frag_del, 
@@ -428,8 +429,15 @@ class genome():
         for k in range(len(self.chromosomes)):
             assert len(self.chromosomes[k]) > 0
 
-        for i, f in enumerate(mutate_funcs[::-1]):  # have genome_trim first so device_index is still valid
+        for i, f in enumerate(mutate_funcs):  #[::-1] have genome_trim first so device_index is still valid
+            # print(f.__name__, p_array[i])
             f(p_array[i])
+            # print(f.__name__, f(p_array[i]))  
+            if len(self.chromosomes) == 0:
+                return None
+        if len(self.chromosomes) != len(self.devices_index):  # reset
+            self.devices_index = [[]] * len(self.chromosomes)
+
 
 
 
@@ -540,39 +548,139 @@ class genome():
 
         return devices
 
-    # def interact_devices(self, all_devs):
-    #     # List all terminals and parameters
-    #     device_type = []
-    #     terminals = []
-    #     terminal_ids = []
-    #     parameters = []
-    #     parameter_ids = []
-    #     for i, device in enumerate(all_devs):
-    #         device_type.append(device[0][0])
-    #         j = 0
-    #         k = 0
-    #         for sq_type, small_sequence in device:
-    #             if sq_type == self.device_gen.term_token:
-    #                 terminals.append(small_sequence)
-    #                 terminal_ids.append([i, j])
-    #                 j += 1
-    #             elif sq_type == self.device_gen.parm_token:
+    def generic_build_devices(self, all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list):   # DD = {'device_token' : [sum_of_nter_and_npar_for_previous_devices, n_terms, n_pars]}
+        n_networks = np.unique(TAM[TAM != 0]).shape[0]
+        if n_networks == 1:
+            return self.generic_build_devices_1(all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list)
+        elif n_networks > 1:
+            return self.generic_build_devices_2(all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list)
+
+
+
+    def generic_build_devices_1(self, all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list):   # DD = {'device_token' : [sum_of_nter_and_npar_for_previous_devices, n_terms, n_pars]}
+        # Network adjacency matrix
+        if hasattr(self, 'fixed_sequences'):
+            NAM = np.zeros((len(all_devs) + self.n_fixed, len(all_devs) + self.n_fixed))  # interactions for all devices + fixed sequences 
+        else:
+            NAM = np.zeros((len(all_devs), len(all_devs)))  # interactions for all devices --> size = n_devices**2
+        # Node properties
+        NP = [[d[0][0]] + [None]*DD[d[0][0]][2] for d in (all_devs)] # properties for all devices --> size = n_devices * nprops/device (= 1 for device name + npars)
+        # Parsing, splitting terms and pars while keeping track of the device ID
+        term_lists = [[]] * len(TAM)
+        term_IDs = [[]] * len(TAM)
+        par_lists = [[]] * sum([value[2] for value in DD.values()])
+        par_IDs = [[]] * sum([value[2] for value in DD.values()])
+        for devname, dev in enumerate(all_devs):
+            dtype = dev[0][0]
+            specs = DD[dtype]
+            dev_terms = [s[1] for s in dev if s[0] == self.device_gen.term_token]
+            dev_pars = [s[1] for s in dev if s[0] == self.device_gen.parm_token]
+            for i, term_sq in enumerate(dev_terms):
+                term_indice = specs[0] + i
+                term_lists[term_indice] += [term_sq]
+                term_IDs[term_indice] += [devname]
+            for i, par_sq in enumerate(dev_pars):
+                par_indice = specs[0] + specs[1] + i
+                par_lists[par_indice] += [par_sq]
+                par_IDs[par_indice] += [devname]
+
+        # adding fixed sequences
+
+        # compute interactions - V1
+        for i in range(len(TAM)):
+            for j in range(len(TAM)):
+                if TAM[i][j]:
+                    interaction = terminal_interaction(term_lists[i], term_lists[j])
+                    for inter in interaction:
+                        if inter != np.nan:
+                            NAM[term_IDs[i]][term_IDs[j]] += inter
                     
-    #                 parameters.append(self.device_gen.devices_collection[device[0][0]].evaluate_param(small_sequence))
-    #                 parameter_ids.append([i,k])
-    #                 k += 1
+        # Compute parameters
+        for i, par_list in enumerate(par_lists):
+            par_values = parameter_evaluation_list[i](par_list)
+            for j, par in enumerate(par_values):
+                NP[par_IDs[i][j]][i+1] = par
 
-    #     # Determine interaction strength matrix
-    #     t_interaction = np.array([[score_alignement(t1, t2)[1] for t2 in terminals] for t1 in terminals], dtype = float)
-    #     t_interaction[np.diag_indices(t_interaction.shape[0])] *= 0
-    #     network_base = (np.array(device_type), np.array(t_interaction), np.array(terminal_ids), parameters, parameter_ids)
+        return NAM, NP
 
+    def generic_build_devices_2(self, all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list):   # DD = {'device_token' : [sum_of_nter_and_npar_for_previous_devices, n_terms, n_pars]}
+        networks = np.unique(TAM[TAM != 0])
+        NAMs = np.zeros((len(networks), len(all_devs), len(all_devs)))
+        # Node properties
+        NP = [[d[0][0]] + [None]*DD[d[0][0]][2] for d in (all_devs)] # properties for all devices --> size = n_devices * nprops/device (= 1 for device name + npars)
+        # Parsing, splitting terms and pars while keeping track of the device ID
+        term_lists = [[]] * len(TAM)
+        term_IDs = [[]] * len(TAM)
+        par_lists = [[]] * sum([value[2] for value in DD.values()])
+        par_IDs = [[]] * sum([value[2] for value in DD.values()])
+        for devname, dev in enumerate(all_devs):
+            dtype = dev[0][0]
+            specs = DD[dtype]
+            dev_terms = [s[1] for s in dev if s[0] == self.device_gen.term_token]
+            dev_pars = [s[1] for s in dev if s[0] == self.device_gen.parm_token]
+            for i, term_sq in enumerate(dev_terms):
+                term_indice = specs[0] + i
+                term_lists[term_indice] += [term_sq]
+                term_IDs[term_indice] += [devname]
+            for i, par_sq in enumerate(dev_pars):
+                par_indice = specs[0] + specs[1] + i
+                par_lists[par_indice] += [par_sq]
+                par_IDs[par_indice] += [devname]
+        # Compute parameters
+        for i, par_list in enumerate(par_lists):
+            par_values = parameter_evaluation_list[i](par_list)
+            for j, par in enumerate(par_values):
+                NP[par_IDs[i][j]][i+1] = par
 
+        # compute interactions - V1
+        for i in range(len(TAM)):
+            for j in range(len(TAM)):
+                if TAM[i][j] != 0:
+                    interaction = terminal_interaction(term_lists[i], term_lists[j])
+                    for inter in interaction:
+                        if inter != np.nan:
+                            NAMs[networks == TAM[i][j]][:, term_IDs[i], term_IDs[j]] += inter
 
+        return NAMs, NP
 
-    #     return network_base
+    def generic_build_devices_3(self, all_devs, TAM, DD, terminal_interaction, parameter_evaluation_list):   # DD = {'device_token' : [sum_of_nter_and_npar_for_previous_devices, n_terms, n_pars]}
+        NAMs = np.zeros((TAM.sum(), len(all_devs), len(all_devs)))
+        # Node properties
+        NP = [[d[0][0]] + [None]*DD[d[0][0]][2] for d in (all_devs)] # properties for all devices --> size = n_devices * nprops/device (= 1 for device name + npars)
+        # Parsing, splitting terms and pars while keeping track of the device ID
+        term_lists = [[]] * len(TAM)
+        term_IDs = [[]] * len(TAM)
+        par_lists = [[]] * sum([value[2] for value in DD.values()])
+        par_IDs = [[]] * sum([value[2] for value in DD.values()])
+        for devname, dev in enumerate(all_devs):
+            dtype = dev[0][0]
+            specs = DD[dtype]
+            dev_terms = [s[1] for s in dev if s[0] == self.device_gen.term_token]
+            dev_pars = [s[1] for s in dev if s[0] == self.device_gen.parm_token]
+            for i, term_sq in enumerate(dev_terms):
+                term_indice = specs[0] + i
+                term_lists[term_indice] += [term_sq]
+                term_IDs[term_indice] += [devname]
+            for i, par_sq in enumerate(dev_pars):
+                par_indice = specs[0] + specs[1] + i
+                par_lists[par_indice] += [par_sq]
+                par_IDs[par_indice] += [devname]
+        # Compute parameters
+        for i, par_list in enumerate(par_lists):
+            par_values = parameter_evaluation_list[i](par_list)
+            for j, par in enumerate(par_values):
+                NP[par_IDs[i][j]][i+1] = par
 
+        # compute interactions - V1
+        for i in range(len(TAM)):
+            for j in range(len(TAM)):
+                if TAM[i][j]:
+                    interaction = terminal_interaction(term_lists[i], term_lists[j])
+                    for inter in interaction:
+                        if inter != np.nan:
+                            NAMs[i+j][term_IDs[i]][term_IDs[j]] += inter
 
+        return NAMs, NP
 
 neuron_exct_device = device(neup_token, 2, 0)
 neuron_inhi_device = device(neum_token, 2, 0)
