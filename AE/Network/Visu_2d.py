@@ -9,7 +9,7 @@ has to be subclassed to be useful.
 import numpy as np
 import networkx as nx
 
-import project
+# import project
 from Animation.Animation_2d import *
 from Animation.Items_2d import *
 from Animation.Composites_2d import *

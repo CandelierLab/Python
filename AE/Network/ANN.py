@@ -245,8 +245,14 @@ class ANN(Network):
   def step(self):
     
     # Weighted sum, bias and response
-    self._value[self.BULK] = self._response * (np.matmul(self._value, self._W) + self._bias)
-
+    try:
+      self._value[self.BULK] = (self._response * (np.matmul(self._value, self._W) + self._bias)).sum(axis = -1)
+    except:
+      print(self)
+      print(self._value, self._value.shape)
+      print(self.BULK)
+      print(self._response * (np.matmul(self._value, self._W) + self._bias))
+      raise
     ''' 
     Note:
       Input nodes are set to zero during this operation, but this is not 
